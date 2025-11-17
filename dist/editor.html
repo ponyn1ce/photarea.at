@@ -1,21 +1,28 @@
-<!-- editor.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Editor</title>
-    <link rel="stylesheet" href="react-build/assets/index-Vxg6lqOP.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Page</title>
+    <style>
+        /* Чтобы iframe занимал весь экран */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- Контейнер, куда React будет рендерить -->
-    <div id="root"></div>
 
-    <!-- JS из билда -->
-    <script type="module" src="dist/assets/index.es-DBzKB7C2.js"></script>
-    <script type="module" src="dist/assets/purify.es-C_uT9hQ1.js"></script>
-    <script type="module" src="dist/assets/html2canvas.esm-CBrSDip1.js"></script>
-    <script type="module" src="dist/assets/index-CFvCdkhl.js"></script>
+    <!-- iframe с React-билдом -->
+    <iframe src="react-build/index.html" title="React Editor"></iframe>
+
 </body>
 </html>
-
-
