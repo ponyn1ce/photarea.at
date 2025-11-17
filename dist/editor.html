@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Editor</title>
+  <style>
+    /* Занимает весь экран */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <iframe src="dist/index.html" title="React Editor"></iframe>
+
+  <!-- Подключение React-билда через iframe -->
+  <iframe src="dist/index.html" title="React Editor"></iframe>
+
 </body>
 </html>
-
