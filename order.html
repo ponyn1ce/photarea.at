@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Оформление заказа</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/order.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <div class="container">
+        <a href="index.html" class="logo"><img src="images/logo.png" alt="logo"></a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="order container" id="order-root">
+      <h1>Оформить заказ</h1>
+
+      <div id="step-1" class="step">
+        <h2>1. Выберите вариант из каталога</h2>
+        <div id="catalog-list" class="catalog-list"></div>
+        <div class="controls">
+          <button id="to-step-2" class="btn primary" disabled>Далее</button>
+        </div>
+      </div>
+
+      <div id="step-2" class="step" style="display:none">
+        <h2>2. Выберите количество страниц</h2>
+        <div class="pages-select">
+          <select id="pages-count"></select>
+        </div>
+        <div class="controls">
+          <button id="back-step-1" class="btn">Назад</button>
+          <button id="to-step-3" class="btn primary">Далее</button>
+        </div>
+      </div>
+
+      <div id="step-3" class="step" style="display:none">
+        <h2>3. Загрузите фотографии</h2>
+        <p class="muted">Загрузите изображения для каждой страницы. Всего <span id="total-pages">0</span> мест.</p>
+        <div id="uploader-controls" class="uploader-controls">
+          <div class="uc-left">
+             <label id="toggle-wrapper"><input type="checkbox" id="toggle-view"> Свернуть список</label>
+          </div>
+          <div class="uc-right">
+             <button id="delete-all" class="btn danger" title="Временная функция — удалит все загруженные фото">Удалить все</button>
+          </div>
+        </div>
+        <div id="uploader-grid" class="uploader-grid"></div>
+        <!-- Лайтбокс для увеличения превью -->
+        <div id="lightbox" class="lightbox" style="display:none">
+          <div class="lightbox-inner">
+            <button id="lightbox-close" class="btn">Закрыть</button>
+            <img id="lightbox-img" src="" alt="preview">
+          </div>
+        </div>
+        <!-- Низ страницы: сюда перенесены стрелки и информация по показанным элементам -->
+        <div id="bottom-pager" class="bottom-pager" style="margin:12px 0; display:flex; justify-content:space-between; align-items:center">
+          <div class="muted" id="view-info"></div>
+          <div class="pager">
+            <button id="pager-prev" class="btn">←</button>
+            <button id="pager-next" class="btn primary">→</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="back-step-2" class="btn">Назад</button>
+          <button id="to-step-4" class="btn primary">Далее</button>
+        </div>
+      </div>
+
+      <div id="step-4" class="step" style="display:none">
+        <h2>4. Контактные данные</h2>
+        <form id="order-contact-form" class="order-form" style="max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
+          <label>Имя <input id="customer-name" name="name" type="text" class="input" required></label>
+          <label>Электронная почта <input id="customer-email" name="email" type="email" class="input" required></label>
+          <label>Пожелания к заказу <textarea id="customer-note" name="note" rows="5" class="input"></textarea></label>
+        </form>
+        <div class="controls">
+          <button id="back-step-3" class="btn">Назад</button>
+          <button id="submit-order" class="btn primary">Отправить заказ</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">&copy; 2025</div>
+  </footer>
+
+  <script src="js/order.js" defer></script>
+  <script src="js/darklightbutton.js"></script>
+</body>
+</html>
