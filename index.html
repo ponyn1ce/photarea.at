@@ -8,13 +8,13 @@
     <script>document.documentElement.classList.add('site-preload');</script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/main.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">    
 </head>
 <body>
         <!--Начало Хедер -->
 
         <!-- ======= НАЧАЛО: Фиксированная панель-меню ======= -->
-        <!-- fixed-menu-panel: Начало -->
         <nav class="fixed-menu-panel">
             <ul class="fixed-menu-list">
                 <li><a data-i18n="How-to" class="fixed-menu-item" href="#about">Как сделать</a></li>
@@ -22,16 +22,21 @@
                 <li><a class="fixed-menu-item" href="#about">FAQ</a></li>
             </ul>
         </nav>
-        <!-- fixed-menu-panel: Конец -->
-        <!-- ======= КОНЕЦ: Фиксированная панель-меню ======= -->
 
-             <div class="bottom-panel">
-        <ul class="bottom-panel-nav">
-            <li><a href="editor/index.html"><img src="images/icons/document-editor.png" alt="">Создать дизайн</a></li>
-            <!-- <li><a href="about.html"><img src="#" alt=""></a>О Нас</li> -->
-            <!-- <li><a href="#"><img src="#" alt=""></a></li> -->
-        </ul>
-     </div> 
+    <!-- ======= КОНЕЦ: Фиксированная панель-меню ======= -->
+
+
+    <!-- ======= САМА ФИКСИРОВАННАЯ ПАНЕЛЬ ======= -->
+    <div class="bottom-panel">
+        <div class="bottom-panel-nav">
+            <a  href="editor/index.html" ><img src="images/icons/document-editor.png" alt=""><p data-i18n="make-to" >Создать</p></a>
+            <a  href="#aboutus"><img src="images/icons/award.png" alt=""><p data-i18n="How-to">Как сделать</p></a>
+            <a href="#faq"><img src="images/icons/help.png" alt=""><p>FAQ</p></a>
+            <!-- <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=★" alt="">Подписки</a>
+            <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=U" alt="">Профиль</a> -->
+        </div>
+    </div>
+    <!-- ======= КОНЕЦ ФИКС-ПАНЕЛИ ======= -->
 
     <header class="header">
         <nav class="nav">
@@ -68,8 +73,32 @@
         <!--Конец начальный банер -->
 
         <!--Начало фото карточка 1-->
-        <section class="promo-section">
-  <div class="promo-content">
+                <section class="promo-section">
+    <div class="promo-image">
+        <img src="images/test-beta.png" alt="test photobook">
+    </div>
+    <div class="promo-content">
+        <h1 data-i18n="sector_title_first"> Для каждой истории — своя фотокнига. <br> </h1>
+        <p data-i18n="sector_second_first">
+                Для каждой истории — своя фотокнига.
+                Выберите то, что важно именно вам — стиль, 
+                настроение, воспоминания, которые хочется 
+                сохранить навсегда.
+        </p>
+
+        <div class="promo-buttons">
+            <button data-i18n="sector_btn_first" class="btn primary">Создай свой дизайн</button>
+            <button data-i18n="sector_btn_second" class="btn secondary">Почитайте отзывы</button>
+        </div>
+    </div>
+</section>
+        <!--Конец фото карточка 1-->
+
+
+        <!--Начало фото карточка 2-->
+                    <div class="promo-section-mirrored-bg">
+                        <section class="promo-section-mirrored">
+            <div class="promo-content-mirrored">
     <h1 data-i18n="sector_title_first"> Для каждой истории — своя фотокнига. <br> </h1>
     <p data-i18n="sector_second_first">
         Для каждой истории — своя фотокнига.
@@ -78,41 +107,21 @@
         сохранить навсегда.
     </p>
 
-    <div class="promo-buttons">
+    <div class="promo-buttons-mirrored">
       <button data-i18n="sector_btn_first" class="btn primary">Создай свой дизайн</button>
       <button data-i18n="sector_btn_second" class="btn secondary">Почитайте отзывы</button>
     </div>
   </div>
 
-  <div class="promo-image">
-    <img src="images/test-beta.png" alt="test photobook">
-  </div>
-</section>
-        <!--Конец фото карточка 1-->
-
-
-        <!--Начало фото карточка 2-->
-<section class="promo-section-reverse">
-  <div class="promo-content">
-    <h1 data-i18n="sector_title_second">Фотокнига — не просто страницы.<br>Это способ почувствовать прошлое заново.</h1>
-    <p data-i18n="sector_second_second">
-        Для каждой истории — своя фотокнига.
-        Выберите то, что важно именно вам — стиль, 
-        настроение, воспоминания, которые хочется 
-        сохранить навсегда.
-    </p>
-
-    <div class="promo-buttons">
-      <button data-i18n="sector_btn_second_first" class="btn primary">Почитайте отзывы</button>
-      <button data-i18n="sector_btn_second_second" class="btn secondary">Создай свой дизайн</button>
+        <div class="promo-image-mirrored">
+        <img src="images/test-beta.png" alt="test photobook">
     </div>
-  </div>
+        </section>
+    </div>
+<!--Конец фото карточка 2-->
 
-  <div class="promo-image">
-    <img src="images/test-alfa.png" alt="test photobook">
-  </div>
-</section>
-        <!--Конец фото карточка 2-->
+
+
 
         <!--Начало О нас коротко -->
         <section id="about" class="product-info">
@@ -219,7 +228,6 @@
     <a href="https://wa.me/" target="_blank" class="fab fa-whatsapp"></a>
     <a href="https://www.youtube.com/" target="_blank" class="fab fa-youtube"></a>
     <a href="https://www.twitch.tv/" target="_blank" class="fab fa-twitch"></a>
-    <a href="https://x.com/ " target="_blank" class="fab fa-twitter"></a>
 
 </div>
 
@@ -247,14 +255,7 @@
                 }, 50);
             });
         </script>
-        <script>
-    document.addEventListener("scroll", () => {
-    const panel = document.querySelector(".bottom-panel");
-    const scrollY = window.scrollY;
-    const viewportHeight = window.innerHeight;
-    panel.style.top = (scrollY + viewportHeight - panel.offsetHeight) + "px";
-});
-</script>
+
 </body>
 
 </html>
