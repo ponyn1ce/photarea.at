@@ -1,13 +1,261 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editor — Maket</title>
-    <script type="module" crossorigin src="./assets/index-BevPnGQQ.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Vxg6lqOP.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title макет>Продукт — Создание макетов</title>
+    <!-- Preload class for site-wide fade-in: add class early to avoid flash -->
+    <script>document.documentElement.classList.add('site-preload');</script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">    
+</head>
+<body>
+        <!--Начало Хедер -->
+
+        <!-- ======= НАЧАЛО: Фиксированная панель-меню ======= -->
+        <nav class="fixed-menu-panel">
+            <ul class="fixed-menu-list">
+                <li><a data-i18n="How-to" class="fixed-menu-item" href="#about">Как сделать</a></li>
+                <li><a data-i18n="make-to" class="fixed-menu-item" href="editor/index.html">Создать альбом</a></li>
+                <li><a class="fixed-menu-item" href="#about">FAQ</a></li>
+            </ul>
+        </nav>
+
+    <!-- ======= КОНЕЦ: Фиксированная панель-меню ======= -->
+
+
+    <!-- ======= САМА ФИКСИРОВАННАЯ ПАНЕЛЬ ======= -->
+    <div class="bottom-panel">
+        <div class="bottom-panel-nav">
+            <a  href="editor/index.html" ><img src="images/icons/document-editor.png" alt=""><p data-i18n="make-to" >Создать</p></a>
+            <a  href="#aboutus"><img src="images/icons/award.png" alt=""><p data-i18n="How-to">Как сделать</p></a>
+            <a href="#faq"><img src="images/icons/help.png" alt=""><p>FAQ</p></a>
+            <!-- <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=★" alt="">Подписки</a>
+            <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=U" alt="">Профиль</a> -->
+        </div>
+    </div>
+    <!-- ======= КОНЕЦ ФИКС-ПАНЕЛИ ======= -->
+
+    <header class="header">
+        <nav class="nav">
+            <div class="container">
+                <a href="index.html" class="logo"></a>
+                <!-- Language switcher for testing -->
+                <div class="lang-switch" style="margin-left:1rem;">
+                    <label for="site-lang" class="visually-hidden">Language</label>
+                    <select id="site-lang" onchange="window.setSiteLanguage(this.value)">
+                        <option value="russian">Русский</option>
+                        <option value="english">English</option>
+                        <option value="deutsch">Deutsch</option>
+                        <option value="ukrain">Українська</option>
+                    </select>
+                </div>
+                <!-- Language switcher for testing -->
+            </div>
+        </nav>
+    </header>
+    <!--Конец Хедер -->
+
+        <!--Начало начальный банер -->
+        <section class="hero" id="product-hero">
+            <div class="container">
+                <img class="logo" src="images/logo.png" alt="logo">
+                <img class="img-background2" src="images/d0bc.png" alt="">
+                <h1 data-i18n="title">Создавайте фотокниги, как истории вашей жизни.</h1>
+                <h1 data-i18n="title1" style="z-index: 3; margin-top: -3px;">Без лишнего — только чувства, кадры и вы.</h1>
+                <p data-i18n="title_second" style="z-index: 3;">Создавайте фотокниги, как истории вашей жизни. Без лишнего — только чувства, кадры и вы.</p>
+                <a data-i18n="MakeAdesign_main_btn" href="editor/index.html" class="btn">Создать макет с этим продуктом</a>
+                <img class="img-background" src="images/d0bc.jpg" alt="">
+            </div>
+        </section>
+        <!--Конец начальный банер -->
+
+        <!--Начало фото карточка 1-->
+                <section class="promo-section">
+    <div class="promo-image">
+        <img src="images/test-beta.png" alt="test photobook">
+    </div>
+    <div class="promo-content">
+        <h1 data-i18n="sector_title_first"> Для каждой истории — своя фотокнига. <br> </h1>
+        <p data-i18n="sector_second_first">
+                Для каждой истории — своя фотокнига.
+                Выберите то, что важно именно вам — стиль, 
+                настроение, воспоминания, которые хочется 
+                сохранить навсегда.
+        </p>
+
+        <div class="promo-buttons">
+            <button data-i18n="sector_btn_first" class="btn primary">Создай свой дизайн</button>
+            <button data-i18n="sector_btn_second" class="btn secondary">Почитайте отзывы</button>
+        </div>
+    </div>
+</section>
+        <!--Конец фото карточка 1-->
+
+
+        <!--Начало фото карточка 2-->
+                    <div class="promo-section-mirrored-bg">
+                        <section class="promo-section-mirrored">
+            <div class="promo-content-mirrored">
+    <h1 data-i18n="sector_title_first"> Для каждой истории — своя фотокнига. <br> </h1>
+    <p data-i18n="sector_second_first">
+        Для каждой истории — своя фотокнига.
+        Выберите то, что важно именно вам — стиль, 
+        настроение, воспоминания, которые хочется 
+        сохранить навсегда.
+    </p>
+
+    <div class="promo-buttons-mirrored">
+      <button data-i18n="sector_btn_first" class="btn primary">Создай свой дизайн</button>
+      <button data-i18n="sector_btn_second" class="btn secondary">Почитайте отзывы</button>
+    </div>
+  </div>
+
+        <div class="promo-image-mirrored">
+        <img src="images/test-beta.png" alt="test photobook">
+    </div>
+        </section>
+    </div>
+<!--Конец фото карточка 2-->
+
+
+
+
+        <!--Начало О нас коротко -->
+        <section id="about" class="product-info">
+            <div class="container">
+                <h2 data-i18n="aboutUs_btn">О нас</h2>
+                <p>В данном разделе мы можем познакомиться</p>
+
+                <div class="features">
+                    <div>
+                        <h3>Почему мы?</h3>
+                        <p>Я считаю, что в данных колонках должна быть информация что это такое, с чем его едят и прочее</p>
+                    </div>
+                    <div>
+                        <h3>Любая другая информация</h3>
+                        <p>Короткое пояснение преимуществ и практического применения. Возможно какие то прозводственные
+                            преимущества, экология и так далее. 
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Тоже самое</h3>
+                        <p>Короткое пояснение преимуществ и практического применения.</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Технические характеристики</h3>
+                <ul>
+                    <li>Размер: —</li>
+                    <li>Вес: —</li>
+                    <li>Материал: —</li>
+                </ul>
+
+                <h3 class="section-title">Галерея</h3>
+                <div class="gallery">
+                    <div>Изображение 1</div>
+                    <div>Изображение 2</div>
+                    <div>Изображение 3</div>
+                </div>
+
+                <div class="cta">
+                    <a href="editor/index.html" class="btn">Сделать макет</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--Конец О нас коротко -->
+
+            <!-- Начало FAQ -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="faq">
+                    <h2 data-i18n="faq_title">Часто задаваемые вопросы</h2>
+
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-header">
+                                <a href="#" class="faq-question" data-i18n="faq.q1">Как происходит оформление заказа?</a>
+                                <button class="faq-toggle" aria-expanded="false" aria-label="toggle">
+                                    <span class="symbol plus">+</span>
+                                    <span class="symbol minus">−</span>
+                                </button>
+                            </div>
+                            <div class="faq-answer" data-i18n="faq.a1">Вы можете оформить заказ через наш онлайн-конструктор, выбрав необходимые параметры и загрузив изображения. Далее заказ 
+                                обрабатывается нашими менеджерами и отправляется на указанный адрес.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-header">
+                                <a href="#" class="faq-question" data-i18n="faq.q2">Какие форматы изображений поддерживаются?</a>
+                                <button class="faq-toggle" aria-expanded="false" aria-label="toggle">
+                                    <span class="symbol plus">+</span>
+                                    <span class="symbol minus">−</span>
+                                </button>
+                            </div>
+                            <div class="faq-answer" data-i18n="faq.a2">Поддерживаются JPEG и PNG; Для лучшего качества используйте изображения с высоким разрешением.</div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-header">
+                                <a href="#" class="faq-question" data-i18n="faq.q3">Можно ли вернуть изменения?</a>
+                                <button class="faq-toggle" aria-expanded="false" aria-label="toggle">
+                                    <span class="symbol plus">+</span>
+                                    <span class="symbol minus">−</span>
+                                </button>
+                            </div>
+                            <div class="faq-answer" data-i18n="faq.a3">Да — вы всегда можете вернуться к предыдущим версиям проекта или загрузить новые изображения.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Конец FAQ -->
+
+
+
+  
+
+    <!--Начало секция Социальные сети -->
+<div class="social-links">
+
+    <a href="https://t.me/ponyn1ce" target="_blank" class="fab fa-telegram"></a>
+    <a href="https://instagram.com/" target="_blank" class="fab fa-instagram"></a>
+    <a href="https://wa.me/" target="_blank" class="fab fa-whatsapp"></a>
+    <a href="https://www.youtube.com/" target="_blank" class="fab fa-youtube"></a>
+    <a href="https://www.twitch.tv/" target="_blank" class="fab fa-twitch"></a>
+
+</div>
+
+    <!--Конец секция Социальные сети  -->
+
+    <!--Начало футер -->
+
+    <footer class="footer">
+            <p>&copy; 2025 Создание фотоальбомов. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!--Конец футер -->
+
+    <script src="js/faq.js" defer></script>
+    <script src="js/darklightbutton.js"></script>
+    <script src="js/lang.js" defer></script>
+        <script>
+            // Switch preload -> loaded to trigger CSS fade-in
+            document.addEventListener('DOMContentLoaded', function () {
+                // small delay to ensure paints; adjust if needed
+                setTimeout(function () {
+                    document.documentElement.classList.remove('site-preload');
+                    document.documentElement.classList.add('site-loaded');
+                }, 50);
+            });
+        </script>
+
+</body>
+
 </html>
