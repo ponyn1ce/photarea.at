@@ -68,25 +68,31 @@ body{
 }
 
 
-.wrapper .remember-forgot {
+.remember-forgot {
     display: flex;
     justify-content: space-between;
-    font-size: 14.5px;
-    margin: -15px 0 15px;
+    align-items: center;
+    font-size: 14px;
+    margin: 10px 0 20px;
 }
 
-.remember-forgot label input{
+.remember-forgot label {
+    display: flex;
+    align-items: center;
+}
+
+.remember-forgot input {
+    margin-right: 5px;
     accent-color: #fff;
-    margin-right: 3px;
 }
 
-.remember-forgot a{
+.remember-forgot a {
     color: #fff;
     text-decoration: none;
+    transition: 0.2s;
 }
 
-
-.remember-forgot a:hover{
+.remember-forgot a:hover {
     text-decoration: underline;
 }
 
