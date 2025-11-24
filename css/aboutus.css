@@ -109,3 +109,82 @@
         display: block;
     }
 }
+
+/* Page layout - shared container */
+.container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+main h2, main h3 {
+    color: #222;
+    margin: 8px 0 12px;
+    font-weight: 700;
+}
+
+section#about .container {
+    padding-top: 24px;
+    padding-bottom: 32px;
+}
+
+.product-info p {
+    color: #333;
+    line-height: 1.7;
+    margin: 0 0 16px;
+    font-size: 1rem;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.features > div {
+    background: rgba(255,255,255,0.9);
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+}
+
+.features h3 { font-size: 1.05rem; margin-bottom: 8px }
+
+.section-title { margin-top: 22px; margin-bottom: 12px }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.gallery > div {
+    background: #f3f3f3;
+    height: 120px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.cta { margin-top: 20px }
+.btn { display: inline-block; padding: 10px 16px; border-radius: 8px; text-decoration: none; background: #f297a0; color: #fff }
+.btn.primary { background: #ff6b6b }
+
+/* Responsive layout */
+@media (min-width: 760px) {
+    .features { grid-template-columns: repeat(3, 1fr) }
+    .gallery { grid-template-columns: repeat(3, 1fr) }
+}
+
+@media (max-width: 759px) {
+    .container { padding-left: 16px; padding-right: 16px }
+    .gallery > div { height: 100px }
+}
+
+/* Footer spacing fix for bottom panel */
+footer { padding: 28px 0 60px; text-align: center }
