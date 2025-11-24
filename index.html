@@ -8,7 +8,6 @@
     <script>document.documentElement.classList.add('site-preload');</script>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/main.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">    
 </head>
 <body>
@@ -17,9 +16,11 @@
         <!-- ======= НАЧАЛО: Фиксированная панель-меню ======= -->
         <nav class="fixed-menu-panel">
             <ul class="fixed-menu-list">
-                <li><a data-i18n="How-to" class="fixed-menu-item" href="support/index.html">Как сделать</a></li>
-                <li><a data-i18n="make-to" class="fixed-menu-item" href="editor/index.html">Создать альбом</a></li>
+                <li><img class="logo2" src="images/logo.png" alt="logo2"></li>
+                <li><a data-i18n="How-to" class="fixed-menu-item" href="support/index.html">Чат</a></li>
+                <li><a data-i18n="make-to" class="fixed-menu-item" href="html/editor/index.html">Создать альбом</a></li>
                 <li><a class="fixed-menu-item" href="#about">FAQ</a></li>
+                <li><a class="fixed-menu-item" href="html/login.html">Войти</a></li>
             </ul>
         </nav>
 
@@ -29,40 +30,21 @@
     <!-- ======= САМА ФИКСИРОВАННАЯ ПАНЕЛЬ ======= -->
     <div class="bottom-panel">
         <div class="bottom-panel-nav">
-            <a  href="editor/index.html" ><img src="images/icons/document-editor.png" alt=""><p data-i18n="make-to" >Создать</p></a>
-            <a  href="support/index.html"><img src="images/icons/award.png" alt=""><p data-i18n="How-to">Как сделать</p></a>
+            
+            <a href="html/editor/index.html" ><img src="images/icons/document-editor.png" alt=""><p data-i18n="make-to" >Создать</p></a>
+            <a href="#aboutus"><img src="images/icons/award.png" alt=""><p data-i18n="How-to">Как сделать</p></a>
             <a href="#faq"><img src="images/icons/help.png" alt=""><p>FAQ</p></a>
-            <!-- <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=★" alt="">Подписки</a>
-            <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=U" alt="">Профиль</a> -->
+            <a href="html/login.html"><img src="images/icons/login.png" alt="">Войти</a>
+           <!-- <a href="#"><img src="https://via.placeholder.com/26/ffffff/000000?text=U" alt="">Профиль</a> -->
         </div>
     </div>
     <!-- ======= КОНЕЦ ФИКС-ПАНЕЛИ ======= -->
 
-    <header class="header">
-        <nav class="nav">
-            <div class="container">
-                <a href="index.html" class="logo"></a>
-                <!-- Language switcher for testing -->
-                <div class="lang-switch" style="margin-left:1rem;">
-                    <label for="site-lang" class="visually-hidden">Language</label>
-                    <select id="site-lang" onchange="window.setSiteLanguage(this.value)">
-                        <option value="russian">Русский</option>
-                        <option value="english">English</option>
-                        <option value="deutsch">Deutsch</option>
-                        <option value="ukrain">Українська</option>
-                    </select>
-                </div>
-                <!-- Language switcher for testing -->
-            </div>
-        </nav>
-    </header>
-    <!--Конец Хедер -->
 
         <!--Начало начальный банер -->
         <section class="hero" id="product-hero">
             <div class="container">
                 <img class="logo" src="images/logo.png" alt="logo">
-                <img class="img-background2" src="images/d0bc.png" alt="">
                 <h1 data-i18n="title">Создавайте фотокниги, как истории вашей жизни.</h1>
                 <h1 data-i18n="title1" style="z-index: 3; margin-top: -3px;">Без лишнего — только чувства, кадры и вы.</h1>
                 <p data-i18n="title_second" style="z-index: 3;">Создавайте фотокниги, как истории вашей жизни. Без лишнего — только чувства, кадры и вы.</p>
@@ -88,7 +70,7 @@
 
         <div class="promo-buttons">
             <button data-i18n="sector_btn_first" class="btn primary">Создай свой дизайн</button>
-            <button data-i18n="sector_btn_second" class="btn secondary" href="dist-chat/index.html">Почитайте отзывы</button>
+            <button data-i18n="sector_btn_second" class="btn secondary" href="html/support.html">Почитайте отзывы</button>
         </div>
     </div>
 </section>
@@ -132,7 +114,7 @@
                 <div class="features">
                     <div>
                         <h3>Почему мы?</h3>
-                        <p>Я считаю, что в данных колонках должна быть информация что это такое, с чем его едят и прочее</p>
+                        <p>Мы возвращаем вам ту тёплую традицию – хранить свои моменты не только в телефоне, но и в красивой материальной форме: в виде книги, которую можно открыть, полистать и сохранить на долгие годы. То, что раньше хранили наши родители, бабушки и дедушки, мы хотим возродить – но уже в современном, эстетичном формате.</p>
                     </div>
                     <div>
                         <h3>Любая другая информация</h3>
@@ -161,7 +143,7 @@
                 </div>
 
                 <div class="cta">
-                    <a href="html/editor/index.html" class="btn">Сделать макет</a>
+                    <a href="editor/index.html" class="btn">Сделать макет</a>
                 </div>
             </div>
         </section>
@@ -226,8 +208,6 @@
     <a href="https://t.me/ponyn1ce" target="_blank" class="fab fa-telegram"></a>
     <a href="https://instagram.com/" target="_blank" class="fab fa-instagram"></a>
     <a href="https://wa.me/" target="_blank" class="fab fa-whatsapp"></a>
-    <a href="https://www.youtube.com/" target="_blank" class="fab fa-youtube"></a>
-    <a href="https://www.twitch.tv/" target="_blank" class="fab fa-twitch"></a>
 
 </div>
 
@@ -259,7 +239,3 @@
 </body>
 
 </html>
-
-
-
-
