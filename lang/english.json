@@ -1,5 +1,8 @@
 {
-    "title": "Create photobooks like the stories of your life. Nothing extra — just feelings, frames, and you.",
+    "title": "Create photobooks like the stories of your life.",
+    "title1": "Nothing extra — just feelings, frames, and you.",
+    "How-to": "How to make",
+    "make-to": "Create a photobook",
     "title_second": "Create photobooks like the stories of your life. Nothing extra — just feelings, frames, and you.",
     "MakeAdesign_btn": "Create Design",
     "aboutUs_btn": "About Us",
@@ -11,5 +14,12 @@
     "sector_title_second": "A photobook is more than just pages. It’s a way to relive your past.",
     "sector_second_second": "",
     "sector_btn_second_first": "",
-    "sector_btn_second_second":""
+    "sector_btn_second_second":"",
+    "login_title": "Login",
+    "password": "Password",
+    "no-account": "Don't Have An Account?",
+    "forgot_password": "Forgot Password?",
+    "zaregistration": "Register",
+    "Remember-me": "Remember Me",
+    "username": "Username"
 }
