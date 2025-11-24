@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/login.css">
-    <script src="js/lang.js"></script>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/dynamic-bg-theme.css">
+    <script src="/js/lang.js"></script>
+    <script src="/js/password-toggle.js"></script>
+    <script src="/js/dynamic-bg-theme.js"></script>
 </head>
 <body>
     
@@ -17,7 +20,7 @@
                 <h1 data-i18n="login_title" >Авторизоваться</h1>
 
                 <div class="input-box">
-                    <input data-i18n="username" type="text" placeholder="Никнейм" required> 
+                    <input data-i18n="username_or_email" type="text" placeholder="Имя пользователя или Имейл" required> 
                     <i class='bx bxs-user'></i>
                 </div>
 
@@ -31,7 +34,7 @@
                         <input type="checkbox">
                         <p data-i18n="Remember-me">Запомнить меня</p>
                     </label>
-                    <a data-i18n="forgot_password" href="#">Забыли пароль?</a>
+                    <a data-i18n="forgot_password" href="/html/forgot_password.html">Забыли пароль?</a>
                 </div>
 
                 <button type="submit" class="btn" data-i18n="login_title">Авторизоваться</button>
@@ -43,5 +46,4 @@
             </form>
         </div>
 </body>
-
 </html>
