@@ -1,48 +1,28 @@
-
-
-
 /* main.css — стили страницы продукта (main.html)
    Этот файл применяет минималистичный стиль, согласованный с общим `style.css`,
    и содержит специфичные правила для hero, product-info, gallery и адаптива.
 */
-
-/* Фоновое изображение с блюром */
-.img-background {
-  position: absolute;
-  bottom: -110%;
-  height: 700%;
-  width: 200%;
-  transform: 0%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  filter: blur(5px);
-  z-index: -1;
-}
-
-
-.img-background2 {
-  position: absolute;
-  bottom: -110%;
-  height: 700%;
-  width: 200%;
-  transform: 0%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-
-
-.logo{z-index: 2;}
-
 
 /* Hero для product-страницы */
 #product-hero {
   text-align: center;
   position: relative;
   overflow: hidden;
-  height: 32rem;
+  height: 28.9rem;
+}
+
+/* Фоновое изображение с блюром */
+.img-background {
+  position: absolute;
+  top: -17%;
+  height: 180%;
+  width: 215%;
+  transform: 0%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: blur(5px);
+  z-index: -1;
 }
 
 /* Контент над фоном - остаётся резким и центрируется */
@@ -71,45 +51,6 @@
   color: var(--text-color-sec);
   font-size: 1rem;
 }
-
-/*Прозрачное меню #f297a084*/
-.fixed-menu-panel {
-  position: sticky;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  min-width: 500px;
-  max-width: 500px;
-}
-
-.fixed-menu-list {
-  display: flex;
-  gap: 28px;
-  margin: 0;
-  padding: 0 10px;
-  list-style: none;
-  align-items: center;
-  justify-content: center;
-  height: 55px;
-  background: linear-gradient(120deg, #f3ebd984);
-  border-radius: 33px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-  backdrop-filter: blur(10px);
-}
-
-.fixed-menu-item {
-  font-weight: 700;
-  font-size: 1rem;
-  color: #222;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-decoration: none;
-}
-
 
 /* Секция product-info */
 .product-info {
@@ -328,6 +269,46 @@
 }
 
 
+
+
+
+/* Контейнер секции */
+.promo-section-reverse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 8%;
+  gap: 4rem;
+  flex-wrap: wrap;
+  background-color: var(--var-body-second-bg);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Inner wrapper to center content within full-bleed section */
+.promo-section-reverse > .promo-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0; /* padding handled by parent */
+  flex-direction: row-reverse; /* на десктопе: картинка слева, текст справа */
+}
+
+/* Левая часть с текстом */
+.promo-content-reverse {
+  flex: 1 1 420px;
+  max-width: 600px;
+  color: #fff;
+}
+
 .promo-content-reverse h1 {
   font-size: 2.8rem;
   font-weight: 800;
@@ -478,11 +459,9 @@
   .faq { margin-left: 0; }
 
   /* На мобильных переворачиваем второй блок обратно (текст слева, картинка справа как первый блок) */
-.promo-inner {
+  .promo-section-reverse > .promo-inner {
     flex-direction: row;
   }
-
-
 }
 
 /* Responsive: small screens (phones/tablets) */
@@ -511,7 +490,8 @@
   #product-hero .container p { font-size: 0.95rem; }
 
   /* Promo sections stack vertically and center */
-  .promo-section{
+  .promo-section,
+  .promo-section-reverse {
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -575,16 +555,14 @@
   .faq-toggle { width: 48px; height: 48px; min-width: 48px; }
   .faq-toggle .symbol { font-size: 28px; }
   .promo-content h1, .promo-content-reverse h1 { font-size: 1.25rem; }
-  .promo-section{ padding: 1.6rem 4%; }
+  .promo-section, .promo-section-reverse { padding: 1.6rem 4%; }
 }
 
 /* Large screens: ensure content is centered within container */
 @media (min-width: 1200px) {
-  .promo-section { padding: 6rem 8%; }
+  .promo-section, .promo-section-reverse { padding: 6rem 8%; }
   .faq { max-width: 1100px; }
 }
-
-
 
 
 
@@ -612,298 +590,3 @@
     }
 
 /* footer section end  */
-
-
-    .bottom-panel {
-      position: fixed;
-      bottom: 10px;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: #f297a05a;
-      backdrop-filter: blur(8px);
-      border-radius: 50px;
-      border-top: .5px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-bottom: env(safe-area-inset-bottom);
-      z-index: 10;
-    }
-
-    .bottom-panel-nav {
-        display: flex;
-        gap: 18px;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-
-    .bottom-panel-nav a {
-        color: white;
-        text-decoration: none;
-        font-size: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        width: auto;
-    }
-
-    .bottom-panel-nav img {
-        width: 30px;
-        height: 30px;
-        object-fit: cover;
-    }
-
-  /* Чтобы контент не уезжал под панель на телефонах */
- 
-
-    /* Чтобы контент не уезжал под панель на телефонах */
-    @media (max-width: 768px) {
-        body {
-            padding-bottom: calc(70px + env(safe-area-inset-bottom));
-        }
-    }
-
-@media (max-width: 1200px) {
-    .bottom-panel {
-        display: flex;
-    }
-
-    .fixed-menu-panel {
-        display: none;
-    }
-}
-
-@media (min-width: 1201px) {
-    .bottom-panel {
-        display: none;
-    }
-
-    .fixed-menu-panel {
-        display: block;
-    }
-}
-
-.promo-section-mirrored-bg {
-  width: 100vw;
-  background: var(--var-body-second-bg);
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  box-sizing: border-box;
-}
-.promo-section-mirrored {
-  background: var(--var-body-second-bg);
-  z-index: 10;
-}
-/* --- Зеркальный promo-section только для одного блока --- */
-.promo-section-mirrored {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5rem 8%;
-  gap: 4rem;
-  flex-wrap: wrap;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.promo-image-mirrored {
-  flex: 1 1 400px;
-  display: flex;
-  justify-content: center;
-}
-
-.promo-image-mirrored img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-  object-fit: cover;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.promo-content-mirrored {
-  flex: 1 1 420px;
-  max-width: 600px;
-}
-
-.promo-content-mirrored h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-}
-
-.promo-content-mirrored h1 span {
-  display: block;
-}
-
-.promo-content-mirrored p {
-  font-size: 1.1rem;
-  color: #999;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.promo-buttons-mirrored {
-  display: flex;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .promo-section-mirrored {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2.5rem 5%;
-    gap: 1.25rem;
-    width: auto;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .promo-content-mirrored,
-  .promo-image-mirrored {
-    flex: 1 1 100%;
-    max-width: 100%;
-    text-align: center;
-  }
-  .promo-content-mirrored h1 {
-    font-size: 1.5rem;
-    line-height: 1.25;
-  }
-  .promo-buttons-mirrored {
-    justify-content: center;
-    width: 100%;
-  }
-  .promo-image-mirrored img {
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-  }
-}
-
-@media (max-width: 420px) {
-  .promo-content-mirrored h1 { font-size: 1.25rem; }
-  .promo-section-mirrored{ padding: 1.6rem 4%; }
-}
-
-@media (min-width: 1200px) {
-  .promo-section-mirrored { padding: 6rem 8%; }
-}
-
-
-
-@media (max-width: 768px) {
-  .promo-buttons .btn {
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-}
-@media (max-width: 768px) {
-  .promo-buttons .btn {
-    padding-top: 1.3rem;
-    padding-bottom: 1.3rem;
-    padding-left: .6rem;
-    padding-right: .6rem;
-    font-size: 1.1rem;
-  }
-}
-@media (max-width: 768px) {
-  .promo-buttons {
-    flex-direction: column;
-    gap: 0.7rem;
-    align-items: stretch;
-  }
-  .promo-buttons .btn {
-    width: 100%;
-    min-width: unset;
-  }
-}
-
-
-
-
-
-
-
-@media (max-width: 768px) {
-  .promo-buttons-mirrored .btn {
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-}
-@media (max-width: 768px) {
-  .promo-buttons-mirrored .btn {
-    padding-top: 1.3rem;
-    padding-bottom: 1.3rem;
-    padding-left: .6rem;
-    padding-right: .6rem;
-    font-size: 1.1rem;
-  }
-}
-@media (max-width: 768px) {
-  .promo-buttons-mirrored {
-    flex-direction: column;
-    gap: 0.7rem;
-    align-items: stretch;
-  }
-  .promo-buttons-mirrored .btn {
-    width: 100%;
-    min-width: unset;
-  }
-}
-
-@media (max-width: 1200px) {
-  .promo-section-mirrored {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2.5rem 5%;
-    gap: 1.25rem;
-    width: auto;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .promo-image-mirrored {
-    order: 1;
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto 1.2rem auto;
-  }
-  .promo-content-mirrored {
-    order: 2;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-  }
-  .promo-buttons-mirrored {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0.7rem;
-    align-items: stretch;
-    margin-top: 1rem;
-  }
-  .promo-buttons-mirrored .btn {
-    width: 100%;
-    min-width: unset;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    padding-top: 1.8rem;
-    padding-bottom: 1.8rem;
-    font-size: 1.1rem;
-  }
-}
