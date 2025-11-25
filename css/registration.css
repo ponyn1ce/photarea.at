@@ -13,7 +13,7 @@ body{
     align-items: center;
     text-align: center;
     min-height: 100vh;
-    background: url('/images/d0bc85d59a329e3583206f2eb39d034d.jpg') no-repeat;
+    background: url('../images/d0bc85d59a329e3583206f2eb39d034d.jpg') no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -238,4 +238,5 @@ font-weight: 600;
         font-size: 14.5px;
         margin-top: 20px;
     }
+
 }
