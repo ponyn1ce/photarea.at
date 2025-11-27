@@ -102,7 +102,7 @@
   text-align: center;
   font-size: clamp(1.6rem, 3.6vw, 2.5rem);
   margin: 0.15rem 0 0.35rem; /* tighten vertical spacing */
-  color: var(--text-color);
+  color: #fff;
   line-height: 1.02;
 }
 
@@ -147,7 +147,7 @@
 .fixed-menu-item {
   font-weight: 700;
   font-size: 1rem;
-  color: #222;
+  color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -985,3 +985,4 @@
   content: " ¶ ";
 
 }
+
