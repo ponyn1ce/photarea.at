@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/registration.css">
+    <link rel="stylesheet" href="/css/dynamic-bg-theme.css">
+    <script src="/js/lang.js"></script>
+    <script src="/js/password-toggle.js"></script>
+    <script src="/js/dynamic-bg-theme.js"></script>
+</head>
+<body>
+        <div class="wrapper">
+            <form action="">
+                <h1 data-i18n="registration">Регистрация</h1>
+                <div class="input-box">
+                    <input id="regName" data-i18n="name" type="text" placeholder="Имя">
+                </div>
+                <div class="input-box">
+                    <input id="regSurname" data-i18n="surname" type="text" placeholder="Фамилия">
+                </div>
+                <div class="input-box">
+                    <input id="regUsername" data-i18n="username" type="text" placeholder="Имя пользователя" required> 
+                </div>
+                <div class="input-box">
+                    <input id="regPassword" data-i18n="password" type="password" placeholder="Пароль" required> 
+                </div>
+                <div class="input-box">
+                    <input id="regEmail" type="email" placeholder="Email" required>
+                </div>
+                <div class="user_agreement">
+                    <label class="agreement">
+                        <input type="checkbox" id="agree">
+                        <span class="agreement-line1">Я принимаю</span>
+                        <span class="agreement-line2"><a href="user_agreement.html" target="_blank">пользовательское соглашение</a></span>
+                    </label>
+                </div>
+
+
+                <button data-i18n="zaregistration" type="submit" class="btn">Зарегистрироваться</button>
+                <div class="register-link">
+                    <p data-i18n="have_account">Есть аккаунт?</p>
+                    <a data-i18n="SignIn" href="login.html">Войти</a> 
+                </div>
+            </form>
+        </div>
+        <script>
+            // Сохраняем/восстанавливаем черновик регистрации в localStorage
+            (function(){
+                const KEY = 'registration_draft_v1';
+                const REMEMBER_KEY = 'remembered_user_v1';
+                const TTL = 15 * 60 * 1000; // 15 минут
+
+                const nameEl = document.getElementById('regName');
+                const surnameEl = document.getElementById('regSurname');
+                const usernameEl = document.getElementById('regUsername');
+                const passwordEl = document.getElementById('regPassword');
+                const emailEl = document.getElementById('regEmail');
+                const agreeEl = document.getElementById('agree');
+                const rememberEl = document.getElementById('regRemember');
+
+                function loadRemembered() {
+                    try{
+                        const raw = localStorage.getItem(REMEMBER_KEY);
+                        if(!raw) return null;
+                        return JSON.parse(raw);
+                    }catch(e){ return null; }
+                }
+
+                // Восстановление при загрузке
+                document.addEventListener('DOMContentLoaded', ()=>{
+                    try{
+                        // Если есть запомнённый пользователь — восстанавливаем его поля (но не пароль)
+                        const remembered = loadRemembered();
+                        if(remembered) {
+                            if(remembered.username && usernameEl) usernameEl.value = remembered.username;
+                            if(remembered.email && emailEl) emailEl.value = remembered.email;
+                        }
+
+                        const raw = localStorage.getItem(KEY);
+                        if(!raw) return;
+                        const data = JSON.parse(raw);
+
+                        const now = Date.now();
+                        const ageOk = data.ts && (now - data.ts <= TTL);
+                        const keep = data.remember === true; // if user chose remember, keep regardless of age
+
+                        if(!ageOk && !keep) {
+                            // старые данные — удаляем
+                            try{ localStorage.removeItem(KEY); }catch(e){}
+                            return;
+                        }
+
+                        if(data.name) nameEl.value = data.name;
+                        if(data.surname) surnameEl.value = data.surname;
+                        if(data.username) usernameEl.value = data.username;
+                        if(data.password) passwordEl.value = data.password;
+                        if(data.email) emailEl.value = data.email;
+                        if(typeof data.agree === 'boolean' && agreeEl) agreeEl.checked = data.agree;
+                        if(typeof data.remember === 'boolean' && rememberEl) rememberEl.checked = data.remember;
+                    }catch(e){ console.warn('restore registration draft failed', e); }
+                });
+
+                // Сохраняем изменения
+                const save = ()=>{
+                    try{
+                        const obj = {
+                            name: nameEl.value || '',
+                            surname: surnameEl.value || '',
+                            username: usernameEl.value || '',
+                            password: passwordEl.value || '',
+                            email: emailEl.value || '',
+                            agree: agreeEl ? agreeEl.checked : false,
+                            remember: rememberEl ? rememberEl.checked : false,
+                            ts: Date.now()
+                        };
+                        localStorage.setItem(KEY, JSON.stringify(obj));
+
+                        // Если пользователь выбрал «Запомнить меня», сохраняем минимальные данные отдельно
+                        if(rememberEl && rememberEl.checked) {
+                            const rememberObj = { username: usernameEl.value || '', email: emailEl.value || '' };
+                            localStorage.setItem(REMEMBER_KEY, JSON.stringify(rememberObj));
+                        }
+                    }catch(e){ console.warn('save registration draft failed', e); }
+                };
+
+                [nameEl, surnameEl, usernameEl, passwordEl, emailEl].forEach(el=>{
+                    if(el) el.addEventListener('input', save);
+                });
+                if(agreeEl) agreeEl.addEventListener('change', save);
+                if(rememberEl) rememberEl.addEventListener('change', save);
+
+                // При реальной отправке формы очищаем черновик (если не запомнили)
+                const form = document.querySelector('.wrapper form');
+                if(form){
+                    form.addEventListener('submit', (e)=>{
+                        try{
+                            const raw = localStorage.getItem(KEY);
+                            const data = raw ? JSON.parse(raw) : null;
+                            if(!(data && data.remember)) {
+                                localStorage.removeItem(KEY);
+                            }
+                        }catch(e){}
+                    });
+                }
+
+                // Перед закрытием вкладки показываем предупреждение если есть черновик и пользователь не выбрал "запомнить"
+                window.addEventListener('beforeunload', (e)=>{
+                    try{
+                        const raw = localStorage.getItem(KEY);
+                        const data = raw ? JSON.parse(raw) : null;
+                        const remember = data && data.remember;
+                        if(data && !remember) {
+                            // стандартный подтверждающий диалог (современные браузеры игнорируют текст)
+                            e.preventDefault();
+                            e.returnValue = '';
+                            return '';
+                        }
+                    }catch(er){}
+                });
+
+                // На событие unload — если пользователь уходит и не выбрал запомнить — удаляем черновик
+                window.addEventListener('unload', ()=>{
+                    try{
+                        const raw = localStorage.getItem(KEY);
+                        const data = raw ? JSON.parse(raw) : null;
+                        const remember = data && data.remember;
+                        if(data && !remember) {
+                            localStorage.removeItem(KEY);
+                        }
+                    }catch(e){}
+                });
+            })();
+        </script>
+</body>
+</html>
