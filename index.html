@@ -1,16 +1,284 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Photarea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <script src="/js/lang.js"></script>
+    <style>
+      :root{
+        --nav-bg: rgba(255,255,255,0.45);
+        --nav-border: rgba(255,255,255,0.7);
+        --accent-text: #0f2b3c;
+        --link-muted: #6b8797;
+        --button-bg: #111111;
+        /* palette sampled from provided hero image */
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      html,body{height:100%;}
+      body{
+        margin:0;
+        font-family: 'Tan Nimbus', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helverica World', Arial;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        display:flex;
+        align-items:flex-start;
+        justify-content:center;
+        padding:0 20px; /* remove vertical padding to avoid extra scroll */
+        overflow-x:hidden;
+      }
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>photarea home (Copy)</title>
-      <script type="module" crossorigin src="./assets/index-PrEM92sr.js"></script>
-      <link rel="stylesheet" crossorigin href="./assets/index-MW02T04b.css">
-    </head>
+      .panel{
+        /* уменьшено примерно на 25% */
+        width: min(700px, 70%);
+        /* более прозрачный, симметричный фон с лёгким градиентом */
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: .3px solid var(--nav-border);
+        border-radius: 32px;
+        /* сдвигаем содержимое ближе к краям на ~10px (узче по бокам — ещё в 2 раза) */
+        padding: 10px 2px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:8px; /* сокращено примерно на 2/3 */
+        box-shadow: 0 5px 22px rgba(19,55,85,0.06);
+        backdrop-filter: blur(8px) saturate(110%);
+        position: relative;
+        transform-origin: center;
+        margin: 21px auto 0 auto;
+        z-index: 1;
+      }
 
-    <body>
-      <div id="root"></div>
-    </body>
-  </html>
-  
+      .panel:before{
+        content:"";
+        position:absolute;
+        inset:1px;
+        border-radius:28px;
+        pointer-events:none;
+        /* симметричный внутренний блеск для эффекта прозрачности */
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -8px 18px rgba(12,35,50,0.03);
+      }
+
+      /* сдвинем логотип на ~10px влево относительно предыдущего положения */
+      .logo{display:flex;align-items:center;gap:6px;flex:0 0 auto;margin-left:-6px;text-decoration:none}
+      .logo svg{width:26px;height:26px}
+      .brand{color:var(--accent-text);font-weight:700;font-size:19px;letter-spacing:-0.01em;text-decoration:none;}
+
+      /* уменьшил левый отступ и увеличил расстояние между вкладками в 2 раза */
+      nav{flex:0;display:flex;justify-content:flex-start;padding-left:1px}
+      .nav-links{display:flex;align-items:center;gap:20px;margin-left:19px;margin-right:10px}
+      .nav-links a{color:var(--link-muted);text-decoration:none;font-weight:600;font-size:14px}
+      .nav-links a:hover{color:var(--accent-text)}
+
+      /* language trigger styling */
+      .lang{position:relative;display:flex;align-items:center;margin-left:6px;margin-right:6px}
+      .lang-toggle{background:none;border:none;color:var(--link-muted);font-weight:600;font-size:14px;cursor:pointer;padding:6px 4px;display:flex;align-items:center;gap:8px}
+      .lang-toggle:hover{color:var(--accent-text)}
+      /* center dropdown under the toggle; increased width to fit labels when shown in toggle */
+      .lang-menu{position:absolute;top:calc(100% + 17px);left:50%;transform:translateX(-50%);min-width:130px;
+        /* полупрозрачный фон с блюром */
+        background: rgba(255,255,255,0.32);
+        backdrop-filter: blur(8px) saturate(110%);
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.6);
+        box-shadow:0 6px 18px rgba(12,35,50,0.06);
+        /* уменьшил боковые отступы меню примерно в 2 раза */
+        padding:6px 2px;display:none;flex-direction:column;z-index:3}
+      .lang-menu.open{display:flex}
+      /* компактные боковые отступы у пунктов: ~5-10px слева/справа */
+      .lang-item{background:transparent;border:none;padding:8px 6px;text-align:center;cursor:pointer;font-weight:450;color:var(--accent-text);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px}
+      .lang-item .code{font-weight:700;color:var(--accent-text);min-width:auto;text-align:center}
+      .lang-item .label{color:var(--link-muted);font-weight:450;text-align:center}
+      .lang-item:hover{background:rgba(255,255,255,0.14)}
+      .lang-item.selected{background:rgba(0,0,0,0.06)}
+
+      /* сдвинем кнопку на ~10px вправо и увеличим радиус */
+      .cta{flex:0 0 auto;margin-left:8px;margin-right:-4px}
+      .cta .btn{
+        background: var(--button-bg);
+        color:#fff;
+        padding:10px 36px;
+        border-radius:34px; /* увеличено примерно в 2 раза */
+        border: none;
+        font-weight:600;
+        font-size:14px;
+        box-shadow: 0 6px 14px rgba(17,17,17,0.14), inset 0 -2px 4px rgba(255,255,255,0.03);
+      }
+      .cta .btn:active{transform:translateY(1px)}
+
+      /* Responsive spacing adjustments */
+      @media (max-width:720px){
+        .panel{padding:10px 12px;gap:8px;width:94%}
+        .panel::after{width: calc(100% + 40px); height:48px}
+        .nav-links{gap:10px}
+      }
+      /* centered mascot image */
+      .mascot{
+        position:fixed;
+        left:50%;
+        top:calc(50% + 10px);
+        transform:translate(-50%,-50%);
+        max-width:34vw;
+        width:auto;
+        height:auto;
+        z-index:50; /* place above the panel */
+        pointer-events:none;
+        user-select:none;
+        will-change:transform;
+        animation:mascotFloat 3s ease-in-out infinite;
+      }
+
+      @keyframes mascotFloat{
+        0%{transform:translate(-50%,-50%) translateY(0)}
+        50%{transform:translate(-50%,-50%) translateY(-30px)}
+        100%{transform:translate(-50%,-50%) translateY(0)}
+      }
+
+      .texthome{
+        position:fixed;
+        left:50%;
+        top:calc(1vh);
+        transform:translateX(-50%);
+        font-family: Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+        font-size:250px;
+        font-weight:800;
+        color: #fff;
+          opacity: 0.6;
+          z-index: 50;
+          filter: blur(1px);
+        pointer-events:none;
+        user-select:none;
+      }
+      /* hero copy under the mascot GIF */
+      .hero-copy{
+        position:fixed;
+        left:50%;
+        top:75%;
+        transform:translateX(-50%);
+        text-align:center;
+        width:100%;
+        max-width:900px;
+        padding:0 20px;
+        z-index:60;
+        pointer-events:auto;
+      }
+      .hero-title{font-size:26px;margin:0;color:#0b1220;font-weight:700}
+      .hero-sub{font-size:15px;margin:8px 0 0;color:rgba(18,50,68,0.6);max-width:720px;margin-left:auto;margin-right:auto}
+      .hero-cta{margin-top:18px}
+      /* уменьшена примерно на 1/3 от предыдущего большого размера */
+      .hero-cta .btn{
+        background:var(--button-bg);
+        color:#fff;
+        padding:14px 48px;
+        border-radius:45px;
+        border:0;
+        font-weight:700;
+        font-size:15px;
+        box-shadow:0 8px 20px rgba(17,17,17,0.16);
+      }
+      @media (max-width:720px){
+        .hero-cta .btn{padding:10px 26px;font-size:13px;border-radius:30px}
+      }
+      
+    </style>
+  </head>
+  <body>
+    <header class="panel" role="banner" aria-label="Photarea navigation">
+      <a class="logo" href="index.html" aria-label="Photarea home">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
+          <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div class="brand">Photarea</div>
+      </a>
+      
+        <!-- inline language trigger (looks like normal text) -->
+        <div class="lang" aria-hidden="false">
+          <button class="lang-toggle" aria-haspopup="true" aria-expanded="false" title="Select language">RU</button>
+          <div class="lang-menu" role="menu" aria-label="Language menu">
+            <button class="lang-item selected" role="menuitem" data-lang="EN" data-label="English"><span class="code">EN</span><span class="label">English</span></button>
+            <button class="lang-item" role="menuitem" data-lang="DE" data-label="Deutsch"><span class="code">DE</span><span class="label">Deutsch</span></button>
+            <button class="lang-item" role="menuitem" data-lang="RU" data-label="Русский"><span class="code">RU</span><span class="label">Русский</span></button>
+            <button class="lang-item" role="menuitem" data-lang="UA" data-label="Українська"><span class="code">UA</span><span class="label">Українська</span></button>
+          </div>
+        </div>
+
+      <nav>
+        <div class="nav-links">
+            <a href="#" data-i18n="nav_orders">Orders</a>
+            <a href="/html/faq.html" data-i18n="nav_faq">FAQ</a>
+            <a href="#" data-i18n="nav_pricing">Pricing</a>
+            <a href="#" data-i18n="nav_blog">Blog</a>
+            <a href="/support-chat/dist/index.html" data-i18n="nav_contact">Contact</a>
+        </div>
+      </nav>
+
+      <div class="cta">
+          <button class="btn" data-i18n="top_cta">Tap to create</button>
+      </div>
+
+        
+
+
+
+
+      <script>
+        (function(){
+          const toggle = document.querySelector('.lang-toggle');
+          const menu = document.querySelector('.lang-menu');
+          const items = Array.from(document.querySelectorAll('.lang-item'));
+          if(!toggle || !menu) return;
+          function close(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+          function open(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+
+          // initialize toggle text from selected item
+          const current = items.find(i=> i.classList.contains('selected')) || items[0];
+          if(current){
+            const code = current.dataset.lang || current.textContent.trim();
+            // show only code in the top toggle
+            toggle.textContent = code;
+          }
+
+          toggle.addEventListener('click', (e)=>{
+            const isOpen = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+          });
+
+          items.forEach(i=> i.addEventListener('click', (e)=>{
+            const lang = i.dataset.lang || i.textContent.trim();
+            // update toggle to show code only
+            toggle.textContent = lang;
+            // mark selected
+            items.forEach(x=> x.classList.remove('selected'));
+            i.classList.add('selected');
+            close();
+          }));
+
+          document.addEventListener('click', (e)=>{
+            if(!menu.contains(e.target) && !toggle.contains(e.target)) close();
+          });
+          document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+        })();
+      </script>
+    </header>
+
+    <p class="texthome">photarea</p>
+    <img class="mascot" src="/ssmilkvu_cute_fluffy_3D_mascot_character_bright_orange_fur_ro_323929fc.gif" alt="puschistik">
+
+    <div class="hero-copy" aria-hidden="false">
+      <p class="hero-title" data-i18n="hero_title">Create, keep, and relive your memories</p>
+      <p class="hero-sub" data-i18n="hero_sub">Give yourself and your loved ones the freedom to dive back into your <br> brightest memories whenever the heart calls.</p>
+      <div class="hero-cta">
+        <button class="btn" data-i18n="get_project">Get Project</button>
+      </div>
+    </div>
+  </body>
+</html>
