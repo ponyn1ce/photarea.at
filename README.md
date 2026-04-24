@@ -29,28 +29,30 @@ been added to this project, as well as the development history and future plans 
 - js files (`admin-chat.js, album-guide.js, auth.js, cookie-consent.js, faq.js, lang.js, login-form.js, orders.js, password-toggle.js, role-guard.js, support.js, testman.js, `)
 ---
 
-## Что умеет редактор (кратко) ✏️🖼️
-- Рендер страниц и разворотов с учётом обложки и содержимого.
-- Добавление изображений (через file input и IndexedDB), их масштабирование, перемещение и применение шаблонов (center, full, half, third, quarter, collage).
-- Добавление и редактирование текста (IText), смена цвета текста.
-- Поддержка "спредов" (spreads) — навигация по разворотам, добавление/удаление разворотов.
-- Возможность сохранять отдельные развороты в IndexedDB и метаданные в localStorage.
-- Экспорт текущего разворота или всего проекта в PDF (jsPDF + svg2pdf.js). (не работает. На этом моменте как раз у меня перестал работать корректно код, поэтому я забросил эту идею, для того чтобы в будущем с новыми силами приступить к рефакторингу и исправить эту ошибку, но к сожалению или к счастью этого делать мне непришлось и вместо этого было принято решение с заказчиком просто заново переделать весь этот редактор и взять за основу движок Canva.)
-- Локальное хранение картинок в IndexedDB (ключи, blob storage).
-- Ограничение редактирования определённых страниц (например, специальные заблокированные области), визуальные подсказки и оверлеи.
-- Панель миниатюр (thumbnails) для навигации и простого перетаскивания разворотов (частично реализована).
-- Утилиты: очистка, удаление слоя, истории (undo stack), автосохранение и dev-кнопка для удаления всех сохранений.
+## ✏️🖼️ What the editor can do (briefly) 🖼️✏️
+
+- Rendering of pages and spreads, taking into account the cover and content.
+- Adding images (via file input and IndexedDB), scaling, moving and applying templates (center, full, half, third, quarter, collage).
+- Adding and editing text (iText), changing the text color.
+- Support for "spreads" - navigation through reversals, adding/removing reversals.
+- The ability to save individual spreads in IndexedDB and metadata in localStorage.
+- Export the current spread or the entire project to PDF (jsPDF+ svg2pdf.js ). (it doesn't work. At this point, my code stopped working correctly, so I abandoned this idea in order to start refactoring and fix this error with renewed vigor in the future, but unfortunately or fortunately I did not have to do this, and instead it was decided with the customer to simply redo this entire editor and take based on the Canva engine.)
+- Local image storage in IndexedDB (keys, blob storage).
+- Restricted editing of certain pages (for example, special blocked areas), visual cues, and overlays.
+- Thumbnail panel (thumbnails) for navigation and easy dragging of spreads (partially implemented).
+- Utilities: cleaning, layer removal, history (undo stack), auto-save and dev-button to delete all saves.
 
 ---
 
-## Технологии и библиотеки 🧰
-- React — интерфейс редактора (`editor-react/src`).
-- fabric.js — работа с canvas, объекты, клиппинг, экспорт и взаимодействие с холстом.
-- jsPDF — экспорт в PDF.
-- svg2pdf.js — конвертация SVG-текста в PDF (для векторного текста в PDF).
-- sql.js — хранение экспортов (PDF) в локальном WebAssembly-DB (опционально).
-- IndexedDB (через стандартную API) — хранение изображений и данных разворотов.
-- Простые утилиты: `lang.js`(перевод содержимого страницы на другие языки), `faq.js`, `darklightbutton.js`(переключение темы+синхронизация темы с темой устройства).
+## 🧰 Technologies and libraries 🧰
+
+- React — the editor's interface (`editor-react/src').
+- fabric.js — working with canvas, objects, clipping, exporting and interacting with canvas.
+- jsPDF — export to PDF.
+- svg2pdf.js — conversion of SVG text to PDF (for vector text to PDF).
+- sql.js — storing exports (PDF) in a local WebAssembly-DB (optional).
+- IndexedDB (via the standard API) — storing images and spread data.
+- Simple utilities: `lang.js `(translation of the page content into other languages), `faq.js`, `darklightbutton.js `(theme switching+syncing theme with device theme).
 
 ---
 
