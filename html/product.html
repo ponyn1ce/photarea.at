@@ -12,9 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="/js/lang.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/auth.js"></script>
+    <script src="../js/lang.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/auth.js"></script>
     <style>
              :root{
         --nav-bg: rgba(255,255,255,0.45);
@@ -252,7 +252,7 @@
 </head>
 <body>
     <header class="panel" role="banner" aria-label="Photarea navigation">
-      <a class="logo" href="/index.html" aria-label="Photarea home">
+      <a class="logo" href="../index.html" aria-label="Photarea home">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
           <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -274,34 +274,34 @@
 
       <nav>
         <div class="nav-links">
-            <a href="/html/profile.html" data-protected>
-              <img src="/icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
+            <a href="profile.html" data-protected>
+              <img src="../icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
               <span data-i18n="nav_profile">Profile</span>
             </a>
-            <a href="/html/faq.html">
-              <img src="/icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
+            <a href="faq.html">
+              <img src="../icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
               <span data-i18n="nav_faq">FAQ</span>
             </a>
-            <a href="/html/product.html">
-              <img src="/icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
+            <a href="product.html">
+              <img src="../icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
               <span data-i18n="nav_products">products</span>
             </a>
-            <a href="/html/support.html">
-              <img src="/icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
+            <a href="support.html">
+              <img src="../icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
               <span data-i18n="nav_contact">Contact</span>
             </a>
         </div>
       </nav>
 
         <div class="cta">
-          <button class="btn" data-i18n="top_cta" onclick="window.location.href='/html/album-guide.html'">Tap to create</button>
+          <button class="btn" data-i18n="top_cta" onclick="window.location.href='album-guide.html'">Tap to create</button>
       </div>
 
       
       <script>
         function handleStartClick(){
           // Same behavior as "Get Project" button
-          window.location.href = '/html/album-guide.html';
+          window.location.href = 'album-guide.html';
         }
         (function(){
           const toggle = document.querySelector('.lang-toggle');
@@ -382,7 +382,7 @@
         <!-- Product cards will be injected here -->
         <article class="shop-card" data-shop-id="1" data-desc="Минималистичный фотокнига-альбом: плотная матовая обложка, 24 разворота, печать премиум-класса." data-images="/photo/photo_2026-01-04_17-44-36.jpg,/photo/photo_2026-01-04_18-20-48.jpg" data-rating="4.7" data-reviews="5 806 отзывов" tabindex="0">
           <div class="shop-media">
-            <img src="/photo/photo_2026-01-04_17-44-36.jpg" alt="product 1" onerror="this.onerror=null;this.src='https://via.placeholder.com/260x170?text=Product+1';" />
+            <img src="../photo/photo_2026-01-04_17-44-36.jpg" alt="product 1" onerror="this.onerror=null;this.src='https://via.placeholder.com/260x170?text=Product+1';" />
             <button class="shop-fav" aria-label="add to wishlist">♡</button>
             <span class="shop-badge">Распродажа</span>
           </div>
@@ -395,7 +395,7 @@
 
         <article class="shop-card" data-shop-id="2" data-desc="Расширенный альбом с твердой обложкой и выбором фактуры бумаги. Идеален для подарка." data-images="/photo/photo_2026-01-04_18-20-48.jpg,/photo/photo_2026-01-04_17-44-36.jpg" data-rating="1.7" data-reviews="2 255000 отзывов" tabindex="0">
           <div class="shop-media">
-            <img src="/photo/photo_2026-01-04_18-20-48.jpg" alt="product 2" onerror="this.onerror=null;this.src='https://via.placeholder.com/260x170?text=Product+2';" />
+            <img src="../photo/photo_2026-01-04_18-20-48.jpg" alt="product 2" onerror="this.onerror=null;this.src='https://via.placeholder.com/260x170?text=Product+2';" />
             <button class="shop-fav" aria-label="add to wishlist">♡</button>
             <span class="shop-badge">Распродажа</span>
           </div>
@@ -812,7 +812,7 @@
           if(buyBtn) {
             buyBtn.onclick = async () => {
                 const token = localStorage.getItem('token');
-                if(!token) return window.location.href = '/html/login.html?redirect=/html/product.html';
+                if(!token) return window.location.href = 'login.html?redirect=/html/product.html';
                 
                 try {
                   const res = await fetch('/api/user/cart', {
@@ -847,7 +847,7 @@
                 localStorage.setItem('pending_order_product', JSON.stringify(p));
                 sessionStorage.setItem('redirect_to_support', 'true');
                 // Redirect to Guide
-                window.location.href = '/html/album-guide.html';
+                window.location.href = 'album-guide.html';
              };
           }
         }

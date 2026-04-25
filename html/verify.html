@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Verify Email</title>
-  <link rel="stylesheet" href="/css/registration.css">
+  <link rel="stylesheet" href="../css/registration.css">
 </head>
 <body>
   <div class="wrapper">
@@ -89,11 +89,11 @@
           // Check for redirect_to_support flag
           if (sessionStorage.getItem('redirect_to_support') === 'true') {
              sessionStorage.removeItem('redirect_to_support'); // consume flag
-             window.location.href = '/html/support.html';
+             window.location.href = 'support.html';
              return; // Stop execution
           }
 
-          window.location.href = '/html/profile.html';
+          window.location.href = 'profile.html';
         }else{
           alert('Ошибка: ' + (data.message || res.status));
         }

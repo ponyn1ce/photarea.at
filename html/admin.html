@@ -7,17 +7,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Админ панель</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
-    <script src="/js/lang.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/role-guard.js"></script>
+    <script src="../js/lang.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/role-guard.js"></script>
     <script>
       (function() {
         // Simple role check for Dashboard elements
@@ -357,7 +357,7 @@
       }
     </script>
     <header class="panel">
-      <a href="/" class="logo">
+      <a href="../index.html" class="logo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
         </svg>
@@ -365,16 +365,16 @@
       </a>
       <nav>
         <div class="nav-links">
-          <a href="/html/admin-chat.html">
-            <img src="/icon/home.png" class="nav-icon" alt="Home">
+          <a href="admin-chat.html">
+            <img src="../icon/free-icon-home-11165263.png" class="nav-icon" alt="Home">
             <span data-key="nav_home">Тех.поддержка</span>
           </a>
-          <a href="/html/orders.html">
-            <img src="/icon/cart.png" class="nav-icon" alt="Products">
+          <a href="orders.html">
+            <img src="../icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="Products">
             <span data-key="nav_products">Заказы</span>
           </a>
-          <a href="/html/profile.html">
-            <img src="/icon/profile.png" class="nav-icon" alt="Profile">
+          <a href="profile.html">
+            <img src="../icon/free-icon-font-user-3917711.png" class="nav-icon" alt="Profile">
             <span data-key="nav_profile">Профиль</span>
           </a>
         </div>
@@ -391,7 +391,7 @@
         </div>
       </div>
       <div class="cta">
-        <button class="btn" onclick="window.location.href='/html/orders.html'" data-key="btn_login">Заказы</button>
+        <button class="btn" onclick="window.location.href='orders.html'" data-key="btn_login">Заказы</button>
       </div>
       <button class="menu-toggle" id="menuToggle" style="display:none;">
         <span></span><span></span><span></span>
@@ -744,11 +744,11 @@
           const data = await res.json();
           if(data.user.role !== 'admin') {
             alert('Доступ запрещен');
-            window.location.href = '/html/profile.html';
+            window.location.href = 'profile.html';
           }
           loadProducts();
         } catch(e) {
-          window.location.href = '/html/login.html';
+          window.location.href = 'login.html';
         }
       }
 

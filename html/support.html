@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-    <script src="/js/lang.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/support.js?v=20260125-1" defer></script>
+    <script src="../js/lang.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/support.js?v=20260125-1" defer></script>
 
     <style>
        :root{
@@ -476,7 +476,7 @@
 </head>
 <body>
    <header class="panel" role="banner" aria-label="Photarea navigation">
-      <a class="logo" href="/index.html" aria-label="Photarea home">
+      <a class="logo" href="../index.html" aria-label="Photarea home">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
           <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -498,27 +498,27 @@
 
       <nav>
         <div class="nav-links">
-            <a href="/html/profile.html" data-protected>
-              <img src="/icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
+            <a href="profile.html" data-protected>
+              <img src="../icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
               <span data-i18n="nav_profile">Profile</span>
             </a>
-            <a href="/html/faq.html">
-              <img src="/icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
+            <a href="faq.html">
+              <img src="../icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
               <span data-i18n="nav_faq">FAQ</span>
             </a>
-            <a href="/html/product.html">
-              <img src="/icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
+            <a href="product.html">
+              <img src="../icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
               <span data-i18n="nav_products">products</span>
             </a>
-            <a href="/html/support.html">
-              <img src="/icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
+            <a href="support.html">
+              <img src="../icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
               <span data-i18n="nav_contact">Contact</span>
             </a>
         </div>
       </nav>
 
         <div class="cta">
-          <button class="btn" data-i18n="top_cta" onclick="window.location.href='/html/album-guide.html'">Tap to create</button>
+          <button class="btn" data-i18n="top_cta" onclick="window.location.href='album-guide.html'">Tap to create</button>
       </div>
     </header>
 
@@ -597,10 +597,10 @@
         function handleStartClick(){
           const token = localStorage.getItem('token');
           if(token){
-            window.location.href = '/alt/album-guide.html';
+            window.location.href = 'album-guide.html';
           } else {
             alert('Пожалуйста, войдите в аккаунт, чтобы продолжить.');
-            window.location.href = '/html/login.html';
+            window.location.href = 'login.html';
           }
         }
         (function(){
@@ -664,7 +664,7 @@
         if(btn) {
           btn.addEventListener('click', async () => {
             // Always redirect to album guide first
-            window.location.href = '/html/album-guide.html';
+            window.location.href = 'album-guide.html';
           });
         }
 

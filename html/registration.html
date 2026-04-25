@@ -8,15 +8,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Registration</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/css/registration.css">
-    <link rel="stylesheet" href="/css/dynamic-bg-theme.css">
-    <script src="/js/lang.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/cookie-consent.js"></script>
-    <script src="/js/password-toggle.js"></script>
-    <script src="/js/dynamic-bg-theme.js"></script>
-    <script src="/js/auth.js"></script>
+    <link rel="stylesheet" href="../css/registration.css">
+    <link rel="stylesheet" href="../css/dynamic-bg-theme.css">
+    <script src="../js/lang.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+    <script src="../js/password-toggle.js"></script>
+    <script src="../js/dynamic-bg-theme.js"></script>
+    <script src="../js/auth.js"></script>
     <style>
         .home-btn {
             position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
@@ -37,7 +37,7 @@
             if (referrer && !referrer.includes('/html/login.html') && !referrer.includes('/html/registration.html')) {
                 window.history.back();
             } else {
-                window.location.href = '/';
+                window.location.href = '../index.html';
             }
         }
     </script>
@@ -184,7 +184,7 @@
                                 const raw = localStorage.getItem(KEY);
                                 const draft = raw ? JSON.parse(raw) : null;
                                 if(!(draft && draft.remember)) localStorage.removeItem(KEY);
-                                window.location.href = '/html/verify.html?email=' + encodeURIComponent(emailEl.value);
+                                window.location.href = 'verify.html?email=' + encodeURIComponent(emailEl.value);
                             } else {
                                 const msg = (data && (data.message || data.error)) || text || res.status;
                                 alert('Ошибка регистрации: ' + msg);
