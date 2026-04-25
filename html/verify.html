@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#a4c8e9" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Verify Email</title>
+  <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+  <div class="wrapper">
+    <form id="verifyForm">
+      <h1>Подтверждение Email</h1>
+      <input id="vEmail" type="hidden">
+      <div class="input-box">
+        <input id="vCode" type="text" placeholder="Код из письма" required>
+      </div>
+      <button type="submit" class="btn">Подтвердить</button>
+    </form>
+    <div style="text-align:center;margin-top:10px;">
+      <button id="resendBtn" class="btn" style="background:#888">Отправить код снова</button>
+      <div id="resendInfo" style="margin-top:8px;color:#666"></div>
+    </div>
+  </div>
+  <script>
+    const RESEND_LOCK = 60; // seconds
+    let lockLeft = 0;
+    let lockTimer = null;
+
+    // Auto-fill email from URL
+    (function(){
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+        if(email) document.getElementById('vEmail').value = email;
+    })();
+
+    function startLock(sec){
+      lockLeft = sec;
+      const btn = document.getElementById('resendBtn');
+      const info = document.getElementById('resendInfo');
+      btn.disabled = true; btn.style.opacity = '0.6';
+      info.textContent = `Можно отправить снова через ${lockLeft} с.`;
+      lockTimer = setInterval(()=>{
+        lockLeft--; if(lockLeft<=0){ clearInterval(lockTimer); btn.disabled=false; btn.style.opacity=''; info.textContent=''; }
+        else info.textContent = `Можно отправить снова через ${lockLeft} с.`;
+      },1000);
+    }
+
+    document.getElementById('resendBtn').addEventListener('click', async ()=>{
+      const email = document.getElementById('vEmail').value;
+      if(!email){ alert('Введите email для отправки кода'); return; }
+      try{
+        const res = await fetch('/api/auth/resend', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email }) });
+        const data = await res.json();
+        if(res.ok){ startLock(RESEND_LOCK); alert('Код отправлен'); }
+        else alert('Ошибка: ' + (data.message || res.status));
+      }catch(e){ alert('Сетевая ошибка'); }
+    });
+
+    document.getElementById('verifyForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('vEmail').value;
+      const code = document.getElementById('vCode').value;
+      try{
+        const res = await fetch('/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, code })
+        });
+        const data = await res.json();
+        if(res.ok){
+          // Auto-login: token + (optional) user
+          if (data && data.token) {
+            try {
+              localStorage.setItem('token', data.token);
+              if (data.user) localStorage.setItem('auth_user', JSON.stringify(data.user));
+
+              // Verification flow has no "remember me" checkbox -> keep auth for current browser session
+              localStorage.setItem('auth_persist', '0');
+              sessionStorage.setItem('auth_session', '1');
+            } catch (_) {}
+          }
+
+          alert('Email подтверждён. Вы вошли в аккаунт.');
+          
+          // Check for redirect_to_support flag
+          if (sessionStorage.getItem('redirect_to_support') === 'true') {
+             sessionStorage.removeItem('redirect_to_support'); // consume flag
+             window.location.href = '/html/support.html';
+             return; // Stop execution
+          }
+
+          window.location.href = '/html/profile.html';
+        }else{
+          alert('Ошибка: ' + (data.message || res.status));
+        }
+      }catch(e){
+        alert('Сетевая ошибка');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="at">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <script src="/js/lang.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/auth.js"></script>
+    <style>
+             :root{
+        --nav-bg: rgba(255,255,255,0.45);
+        --nav-border: rgba(255,255,255,0.7);
+        --accent-text: #0f2b3c;
+        --link-muted: #6b8797;
+        --button-bg: #111111;
+        /* palette sampled from provided hero image */
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      html,body{height:100%;}
+      body{
+        margin:0;
+        font-family: 'Tan Nimbus', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helverica World', Arial;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        display:flex;
+        align-items:flex-start;
+        justify-content:center;
+        padding:0 20px; /* remove vertical padding to avoid extra scroll */
+        overflow-x:hidden;
+      }
+
+      .panel{
+        width: fit-content;
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: .3px solid var(--nav-border);
+        border-radius: 60px;
+        padding: 10px 20px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:nowrap;
+        gap:14px;
+        box-shadow: 0 5px 22px rgba(19,55,85,0.06);
+        backdrop-filter: blur(8px) saturate(110%);
+        position: fixed;
+        top: 21px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+      }
+
+      .panel:before{
+        content:"";
+        position:absolute;
+        inset:1px;
+        border-radius:60px;
+        pointer-events:none;
+        /* симметричный внутренний блеск для эффекта прозрачности */
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -8px 18px rgba(12,35,50,0.03);
+      }
+
+      /* сдвинем логотип на ~10px влево относительно предыдущего положения */
+      .logo{display:flex;align-items:center;gap:6px;flex:0 0 auto;text-decoration:none}
+      .logo svg{width:26px;height:26px}
+      .brand{color:var(--accent-text);font-weight:700;font-size:19px;letter-spacing:-0.01em;text-decoration:none;}
+
+      /* вернуть горизонтальное расположение и центрировать меню */
+      nav{flex:0 0 auto;display:flex;justify-content:center;}
+      .nav-links{display:flex;align-items:center;gap:14px;}
+      .nav-links a{color:var(--link-muted);text-decoration:none;font-weight:600;font-size:14px;display:flex;flex-direction:column;align-items:center;gap:4px}
+      .nav-links a:hover{color:var(--accent-text)}
+      .nav-icon{display:none;width:20px;height:20px;object-fit: contain;}
+      .nav-links a:hover .nav-icon{opacity: 0.8;}
+
+      /* language trigger styling */
+      .lang{position:relative;display:flex;align-items:center;margin: 0;}
+      .lang-toggle{background:none;border:none;color:var(--link-muted);font-weight:600;font-size:14px;cursor:pointer;padding:6px 4px;display:flex;align-items:center;gap:8px}
+      .lang-toggle:hover{color:var(--accent-text)}
+      /* center dropdown under the toggle; increased width to fit labels when shown in toggle */
+      .lang-menu{position:absolute;top:calc(100% + 17px);left:50%;transform:translateX(-50%);min-width:130px;
+        /* полупрозрачный фон с блюром */
+        background: rgba(255,255,255,0.32);
+        backdrop-filter: blur(8px) saturate(110%);
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.6);
+        box-shadow:0 6px 18px rgba(12,35,50,0.06);
+        /* уменьшил боковые отступы меню примерно в 2 раза */
+        padding:6px 2px;display:none;flex-direction:column;z-index:3}
+      .lang-menu.open{display:flex}
+      /* компактные боковые отступы у пунктов: ~5-10px слева/справа */
+      .lang-item{background:transparent;border:none;padding:8px 6px;text-align:center;cursor:pointer;font-weight:450;color:var(--accent-text);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px}
+      .lang-item .code{font-weight:700;color:var(--accent-text);min-width:auto;text-align:center}
+      .lang-item .label{color:var(--link-muted);font-weight:450;text-align:center}
+      .lang-item:hover{background:rgba(255,255,255,0.14)}
+      .lang-item.selected{background:rgba(0,0,0,0.06)}
+
+      /* сдвинем кнопку на ~10px вправо и увеличим радиус */
+      .cta{flex:0 0 auto;}
+      .cta .btn{
+        background: var(--button-bg);
+        color:#fff;
+        padding:10px 30px;
+        border-radius:34px; /* увеличено примерно в 2 раза */
+        border: none;
+        font-weight:600;
+        font-size:14px;
+        box-shadow: 0 6px 14px rgba(17,17,17,0.14), inset 0 -2px 4px rgba(255,255,255,0.03);
+        cursor: pointer;
+      }
+      .cta .btn:active{transform:translateY(1px)}
+
+            .hero-cta .btn{
+        background:var(--button-bg);
+        color:#fff;
+        padding:14px 48px;
+        border-radius:45px;
+        border:0;
+        font-weight:700;
+        font-size:15px;
+        box-shadow:0 8px 20px rgba(17,17,17,0.16);
+      }
+    
+      
+
+      /* Responsive spacing adjustments */
+      @media (max-width:1200px){
+        .panel{width: fit-content; max-width: 95%; padding: 8px 15px; border-radius: 40px; gap: 12px;}
+        .panel:before{border-radius: 40px;}
+        .brand{display:none;}
+        .nav-links{gap: 12px;}
+        .nav-links a span{font-size: 10px;}
+        .cta .btn{padding: 8px 15px; font-size: 12px;}
+      }
+    </style>
+</head>
+<body>
+       <header class="panel" role="banner" aria-label="Photarea navigation">
+      <a class="logo" href="index.html" aria-label="Photarea home">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
+          <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div class="brand">Photarea</div>
+      </a>
+      
+        <!-- inline language trigger (looks like normal text) -->
+        <div class="lang" aria-hidden="false">
+          <button class="lang-toggle" aria-haspopup="true" aria-expanded="false" title="Select language">RU</button>
+          <div class="lang-menu" role="menu" aria-label="Language menu">
+            <button class="lang-item selected" role="menuitem" data-lang="EN" data-label="English"><span class="code">EN</span><span class="label">English</span></button>
+            <button class="lang-item" role="menuitem" data-lang="DE" data-label="Deutsch"><span class="code">DE</span><span class="label">Deutsch</span></button>
+            <button class="lang-item" role="menuitem" data-lang="RU" data-label="Русский"><span class="code">RU</span><span class="label">Русский</span></button>
+            <button class="lang-item" role="menuitem" data-lang="UA" data-label="Українська"><span class="code">UA</span><span class="label">Українська</span></button>
+          </div>
+        </div>
+
+      <nav>
+        <div class="nav-links">
+            <a href="/html/profile.html" data-protected>
+              <img src="/icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
+              <span data-i18n="nav_profile">Profile</span>
+            </a>
+            <a href="/html/faq.html">
+              <img src="/icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
+              <span data-i18n="nav_faq">FAQ</span>
+            </a>
+            <a href="/html/product.html">
+              <img src="/icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
+              <span data-i18n="nav_products">products</span>
+            </a>
+            <a href="/html/support.html">
+              <img src="/icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
+              <span data-i18n="nav_contact">Contact</span>
+            </a>
+        </div>
+      </nav>
+
+        <div class="cta">
+          <button class="btn" data-i18n="top_cta" onclick="window.location.href='/html/album-guide.html'">Tap to create</button>
+      </div>
+    </header>
+        <script>
+        function handleStartClick(){
+          const token = localStorage.getItem('token');
+          if(token){
+            window.location.href = '/alt/album-guide.html';
+          } else {
+            alert('Пожалуйста, войдите в аккаунт, чтобы продолжить.');
+            window.location.href = '/html/login.html';
+          }
+        }
+        (function(){
+          const toggle = document.querySelector('.lang-toggle');
+          const menu = document.querySelector('.lang-menu');
+          const items = Array.from(document.querySelectorAll('.lang-item'));
+          if(!toggle || !menu) return;
+          function close(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+          function open(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+
+          // initialize toggle text from selected item
+          const current = items.find(i=> i.classList.contains('selected')) || items[0];
+          if(current){
+            const code = current.dataset.lang || current.textContent.trim();
+            // show only code in the top toggle
+            toggle.textContent = code;
+          }
+
+          toggle.addEventListener('click', (e)=>{
+            const isOpen = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+          });
+
+          items.forEach(i=> i.addEventListener('click', (e)=>{
+            const lang = i.dataset.lang || i.textContent.trim();
+            // update toggle to show code only
+            toggle.textContent = lang;
+            // mark selected
+            items.forEach(x=> x.classList.remove('selected'));
+            i.classList.add('selected');
+            close();
+            // Apply language change
+            if(window.setSiteLanguage) window.setSiteLanguage(lang);
+          }));
+
+          document.addEventListener('click', (e)=>{
+            if(!menu.contains(e.target) && !toggle.contains(e.target)) close();
+          });
+          document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+        })();
+         
+        (function(){
+        async function updateStatus(){
+          const el = document.getElementById('authStatus');
+          if(!el) return;
+          const token = localStorage.getItem('token');
+          if(!token){ el.textContent = 'входа не было'; return; }
+          try{
+            const res = await fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok){ el.textContent = 'вход подтвержден'; }
+            else{ localStorage.removeItem('token'); el.textContent = 'входа не было'; }
+          }catch(e){ el.textContent = 'входа не было'; }
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateStatus);
+        else updateStatus();
+      })();
+      </script>
+    <script>
+      (function(){
+        const btn = document.getElementById('tapToCreate');
+        if(btn) {
+          btn.addEventListener('click', async () => {
+            // Always redirect to album guide first
+            window.location.href = '/html/album-guide.html';
+          });
+        }
+
+        async function updateStatus(){
+          const el = document.getElementById('authStatus');
+          if(!el) return;
+          const token = localStorage.getItem('token');
+          if(!token){ el.textContent = 'входа не было'; return; }
+          try{
+            const res = await fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok){ el.textContent = 'вход подтвержден'; }
+            else{ localStorage.removeItem('token'); el.textContent = 'входа не было'; }
+          }catch(e){ el.textContent = 'входа не было'; }
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateStatus);
+        else updateStatus();
+      })();
+    </script>
+</body>
+</html>

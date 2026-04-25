@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/lang.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/password-toggle.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/login-form.js"></script>
+    <style>
+        .home-btn {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            text-decoration: none; color: #fff; background: var(--button-bg, #111);
+            padding: 12px 24px; border-radius: 30px; font-size: 16px; font-weight: 600; z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s;
+        }
+        .home-btn:hover { transform: translateX(-50%) scale(1.05); }
+        .wrapper { margin-top: 60px; } /* Push form down */
+    </style>
+</head>
+<body>
+    <a href="#" class="home-btn" onclick="goBack(event)">← Назад</a>
+    <script>
+        function goBack(event) {
+            event.preventDefault();
+            const referrer = document.referrer;
+            if (referrer && !referrer.includes('/html/login.html') && !referrer.includes('/html/registration.html')) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+    </script>
+        <div class="wrapper">
+            <form id="loginForm">
+                
+                <h1 data-i18n="login_title" >Авторизоваться</h1>
+
+                <div class="input-box">
+                    <input id="loginLogin" data-i18n="username_or_email" type="text" placeholder="Имя пользователя или Имейл" required> 
+                    <i class='bx bxs-user'></i>
+                </div>
+
+                <div class="input-box">
+                    <input id="loginPassword" data-i18n="password" type="password" placeholder="Пароль" required> 
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox">
+                        <p data-i18n="Remember-me">Запомнить меня</p>
+                    </label>
+                    <a data-i18n="forgot_password" href="/html/forgot_password.html">Забыли пароль?</a>
+                </div>
+
+                <div id="loginError" style="color: #d32f2f; margin-bottom: 15px; min-height: 20px; font-size: 14px; font-weight: 500;"></div>
+
+                <button type="submit" class="btn" data-i18n="login_title">Авторизоваться</button>
+
+                <div class="register-link">
+                    <p data-i18n="no-account">Нет аккаунта?</p>
+                    <a data-i18n="zaregistration" href="registration.html"> Зарегистрироваться</a> 
+                </div>
+            </form>
+        </div>
+        <!-- login handled by /js/login-form.js -->
+</body>
+</html>

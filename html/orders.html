@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="theme-color" content="#a4c8e9" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<title>Заказы — Админ панель</title>
+
+		<link rel="stylesheet" href="/css/orders.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+		<script src="/js/lang.js"></script>
+    	<script src="/js/cookie-consent.js"></script>
+		<script src="/js/auth.js"></script>
+		<script src="/js/role-guard.js"></script>
+		<script src="/js/orders.js" defer></script>
+	</head>
+	<body>
+		<script>
+			// менеджер (1) и админ (2)
+			window.requireRoleLevel?.(1, { forbiddenRedirectTo: '/html/profile.html' });
+		</script>
+		<header class="panel">
+			<a href="/" class="logo" aria-label="Photarea">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+					<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+				</svg>
+				<span class="brand">Photarea</span>
+			</a>
+			<nav>
+				<div class="nav-links">
+					<a href="/html/admin-chat.html">
+						<img src="/icon/home.png" class="nav-icon" alt="Home" />
+						<span>Тех.поддержка</span>
+					</a>
+					<a href="/html/admin.html">
+						<img src="/icon/cart.png" class="nav-icon" alt="Products" />
+						<span>Товары</span>
+					</a>
+					<a href="/html/profile.html">
+						<img src="/icon/profile.png" class="nav-icon" alt="Profile" />
+						<span>Профиль</span>
+					</a>
+				</div>
+			</nav>
+
+			<div class="lang">
+				<button class="lang-toggle" id="langToggle" type="button">
+					RU <span style="font-size: 10px">▼</span>
+				</button>
+				<div class="lang-menu" id="langMenu">
+					<button class="lang-item" type="button" onclick="setLang?.('ru') || setSiteLanguage?.('ru')">
+						<span class="code">RU</span><span class="label">Русский</span>
+					</button>
+					<button class="lang-item" type="button" onclick="setLang?.('en') || setSiteLanguage?.('en')">
+						<span class="code">EN</span><span class="label">English</span>
+					</button>
+					<button class="lang-item" type="button" onclick="setLang?.('de') || setSiteLanguage?.('de')">
+						<span class="code">DE</span><span class="label">Deutsch</span>
+					</button>
+					<button class="lang-item" type="button" onclick="setLang?.('ua') || setSiteLanguage?.('ua')">
+						<span class="code">UA</span><span class="label">Українська</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="cta">
+				<button class="btn btn-active" type="button" onclick="window.location.href='/html/orders.html'">Заказы</button>
+			</div>
+		</header>
+
+		<main class="admin-container" aria-label="Отслеживание заказов">
+			<div class="admin-header">
+				<h1 class="admin-title">Отслеживание заказов</h1>
+				<div class="header-actions">
+					<button class="btn-primary" type="button" id="btnMockRefresh">Обновить</button>
+				</div>
+			</div>
+
+			<p class="hint" id="statusHint" style="display: none"></p>
+
+			<section class="summary-grid" aria-label="Сводка">
+				<div class="stat-card">
+					<div class="stat-label">Всего</div>
+					<div class="stat-value" id="statTotal">—</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-label">Новые</div>
+					<div class="stat-value" id="statNew">—</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-label">В работе</div>
+					<div class="stat-value" id="statProcessing">—</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-label">Доставлены</div>
+					<div class="stat-value" id="statDelivered">—</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-label">Отменены</div>
+					<div class="stat-value" id="statCanceled">—</div>
+				</div>
+			</section>
+
+			<section class="filters" aria-label="Фильтры">
+				<div class="field">
+					<label class="field-label" for="q">Поиск</label>
+					<input class="field-input" id="q" type="search" placeholder="ID, имя, email, телефон" autocomplete="off" />
+				</div>
+				<div class="field">
+					<label class="field-label" for="status">Статус</label>
+					<select class="field-input" id="status">
+						<option value="">Все</option>
+						<option value="unconfirmed">Не подтвержден</option>
+						<option value="new">Новый</option>
+						<option value="processing">В работе</option>
+						<option value="shipped">Отправлен</option>
+						<option value="delivered">Доставлен</option>
+						<option value="canceled">Отменён</option>
+						<option value="refunded">Возврат</option>
+					</select>
+				</div>
+				<div class="field">
+					<label class="field-label" for="payment">Оплата</label>
+					<select class="field-input" id="payment">
+						<option value="">Все</option>
+						<option value="paid">Оплачен</option>
+						<option value="unpaid">Не оплачен</option>
+						<option value="refund">Возврат</option>
+					</select>
+				</div>
+				<div class="field">
+					<label class="field-label" for="dateFrom">С даты</label>
+					<input class="field-input" id="dateFrom" type="date" />
+				</div>
+				<div class="field">
+					<label class="field-label" for="dateTo">По дату</label>
+					<input class="field-input" id="dateTo" type="date" />
+				</div>
+				<div class="field field-actions">
+					<label class="field-label" aria-hidden="true">&nbsp;</label>
+					<button class="btn-ghost" type="button" id="btnReset">Сбросить</button>
+				</div>
+			</section>
+
+			<div class="table-wrap" aria-label="Список заказов">
+				<table class="products-table orders-table">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Клиент</th>
+							<th>Контакты</th>
+							<th>Сумма</th>
+							<th>Статус</th>
+							<th>Оплата</th>
+							<th>Дата</th>
+							<th style="width: 210px">Действия</th>
+						</tr>
+					</thead>
+					<tbody id="ordersTbody"></tbody>
+				</table>
+			</div>
+
+			<p class="hint" id="emptyHint" style="display: none">Ничего не найдено по текущим фильтрам.</p>
+		</main>
+
+		<div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+			<div class="modal-content modal-wide">
+				<div class="modal-header">
+					<h2 class="modal-title" id="orderModalTitle">Заказ</h2>
+					<button class="close-modal" type="button" id="closeOrderModal" aria-label="Закрыть">×</button>
+				</div>
+
+				<div class="order-modal-grid">
+					<section class="order-card">
+						<h3 class="order-card-title">Основное</h3>
+						<div class="kv" id="orderMeta"></div>
+						<div class="row">
+							<div class="field" style="margin: 0">
+								<label class="field-label" for="modalStatus">Статус</label>
+								<select class="field-input" id="modalStatus">
+									<option value="new">Новый</option>
+									<option value="processing">В работе</option>
+									<option value="shipped">Отправлен</option>
+									<option value="delivered">Доставлен</option>
+									<option value="canceled">Отменён</option>
+									<option value="refunded">Возврат</option>
+								</select>
+							</div>
+							<div class="field" style="margin: 0">
+								<label class="field-label" for="modalPayment">Оплата</label>
+								<select class="field-input" id="modalPayment">
+									<option value="paid">Оплачен</option>
+									<option value="unpaid">Не оплачен</option>
+									<option value="refund">Возврат</option>
+								</select>
+							</div>
+						</div>
+							<div class="row" style="margin-top: 12px">
+								<div class="field" style="margin: 0">
+									<label class="field-label" for="modalPages">Страниц (мин. 10)</label>
+									<input class="field-input" id="modalPages" type="number" min="10" step="4" value="10" />
+								</div>
+								<div class="field" style="margin: 0">
+									<label class="field-label" for="modalTotal">Цена (EUR)</label>
+									<input class="field-input" id="modalTotal" type="text" readonly value="—" />
+								</div>
+							</div>
+						<div class="row" style="margin-top: 12px">
+								<button class="btn-primary" type="button" id="btnSaveOrder">Сохранить</button>
+							<button class="btn-secondary" type="button" id="btnCopy">Скопировать ID</button>
+								<button class="btn-danger" type="button" id="btnDeleteOrder">Удалить</button>
+						</div>
+							<p class="hint">Алгоритм: базовая цена за 10 страниц, каждые +4 страницы = +4€.</p>
+					</section>
+
+					<section class="order-card">
+						<h3 class="order-card-title">Состав заказа</h3>
+						<div class="items" id="orderItems"></div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

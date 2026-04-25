@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Admin Chat Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="/js/role-guard.js?v=20260125-1"></script>
+    <script src="/js/admin-chat.js?v=20260125-3" defer></script>
+
+    <style>
+      :root{
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      body{
+        font-family: 'Tan Nimbus', 'Poppins', sans-serif;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      a { text-decoration: none; }
+      
+      .dashboard-container {
+        width: 1200px;
+        height: 85vh;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 320px;
+        background: #f8f9fa;
+        border-right: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar-header {
+        padding: 20px;
+        font-weight: 800;
+        font-size: 18px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .back-link { font-size: 12px; color: #666; font-weight: 600; cursor: pointer; }
+
+      .thread-list {
+        flex: 1;
+        overflow-y: auto;
+      }
+      .thread-item {
+        padding: 15px 20px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .thread-item:hover { background: #eff3f6; }
+      .thread-item.active { background: #fff; border-left: 4px solid #333; }
+      .thread-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+      .thread-preview { font-size: 13px; color: #777; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      /* Chat Main */
+      .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+      }
+      .chat-header {
+        padding: 15px 25px;
+        border-bottom: 1px solid #e0e0e0;
+        font-weight: 700;
+        font-size: 16px;
+        color: #222;
+        background: #fff;
+      }
+      .messages-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: #fafafa;
+      }
+      
+      .msg {
+        max-width: 65%;
+        padding: 14px 18px;
+        border-radius: 16px;
+        font-size: 15px;
+        line-height: 1.5;
+        position: relative;
+        word-wrap: break-word;
+      }
+      /* My messages (Manager) - Right side */
+      .msg.user {
+        align-self: flex-end;
+        background: #111;
+        color: #fff;
+        border-bottom-right-radius: 2px;
+      }
+      /* Client messages - Left side */
+      .msg.agent {
+        align-self: flex-start;
+        background: #fff;
+        border: 1px solid #eee;
+        color: #111;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        border-bottom-left-radius: 2px;
+      }
+      .msg-time { display: block; font-size: 11px; margin-top: 5px; opacity: 0.7; text-align: right; }
+
+      .input-area {
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
+        background: #fff;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+      .message-input {
+        flex: 1;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        font-family: inherit;
+        outline: none;
+        resize: none;
+        height: 54px;
+        font-size: 15px;
+      }
+      .message-input:focus { border-color: #333; }
+      .send-btn {
+        width: 54px; height: 54px;
+        border-radius: 12px;
+        background: #111;
+        color: #fff;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .send-btn:hover { opacity: 0.9; }
+
+      .attach-btn {
+          width: 54px; height: 54px;
+          border-radius: 12px;
+          background: #f0f0f0;
+          color: #555;
+          border: 1px solid #ddd;
+          font-size: 20px;
+          cursor: pointer;
+          transition: 0.2s;
+          display: flex; align-items: center; justify-content: center;
+      }
+      .attach-btn:hover { background: #e0e0e0; }
+
+      .empty-state { margin: auto; color: #999; }
+
+      /* Order Panel */
+      .order-panel {
+        width: 350px;
+        background: #f8f9fa;
+        border-left: 1px solid #e0e0e0;
+        padding: 20px;
+        overflow-y: auto;
+        display: none; 
+        flex-direction: column;
+        gap: 15px;
+      }
+      .order-panel h3 { margin: 0 0 15px; font-size: 16px; font-weight: 700; color: #333; }
+      .order-card { background: #fff; padding: 15px; border-radius: 12px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; position:relative; }
+      .order-header { display: flex; justify-content: space-between; align-items: center; }
+      .order-num { font-weight: 700; font-size: 14px; }
+      .order-status { font-weight: 700; font-size: 11px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+      .status-new { background: #e3f2fd; color: #1976d2; }
+      .status-confirmed { background: #e8f5e9; color: #2e7d32; }
+      .order-info { font-size: 13px; color: #555; }
+      .order-items { font-size: 12px; color: #777; margin-top: 5px; background: #fafafa; padding: 8px; border-radius: 4px; }
+      
+      .btn-small { background: #111; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; align-self: flex-start; margin-right: 5px; }
+      .btn-small:hover { opacity: 0.8; }
+      
+      textarea.admin-comment {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 12px;
+        margin-top: 5px;
+        resize: vertical;
+        min-height: 60px;
+      }
+
+      /* Mobile adaptations for devices < 700px */
+      @media (max-width: 700px) {
+        body {
+          padding: 0;
+          height: 100vh;
+        }
+
+        .dashboard-container {
+          width: 100%;
+          height: 100vh;
+          border-radius: 0;
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          max-height: 40vh;
+          border-right: none;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-header {
+          padding: 15px;
+          font-size: 16px;
+        }
+
+        .thread-list {
+          max-height: calc(40vh - 60px);
+        }
+
+        .thread-item {
+          padding: 12px 15px;
+        }
+
+        .thread-title {
+          font-size: 13px;
+        }
+
+        .thread-preview {
+          font-size: 12px;
+        }
+
+        .chat-main {
+          flex: 1;
+          height: 60vh;
+        }
+
+        .chat-header {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+
+        .messages-area {
+          padding: 15px;
+          gap: 12px;
+        }
+
+        .msg {
+          max-width: 85%;
+          padding: 10px 14px;
+          font-size: 14px;
+        }
+
+        .input-area {
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .message-input {
+          padding: 12px;
+          height: 44px;
+          font-size: 14px;
+        }
+
+        .send-btn,
+        .attach-btn {
+          width: 44px;
+          height: 44px;
+          font-size: 18px;
+        }
+
+        .order-panel {
+          display: none !important; /* Hide order panel on mobile for simplicity */
+        }
+
+        .back-link {
+          font-size: 11px;
+        }
+      }
+
+      /* Tablet landscape adaptation */
+      @media (min-width: 701px) and (max-width: 1024px) {
+        .dashboard-container {
+          width: 95%;
+          height: 90vh;
+        }
+
+        .sidebar {
+          width: 280px;
+        }
+
+        .order-panel {
+          width: 300px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <script>
+      // менеджер (1) и админ (2)
+      if (window.requireRoleLevel) {
+          window.requireRoleLevel(1, { forbiddenRedirectTo: '/html/profile.html' });
+      }
+    </script>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div>Входящие</div>
+                <!-- Back to Admin Panel or Profile -->
+                <div class="back-link" onclick="window.location.href='/html/admin-panel.html'">← Назад</div>
+            </div>
+            <div class="thread-list" id="threadList">
+                <div style="padding: 20px; text-align: center; color: #999;">Загрузка...</div>
+            </div>
+        </div>
+        
+        <div class="chat-main">
+            <div class="chat-header" id="chatTitle">Выберите диалог</div>
+            <div class="messages-area" id="messagesArea">
+                <div class="empty-state">Выберите чат из списка</div>
+            </div>
+            <div class="input-area">
+                <input type="file" id="fileInput" hidden multiple accept="image/*,.rar">
+                <button class="attach-btn" id="attachBtn" type="button">📎</button>
+                <input type="text" class="message-input" id="messageInput" placeholder="Написать ответ клиенту...">
+                <button class="send-btn" id="sendBtn" type="button">➤</button>
+            </div>
+        </div>
+
+        <div class="order-panel" id="orderPanel">
+          <h3>Заказ по чату</h3>
+            <div id="orderList">
+                <p style="color:#999;font-size:13px;">Загрузка...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Админ меню</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="/js/role-guard.js"></script>
+    <script>
+      // Allow managers (1) and admins (2)
+      if (window.requireRoleLevel) {
+           window.requireRoleLevel(1, { forbiddenRedirectTo: '/html/login.html' });
+      }
+    </script>
+    <style>
+      :root{
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+      }
+      .panel-container {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(12px);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+      h1 {
+        margin-bottom: 30px;
+        color: #0f2b3c;
+        font-size: 28px;
+      }
+      .grid-menu {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .menu-item {
+        background: #fff;
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f2b3c;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      }
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      }
+      .menu-item img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+      
+      /* Disable Products for Managers if needed via JS or CSS, though simpler to just let role-guard handle click on products page */
+      
+      @media (max-width: 500px) {
+        .grid-menu { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="panel-container">
+      <h1>Админ Меню</h1>
+      <div class="grid-menu">
+                <a href="/html/orders.html" class="menu-item">
+           <img src="/icon/free-icon-font-coins-7928150.png" alt="Orders"> <!-- Reusing cart icon or placeholder -->
+           <span>Заказы</span>
+        </a>
+                <a href="/html/admin-chat.html" class="menu-item">
+           <img src="/icon/free-icon-font-comment-alt-3916607.png" alt="Support">
+           <span>Тех. поддержка</span>
+        </a>
+        <a href="/html/admin.html" class="menu-item" id="btn-products">
+           <!-- Icon placeholder -->
+           <img src="/icon/free-icon-font-sparkles-17511706.png" alt="Products">
+           <span>Товары</span>
+        </a>
+
+        <a href="/html/profile.html" class="menu-item">
+           <img src="/icon/free-icon-font-user-3917711.png" alt="Profile">
+           <span>Профиль</span>
+        </a>
+      </div>
+    </div>
+    
+    <script>
+      // Hide Products button from Managers (Role Level 1)
+      if (window.__ROLE_LEVEL__ === 1) {
+        const pBtn = document.getElementById('btn-products');
+        if (pBtn) pBtn.style.display = 'none';
+      }
+      // Since role-guard is async, we might need to wait or check in a clearer way. 
+      // role-guard sets window.__ROLE_LEVEL__ after fetching.
+      // Let's hook into the check if possible or just re-fetch briefly.
+      // Actually role-guard doesn't emit an event. Let's do a quick poll or check `localStorage` as a hint (untrusted but good for UI hiding).
+      
+      const userStr = localStorage.getItem('auth_user');
+      if (userStr) {
+          try {
+              const u = JSON.parse(userStr);
+              // role_level might be in user object if saved during login, but auth.js doesn't always save it depending on version.
+              // Assuming auth2.controller returns role_level.
+              const level = Number(u.role_level || 0);
+              const role = u.role;
+              // If manager
+              if (level === 1 || role === 'manager') {
+                  const pBtn = document.getElementById('btn-products');
+                  if (pBtn) pBtn.style.display = 'none';
+              }
+          } catch(e){}
+      }
+    </script>
+  </body>
+</html>

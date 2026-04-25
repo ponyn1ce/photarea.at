@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Админ панель</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <script src="/js/lang.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/role-guard.js"></script>
+    <script>
+      (function() {
+        // Simple role check for Dashboard elements
+        // This runs after role-guard.js establishes window.__ROLE_LEVEL__
+        // But role-guard is async, so we might need to wait or check localStorage manually if we want instant UI feedback,
+        // though role-guard redirects if not authenticated.
+        
+        async function applyDashboardPermissions() {
+          if (!window.requireRoleLevel) return;
+          // Wait for role-guard to fetch user (it usually redirects if fail)
+          // We can inspect the cached user from auth.js if available or wait.
+          
+          // Let's use the API from auth.js 'check()' if exposed, or just rely on role-guard setting global
+          // role-guard.js sets window.__AUTH_USER__ and window.__ROLE_LEVEL__
+          
+          // Poll briefly for role-guard completion
+          let attempts = 0;
+          while (typeof window.__ROLE_LEVEL__ === 'undefined' && attempts < 20) {
+            await new Promise(r => setTimeout(r, 50));
+            attempts++;
+          }
+
+          const level = window.__ROLE_LEVEL__;
+          if (typeof level === 'undefined') return; // Should have redirected by now
+          
+          // If Manager (1), hide restricted elements
+          if (level === 1) {
+             const restricted = document.querySelectorAll('.restricted-manager');
+             restricted.forEach(el => el.style.display = 'none');
+          }
+        }
+        
+        document.addEventListener('DOMContentLoaded', applyDashboardPermissions);
+      })();
+    </script>
+    <style>
+      :root{
+        --nav-bg: rgba(255,255,255,0.45);
+        --nav-border: rgba(255,255,255,0.7);
+        --accent-text: #0f2b3c;
+        --link-muted: #6b8797;
+        --button-bg: #111111;
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      html,body{width: 100%; margin: 0; padding: 0; overflow-x: hidden;}
+      *{box-sizing: border-box;}
+      body{
+        font-family: 'Tan Nimbus', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helverica World', Arial;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        min-height: 100vh;
+      }
+
+      /* Header Panel */
+      .panel{
+        width: fit-content;
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: .3px solid var(--nav-border);
+        border-radius: 60px;
+        padding: 10px 20px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:nowrap;
+        gap:14px;
+        box-shadow: 0 5px 22px rgba(19,55,85,0.06);
+        backdrop-filter: blur(8px) saturate(110%);
+        position: fixed;
+        top: 21px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+      }
+
+      .panel:before{
+        content:"";
+        position:absolute;
+        inset:1px;
+        border-radius:60px;
+        pointer-events:none;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -8px 18px rgba(12,35,50,0.03);
+      }
+
+      .logo{display:flex;align-items:center;gap:6px;flex:0 0 auto;text-decoration:none}
+      .logo svg{width:26px;height:26px}
+      .brand{color:var(--accent-text);font-weight:700;font-size:19px;letter-spacing:-0.01em;text-decoration:none;}
+
+      nav{flex:0 0 auto;display:flex;justify-content:center;}
+      .nav-links{display:flex;align-items:center;gap:14px;}
+      .nav-links a{color:var(--link-muted);text-decoration:none;font-weight:600;font-size:14px;display:flex;flex-direction:column;align-items:center;gap:4px}
+      .nav-links a:hover{color:var(--accent-text)}
+      .nav-icon{display:none;width:20px;height:20px;object-fit: contain;}
+      .nav-links a:hover .nav-icon{opacity: 0.8;}
+
+      .lang{position:relative;display:flex;align-items:center;margin: 0;}
+      .lang-toggle{background:none;border:none;color:var(--link-muted);font-weight:600;font-size:14px;cursor:pointer;padding:6px 4px;display:flex;align-items:center;gap:8px}
+      .lang-toggle:hover{color:var(--accent-text)}
+      .lang-menu{position:absolute;top:calc(100% + 17px);left:50%;transform:translateX(-50%);min-width:130px;
+        background: rgba(255,255,255,0.32);
+        backdrop-filter: blur(8px) saturate(110%);
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.6);
+        box-shadow:0 6px 18px rgba(12,35,50,0.06);
+        padding:6px 2px;display:none;flex-direction:column;z-index:3}
+      .lang-menu.open{display:flex}
+      .lang-item{background:transparent;border:none;padding:8px 6px;text-align:center;cursor:pointer;font-weight:450;color:var(--accent-text);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px}
+      .lang-item .code{font-weight:700;color:var(--accent-text);min-width:auto;text-align:center}
+      .lang-item .label{color:var(--link-muted);font-weight:450;text-align:center}
+      .lang-item:hover{background:rgba(255,255,255,0.14)}
+      .lang-item.selected{background:rgba(0,0,0,0.06)}
+
+      .cta{flex:0 0 auto;}
+      .cta .btn{
+        background: var(--button-bg);
+        color:#fff;
+        padding:10px 30px;
+        border-radius:34px;
+        border: none;
+        font-weight:600;
+        font-size:14px;
+        box-shadow: 0 6px 14px rgba(17,17,17,0.14), inset 0 -2px 4px rgba(255,255,255,0.03);
+        cursor: pointer;
+      }
+      .cta .btn:active{transform:translateY(1px)}
+
+      @media (max-width:1200px){
+        .panel{width: fit-content; max-width: 95%; padding: 8px 15px; border-radius: 40px; gap: 12px;}
+        .panel:before{border-radius: 40px;}
+        .brand{display:none;}
+        .nav-links{gap: 12px;}
+        .nav-links a span{font-size: 10px;}
+        .cta .btn{padding: 8px 15px; font-size: 12px;}
+      }
+
+      @media (max-width:720px){
+        .panel{padding:11px 36px; gap: 20px; width: fit-content; min-width: 60%; max-width: 98%; border-radius: 50px;}
+        .panel:before{border-radius: 50px;}
+        .nav-links{gap: 20px}
+        .nav-links a span{display:none;}
+        .nav-icon{display:block; width: 34px; height: 34px;}
+        .lang{margin: 0;}
+        .lang-toggle{font-size: 18px;}
+        .cta{display:none;}
+      }
+
+      /* Admin Specific Styles */
+      .admin-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 120px auto 40px;
+        padding: 24px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: 1px solid rgba(255,255,255,0.6);
+        box-shadow: 0 6px 22px rgba(12,35,50,0.06);
+        backdrop-filter: blur(8px);
+      }
+      
+
+
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .admin-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #0b1220;
+        margin: 0;
+      }
+
+      .btn-add {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255,255,255,0.6);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .products-table th, .products-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .products-table th {
+        background: rgba(0,0,0,0.03);
+        font-weight: 700;
+        color: #0b1220;
+      }
+
+      .product-img-thumb {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn-edit {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn-delete {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-family: inherit;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #0b1220;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* Image Manager Styles */
+      .img-manager-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 20px; }
+      .img-item { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: grab; border: 2px solid transparent; transition: all 0.2s; }
+      .img-item:hover { border-color: #007bff; }
+      .img-item img { width: 100%; height: 100%; object-fit: cover; }
+      .img-remove { position: absolute; top: 4px; right: 4px; background: rgba(255,0,0,0.8); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 12px; }
+      .img-item:hover .img-remove { opacity: 1; }
+      .img-item.dragging { opacity: 0.5; transform: scale(0.95); }
+      
+      /* Image Preview Modal */
+      .preview-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+      .preview-content { background: transparent; box-shadow: none; max-width: 90vw; max-height: 90vh; display: flex; justify-content: center; align-items: center; position: relative; }
+      .preview-img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
+      .close-preview { position: absolute; top: -40px; right: 0; color: white; font-size: 30px; cursor: pointer; background: none; border: none; }
+    </style>
+  </head>
+  <body>
+    <script>
+      // менеджер (1) и админ (2)
+      // Если это менеджер, он увидит скрытые элементы .restricted-manager (которые скрываются JS выше)
+      if (window.requireRoleLevel) {
+          window.requireRoleLevel(1, { forbiddenRedirectTo: '/html/login.html' });
+      }
+    </script>
+    <header class="panel">
+      <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span class="brand">Photarea</span>
+      </a>
+      <nav>
+        <div class="nav-links">
+          <a href="/html/admin-chat.html">
+            <img src="/icon/home.png" class="nav-icon" alt="Home">
+            <span data-key="nav_home">Тех.поддержка</span>
+          </a>
+          <a href="/html/orders.html">
+            <img src="/icon/cart.png" class="nav-icon" alt="Products">
+            <span data-key="nav_products">Заказы</span>
+          </a>
+          <a href="/html/profile.html">
+            <img src="/icon/profile.png" class="nav-icon" alt="Profile">
+            <span data-key="nav_profile">Профиль</span>
+          </a>
+        </div>
+      </nav>
+      <div class="lang">
+        <button class="lang-toggle" id="langToggle">
+          RU <span style="font-size:10px">▼</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button class="lang-item" onclick="setLang('ru')"><span class="code">RU</span><span class="label">Русский</span></button>
+          <button class="lang-item" onclick="setLang('en')"><span class="code">EN</span><span class="label">English</span></button>
+          <button class="lang-item" onclick="setLang('de')"><span class="code">DE</span><span class="label">Deutsch</span></button>
+          <button class="lang-item" onclick="setLang('ua')"><span class="code">UA</span><span class="label">Українська</span></button>
+        </div>
+      </div>
+      <div class="cta">
+        <button class="btn" onclick="window.location.href='/html/orders.html'" data-key="btn_login">Заказы</button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" style="display:none;">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="admin-container">
+      
+      <div class="admin-header restricted-manager">
+        <h2 class="admin-title">Управление товарами</h2>
+        <div style="display:flex;gap:10px;">
+            <button class="btn-add" onclick="openModal()">+ Добавить товар</button>
+        </div>
+      </div>
+      
+      <table class="products-table restricted-manager">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Фото</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Старая цена</th>
+            <th>Распродажа</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody id="productsList">
+          <!-- Products will be injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Добавить товар</h3>
+          <button class="close-modal" onclick="closeModal()">×</button>
+        </div>
+        <form id="productForm">
+          <input type="hidden" id="p_id">
+          <div class="form-group">
+            <label>Название</label>
+            <input type="text" id="p_title" required>
+          </div>
+          <div class="form-group">
+            <label>Цена</label>
+            <input type="text" id="p_price" required>
+          </div>
+          <div class="form-group">
+            <label>Старая цена</label>
+            <input type="text" id="p_old_price">
+          </div>
+          <div class="form-group">
+            <label>Описание</label>
+            <textarea id="p_description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Изображения</label>
+            <button type="button" class="btn-submit" style="background: #007bff;" onclick="openImageManager()">Редактировать изображения</button>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="p_is_sale"> Распродажа
+            </label>
+          </div>
+          <button type="submit" class="btn-submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Image Manager Modal -->
+    <div id="imageManagerModal" class="modal">
+      <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+          <h3 class="modal-title">Управление изображениями</h3>
+          <button class="close-modal" onclick="closeImageManager()">×</button>
+        </div>
+        <div class="form-group">
+          <label>Загрузить новые фото</label>
+          <input type="file" id="imageUpload" multiple accept="image/*" onchange="handleImageUpload(event)" style="display: none;">
+          <button type="button" class="btn-submit" style="background: #28a745; margin-bottom: 15px;" onclick="document.getElementById('imageUpload').click()">+ Выбрать файлы</button>
+        </div>
+        <div id="imageManagerGrid" class="img-manager-grid">
+          <!-- Images will be injected here -->
+        </div>
+        <p style="font-size: 12px; color: #666; text-align: center;">Зажмите фото на 0.5 сек, чтобы переместить (Drag & Drop)</p>
+        <button type="button" class="btn-submit" onclick="closeImageManager()">Готово</button>
+      </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="previewModal" class="preview-modal" onclick="closePreview()">
+      <div class="preview-content">
+        <button class="close-preview">×</button>
+        <img id="previewImg" class="preview-img" src="" alt="Preview">
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById('productModal');
+      const form = document.getElementById('productForm');
+      const tbody = document.getElementById('productsList');
+      let isEditing = false;
+      let currentImages = [];
+
+      // Image Manager Logic
+      function openImageManager() {
+        document.getElementById('imageManagerModal').style.display = 'flex';
+        renderImageManager();
+      }
+
+      function closeImageManager() {
+        document.getElementById('imageManagerModal').style.display = 'none';
+      }
+
+      function renderImageManager() {
+        const grid = document.getElementById('imageManagerGrid');
+        if(!currentImages.length) {
+          grid.innerHTML = '<p style="text-align:center;color:#888;">Нет изображений. Добавьте первое (главное) фото.</p>';
+          return;
+        }
+
+        const mainImg = currentImages[0];
+        const others = currentImages.slice(1);
+
+        let html = `
+          <div style="width:100%;grid-column:1/-1;margin-bottom:10px;">
+            <h4 style="margin:0 0 5px 0;font-size:14px;">Главное фото (отображается на карточке)</h4>
+            <div class="img-manager-grid" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">
+                <div class="img-item" style="border:2px solid #007bff;" 
+                     draggable="true" 
+                     onmousedown="startDrag(event, 0)"
+                     ontouchstart="startDrag(event, 0)"
+                     onclick="openPreview('${mainImg}')">
+                  <img src="${mainImg}" alt="Product image">
+                  <div class="img-remove" onclick="event.stopPropagation(); removeImage(0)">×</div>
+                </div>
+            </div>
+          </div>
+          <div style="width:100%;grid-column:1/-1;border-top:1px solid #eee;padding-top:10px;margin-bottom:10px;">
+            <h4 style="margin:0 0 5px 0;font-size:14px;">Галерея</h4>
+            <div class="img-manager-grid">
+              ${others.map((url, idx) => `
+                <div class="img-item" 
+                     draggable="true" 
+                     onmousedown="startDrag(event, ${idx + 1})"
+                     ontouchstart="startDrag(event, ${idx + 1})"
+                     onclick="openPreview('${url}')">
+                  <img src="${url}" alt="Product image">
+                  <div class="img-remove" onclick="event.stopPropagation(); removeImage(${idx + 1})">×</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        grid.innerHTML = html;
+      }
+
+      async function handleImageUpload(event) {
+        const files = Array.from(event.target.files);
+        if (!files.length) return;
+
+        const token = localStorage.getItem('token');
+
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append('image', file);
+          
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Authorization': 'Bearer ' + token },
+              body: formData
+            });
+            if(res.ok) {
+              const data = await res.json();
+              if(data.url) { // Corrected: expect single url
+                 currentImages.push(data.url);
+              }
+            } else {
+               alert('Ошибка загрузки: ' + file.name);
+            }
+          } catch (e) {
+            alert('Ошибка сети: ' + file.name);
+          }
+        }
+        renderImageManager();
+        event.target.value = ''; // Reset input
+      }
+
+      function removeImage(index) {
+        currentImages.splice(index, 1);
+        renderImageManager();
+      }
+
+      function openPreview(url) {
+        document.getElementById('previewImg').src = url;
+        document.getElementById('previewModal').style.display = 'flex';
+      }
+
+      function closePreview() {
+        document.getElementById('previewModal').style.display = 'none';
+      }
+
+      // Drag & Drop Logic (Native HTML5)
+      let draggedItem = null;
+
+      // Handle drag start
+      window.handleDragStart = (e) => {
+        draggedItem = e.target.closest('.img-item');
+        e.dataTransfer.effectAllowed = 'move';
+        // Set data to ensure drag works in some browsers
+        e.dataTransfer.setData('text/plain', '');
+        setTimeout(() => {
+          draggedItem.classList.add('dragging');
+        }, 0);
+      };
+
+      // Handle drag over (reordering)
+      window.handleDragOver = (e) => {
+        e.preventDefault(); // Necessary to allow dropping
+        const container = e.currentTarget;
+        const afterElement = getDragAfterElement(container, e.clientX, e.clientY);
+        
+        if (draggedItem && container.contains(draggedItem) || (draggedItem && container.classList.contains('img-manager-grid'))) {
+           // Allow moving within or between compatible grids if needed.
+           // For now, simpler to allow moving anywhere inside the drop zones we defined.
+           if (afterElement == null) {
+             container.appendChild(draggedItem);
+           } else {
+             container.insertBefore(draggedItem, afterElement);
+           }
+        }
+      };
+
+      // Handle drag end (cleanup and update model)
+      window.handleDragEnd = (e) => {
+        if (draggedItem) {
+           draggedItem.classList.remove('dragging');
+           draggedItem = null;
+           // Update array based on new DOM order
+           updateImagesFromDOM();
+        }
+      };
+      
+      // Prevent click if it was a drag
+      window.handleClick = (url) => {
+         // If we just finished a drag, this click might fire. 
+         // But usually native DnD prevents click on drag end.
+         // If needed, we can track state.
+         openPreview(url);
+      }
+
+      function updateImagesFromDOM() {
+        // Collect all images from both grids in order
+        const allItems = document.querySelectorAll('.img-item img');
+        const newImages = Array.from(allItems).map(img => img.src);
+        // Sometimes src might be full URL, ensure consistency if needed, but often src property is fine
+        // If we need relative path, we might need to parse. But let's assume src is okay or we used data-src.
+        // Actually, src property is full URL. If our API expects relative, we might need to adjust.
+        // But our render uses urls which seem to come from server as '/uploads/...'.
+        // Let's use getAttribute('src') if possible or cleaner way.
+        
+        currentImages = Array.from(allItems).map(img => img.getAttribute('src'));
+        
+        // We shouldn't re-render immediately as it might kill the transition or drag state if called prematurely.
+        // But since this is dragEnd, it is safe.
+        // Optional: Call renderImageManager to normalize (e.g. if moved from gallery to main)
+        renderImageManager();
+      }
+
+      function getDragAfterElement(container, x, y) {
+        const draggableElements = [...container.querySelectorAll('.img-item:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offsetX = x - box.left - box.width / 2;
+          const offsetY = y - box.top - box.height / 2;
+          // Simple distance check
+          const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
+          
+          // Or just checking X distance for grid flow
+          // For a grid, 2D distance is better.
+          if (distance < closest.offset) {
+            return { offset: distance, element: child };
+          } else {
+            return closest;
+          }
+        }, { offset: Number.POSITIVE_INFINITY }).element;
+      }
+      
+      // Override renderImageManager from previous step to attach new events
+      function renderImageManager() {
+        const grid = document.getElementById('imageManagerGrid');
+        if(!currentImages.length) {
+          grid.innerHTML = '<p style="text-align:center;color:#888;">Нет изображений. Добавьте первое (главное) фото.</p>';
+          return;
+        }
+
+        const mainImg = currentImages[0];
+        const others = currentImages.slice(1);
+
+        let html = `
+          <div style="width:100%;grid-column:1/-1;margin-bottom:10px;">
+            <h4 style="margin:0 0 5px 0;font-size:14px;">Главное фото (отображается на карточке)</h4>
+            <div class="img-manager-grid" 
+                 ondragover="handleDragOver(event)" 
+                 ondrop="handleDragEnd(event)">
+                <div class="img-item" style="border:2px solid #007bff;" 
+                     draggable="true" 
+                     ondragstart="handleDragStart(event)"
+                     ondragend="handleDragEnd(event)"
+                     onclick="handleClick('${mainImg}')">
+                  <img src="${mainImg}" alt="Product image">
+                  <div class="img-remove" onclick="event.stopPropagation(); removeImage(0)">×</div>
+                </div>
+            </div>
+          </div>
+          <div style="width:100%;grid-column:1/-1;border-top:1px solid #eee;padding-top:10px;margin-bottom:10px;">
+            <h4 style="margin:0 0 5px 0;font-size:14px;">Галерея</h4>
+            <div class="img-manager-grid"
+                 ondragover="handleDragOver(event)" 
+                 ondrop="handleDragEnd(event)">
+              ${others.map((url, idx) => `
+                <div class="img-item" 
+                     draggable="true" 
+                     ondragstart="handleDragStart(event)"
+                     ondragend="handleDragEnd(event)"
+                     onclick="handleClick('${url}')">
+                  <img src="${url}" alt="Product image">
+                  <div class="img-remove" onclick="event.stopPropagation(); removeImage(${idx + 1})">×</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        grid.innerHTML = html;
+      }
+
+      // Auth Check
+      async function checkAdmin() {
+        const token = localStorage.getItem('token');
+        const headers = {};
+        if(token) headers['Authorization'] = 'Bearer ' + token;
+        
+        try {
+          const res = await fetch('/api/auth/me', { credentials: 'include', headers });
+          if(!res.ok) throw new Error('Auth failed');
+          const data = await res.json();
+          if(data.user.role !== 'admin') {
+            alert('Доступ запрещен');
+            window.location.href = '/html/profile.html';
+          }
+          loadProducts();
+        } catch(e) {
+          window.location.href = '/html/login.html';
+        }
+      }
+
+      async function loadProducts() {
+        try {
+          const res = await fetch('/api/products');
+          const products = await res.json();
+          renderProducts(products);
+        } catch(e) {
+          console.error('Error loading products:', e);
+        }
+      }
+
+      function renderProducts(products) {
+        tbody.innerHTML = products.map(p => {
+          const img = (p.images && p.images.length > 0) ? p.images[0] : '/icon/default-product.png';
+          return `
+          <tr>
+            <td>${p.id}</td>
+            <td><img src="${img}" class="product-img-thumb"></td>
+            <td>${p.title}</td>
+            <td>${p.price}</td>
+            <td>${p.old_price || '-'}</td>
+            <td>${p.is_sale ? 'Да' : 'Нет'}</td>
+            <td class="actions">
+              <button class="btn-edit" onclick="editProduct(${p.id})">Edit</button>
+              <button class="btn-delete" onclick="deleteProduct(${p.id})">Delete</button>
+            </td>
+          </tr>
+        `}).join('');
+      }
+
+      window.openModal = () => {
+        isEditing = false;
+        document.getElementById('modalTitle').textContent = 'Добавить товар';
+        form.reset();
+        document.getElementById('p_id').value = '';
+        currentImages = [];
+        modal.style.display = 'flex';
+      };
+
+      window.closeModal = () => {
+        modal.style.display = 'none';
+      };
+
+      window.editProduct = async (id) => {
+        try {
+          const res = await fetch(`/api/products/${id}`);
+          const p = await res.json();
+          
+          isEditing = true;
+          document.getElementById('modalTitle').textContent = 'Редактировать товар';
+          document.getElementById('p_id').value = p.id;
+          document.getElementById('p_title').value = p.title;
+          document.getElementById('p_price').value = p.price;
+          document.getElementById('p_old_price').value = p.old_price || '';
+          document.getElementById('p_description').value = p.description || '';
+          
+          currentImages = p.images || [];
+          
+          document.getElementById('p_is_sale').checked = !!p.is_sale;
+          
+          modal.style.display = 'flex';
+        } catch(e) {
+          alert('Ошибка загрузки товара');
+        }
+      };
+
+      window.deleteProduct = async (id) => {
+        if(!confirm('Вы уверены?')) return;
+        const token = localStorage.getItem('token');
+        try {
+          const res = await fetch(`/api/products/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if(res.ok) loadProducts();
+          else alert('Ошибка удаления');
+        } catch(e) {
+          alert('Ошибка сети');
+        }
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        const id = document.getElementById('p_id').value;
+        
+        const data = {
+          title: document.getElementById('p_title').value,
+          price: document.getElementById('p_price').value,
+          old_price: document.getElementById('p_old_price').value,
+          description: document.getElementById('p_description').value,
+          images: currentImages,
+          is_sale: document.getElementById('p_is_sale').checked
+        };
+
+        try {
+          const url = isEditing ? `/api/products/${id}` : '/api/products';
+          const method = isEditing ? 'PUT' : 'POST';
+          
+          const res = await fetch(url, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(data)
+          });
+
+          if(res.ok) {
+            closeModal();
+            loadProducts();
+          } else {
+            alert('Ошибка сохранения');
+          }
+        } catch(e) {
+          alert('Ошибка сети');
+        }
+      });
+
+      // Close modal on outside click
+      window.onclick = (e) => {
+        if (e.target === modal) closeModal();
+      };
+
+      checkAdmin();
+    </script>
+  </body>
+</html>

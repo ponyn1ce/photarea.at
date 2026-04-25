@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#a4c8e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Photarea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="/js/lang.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/cookie-consent.js"></script>
+    <script src="/js/auth.js"></script>
+    
+    <style>
+             :root{
+        --nav-bg: rgba(255,255,255,0.45);
+        --nav-border: rgba(255,255,255,0.7);
+        --accent-text: #0f2b3c;
+        --link-muted: #6b8797;
+        --button-bg: #111111;
+        /* palette sampled from provided hero image */
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
+      html,body{height:100%;}
+      body{
+        margin:0;
+        font-family: 'Tan Nimbus', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helverica World', Arial;
+        background-color: var(--bg3);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-start;
+        min-height:100vh;
+        padding:0 20px; /* remove vertical padding to avoid extra scroll */
+        overflow-x:hidden;
+        position: relative;
+      }
+
+      body::before{
+        content:"";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .panel{
+        width: fit-content;
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: .3px solid var(--nav-border);
+        border-radius: 60px;
+        padding: 10px 20px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:nowrap;
+        gap:14px;
+        box-shadow: 0 5px 22px rgba(19,55,85,0.06);
+        backdrop-filter: blur(8px) saturate(110%);
+        position: fixed;
+        top: 21px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+      }
+
+      .panel:before{
+        content:"";
+        position:absolute;
+        inset:1px;
+        border-radius:60px;
+        pointer-events:none;
+        /* симметричный внутренний блеск для эффекта прозрачности */
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -8px 18px rgba(12,35,50,0.03);
+      }
+
+       /* сдвинем логотип на ~10px влево относительно предыдущего положения */
+      .logo{display:flex;align-items:center;gap:6px;flex:0 0 auto;text-decoration:none}
+      .logo svg{width:26px;height:26px}
+      .brand{color:var(--accent-text);font-weight:700;font-size:19px;letter-spacing:-0.01em;text-decoration:none;}
+
+      /* вернуть горизонтальное расположение и центрировать меню */
+      nav{flex:0 0 auto;display:flex;justify-content:center;}
+      .nav-links{display:flex;align-items:center;gap:14px;}
+      .nav-links a{color:var(--link-muted);text-decoration:none;font-weight:600;font-size:14px;display:flex;flex-direction:column;align-items:center;gap:4px}
+      .nav-links a:hover{color:var(--accent-text)}
+      .nav-icon{display:none;width:20px;height:20px;object-fit: contain;}
+      .nav-links a:hover .nav-icon{opacity: 0.8;}
+
+
+      /* language trigger styling */
+      .lang{position:relative;display:flex;align-items:center;margin: 0;}
+      .lang-toggle{background:none;border:none;color:var(--link-muted);font-weight:600;font-size:14px;cursor:pointer;padding:6px 4px;display:flex;align-items:center;gap:8px}
+      .lang-toggle:hover{color:var(--accent-text)}
+      /* center dropdown under the toggle; increased width to fit labels when shown in toggle */
+      .lang-menu{position:absolute;top:calc(100% + 17px);left:50%;transform:translateX(-50%);min-width:130px;
+        /* полупрозрачный фон с блюром */
+        background: rgba(255,255,255,0.32);
+        backdrop-filter: blur(8px) saturate(110%);
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.6);
+        box-shadow:0 6px 18px rgba(12,35,50,0.06);
+        /* уменьшил боковые отступы меню примерно в 2 раза */
+        padding:6px 2px;display:none;flex-direction:column;z-index:3}
+      .lang-menu.open{display:flex}
+      /* компактные боковые отступы у пунктов: ~5-10px слева/справа */
+      .lang-item{background:transparent;border:none;padding:8px 6px;text-align:center;cursor:pointer;font-weight:450;color:var(--accent-text);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px}
+      .lang-item .code{font-weight:700;color:var(--accent-text);min-width:auto;text-align:center}
+      .lang-item .label{color:var(--link-muted);font-weight:450;text-align:center}
+      .lang-item:hover{background:rgba(255,255,255,0.14)}
+      .lang-item.selected{background:rgba(0,0,0,0.06)}
+
+      /* сдвинем кнопку на ~10px вправо и увеличим радиус */
+      .cta{flex:0 0 auto;}
+      .cta .btn{
+        background: var(--button-bg);
+        color:#fff;
+        padding:10px 30px;
+        border-radius:34px; /* увеличено примерно в 2 раза */
+        border: none;
+        font-weight:600;
+        font-size:14px;
+        box-shadow: 0 6px 14px rgba(17,17,17,0.14), inset 0 -2px 4px rgba(255,255,255,0.03);
+        cursor: pointer;
+      }
+      .cta .btn:active{transform:translateY(1px)}
+
+            .hero-cta .btn{
+        background:var(--button-bg);
+        color:#fff;
+        padding:14px 48px;
+        border-radius:45px;
+        border:0;
+        font-weight:700;
+        font-size:15px;
+        box-shadow:0 8px 20px rgba(17,17,17,0.16);
+      }
+    
+
+      /* Responsive spacing adjustments */
+      @media (max-width:1200px){
+        .panel{width: fit-content; max-width: 95%; padding: 8px 15px; border-radius: 40px; gap: 12px;}
+        .panel:before{border-radius: 40px;}
+        .brand{display:none;}
+        .nav-links{gap: 12px;}
+        .nav-links a span{font-size: 10px;}
+        .cta .btn{padding: 8px 15px; font-size: 12px;}
+      }
+
+      @media (max-width:720px){
+        .panel{padding:11px 20px; gap: 15px; width: 90%; min-width: auto; max-width: 70%; top: 15px; border-radius: 50px;}
+        .panel:before{border-radius: 50px;}
+        .brand{display:none;}
+        .nav-links{gap: 15px}
+        .nav-links a span{display:none;}
+        .nav-icon{display:block; width: 28px; height: 28px;}
+        .lang{margin: 0;}
+        .lang-toggle{font-size: 18px;}
+        .cta{display:none;}
+      }
+
+      @keyframes mascotFloat{
+        0%{transform:translate(-50%,-50%) translateY(0)}
+        50%{transform:translate(-50%,-50%) translateY(-30px)}
+        100%{transform:translate(-50%,-50%) translateY(0)}
+      }
+
+      
+      /* FAQ styles */
+
+      .faq-section{
+        width: min(1000px, 88%);
+        /* фиксируем FAQ по центру экрана */
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 5px 18px; /* rows gap 5px, columns gap 18px */
+        align-items: start; /* prevent row items from stretching to same height */
+        font-family: inherit;
+        margin: 0;
+        z-index: 20;
+      }
+
+      .faq-panel{width:100%; display:flex; flex-direction:column; align-self:start}
+
+      /* move left/right columns outward by 8px (visual shift) */
+      .faq-panel:nth-child(odd){ transform: translateX(-8px); }
+      .faq-panel:nth-child(even){ transform: translateX(8px); }
+
+      @media (max-width:720px){
+        .faq-panel:nth-child(odd), .faq-panel:nth-child(even){ transform: none; }
+      }
+
+      @media (max-width:920px){
+        .faq-section{grid-template-columns: repeat(2, 1fr); width:94%;}
+      }
+
+      @media (max-width:720px){
+        /* Mobile: stack panels in a single column */
+        .faq-section{grid-template-columns:1fr;width:94%;padding:0 10px;box-sizing:border-box}
+        .faq-panel{transform:none;padding:12px;min-width:0;box-sizing:border-box}
+        .faq-body p{font-size:16px;line-height:1.5;word-break:break-word;overflow-wrap:break-word}
+      }
+
+      @media (max-width:700px){
+        /* Mobile: let FAQ flow normally so social links move down on expand */
+        .faq-section{position:relative;left:auto;top:auto;transform:none;max-height:none;overflow:visible;margin:120px auto 0;width:94%;}
+      }
+
+      .faq-panel{
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
+        border: .3px solid var(--nav-border);
+        border-radius: 22px;
+        padding: 6px 8px;
+        box-shadow: 0 5px 22px rgba(19,55,85,0.06);
+        backdrop-filter: blur(8px) saturate(110%);
+        overflow: visible;
+      }
+
+      .faq-header{
+        cursor: pointer;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding:10px 14px;
+        font-weight:700;
+        color:var(--accent-text);
+        user-select:none;
+      }
+
+      .faq-body{
+        overflow:hidden;
+        max-height:0;
+        transition: max-height 320ms cubic-bezier(.2,.9,.3,1), padding 260ms ease, opacity 260ms ease;
+        padding:0 14px;
+        opacity:0;
+      }
+
+      .faq-body.open{ /* open state */
+        opacity:1;
+        padding:12px 14px 18px 14px;
+      }
+
+      .faq-body p{
+        text-indent:1.2em; /* "красная строка" — отступ первой строки */
+        margin:0 0 1em 0; /* одна строка пропуска между абзацами */
+        line-height:1.6;
+        color: #0b1220;
+      }
+
+      .faq-body p::first-line{ /* первая строка: наследует основной цвет (красный удалён) */
+        color: inherit;
+      }
+
+      .faq-toggle-indicator{
+        width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(0,0,0,0.04);font-weight:700;color:var(--accent-text)
+      }
+
+
+
+          .social-links {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        display: flex;
+        gap: 0.6rem;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0 30px 0;
+        margin-top: auto;
+        z-index: 10;
+      }
+
+      .social-links a {
+        display:inline-flex;
+        justify-content:center;
+        align-items:center;
+        margin: 0 0.4rem;
+        width: 3.2rem;
+        height: 3.2rem;
+        line-height: 1;
+        background-color: #000000;
+        text-decoration: none;
+        border-radius: 50%;
+        color: #ffffff;
+        font-size: 1.6rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: transform .12s ease, background-color .12s ease, color .12s ease;
+        cursor: pointer;
+      }
+
+      .social-links a:hover{
+        transform: translateY(-3px);
+        background-color: var(--main-clr, #ffffff);
+        color: #000000;
+        box-shadow: 0 6px 18px rgba(11,24,40,0.14);
+      }
+
+      @media (max-width:700px){
+        .social-links{bottom:auto;gap:0.45rem; padding: 30px 0 20px 0; margin-top: auto;}
+        .social-links a{width:3rem;height:3rem;font-size:2rem}
+      }
+
+    </style>
+  </head>
+  <body>
+    <header class="panel" role="banner" aria-label="Photarea navigation">
+      <a class="logo" href="../index.html" aria-label="Photarea home">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
+          <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div class="brand">Photarea</div>
+      </a>
+      
+        <!-- inline language trigger (looks like normal text) -->
+        <div class="lang" aria-hidden="false">
+          <button class="lang-toggle" aria-haspopup="true" aria-expanded="false" title="Select language">RU</button>
+          <div class="lang-menu" role="menu" aria-label="Language menu">
+            <button class="lang-item selected" role="menuitem" data-lang="EN" data-label="English"><span class="code">EN</span><span class="label">English</span></button>
+            <button class="lang-item" role="menuitem" data-lang="DE" data-label="Deutsch"><span class="code">DE</span><span class="label">Deutsch</span></button>
+            <button class="lang-item" role="menuitem" data-lang="RU" data-label="Русский"><span class="code">RU</span><span class="label">Русский</span></button>
+            <button class="lang-item" role="menuitem" data-lang="UA" data-label="Українська"><span class="code">UA</span><span class="label">Українська</span></button>
+          </div>
+        </div>
+
+      <nav>
+        <div class="nav-links">
+            <a href="/html/profile.html">
+              <img src="/icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
+              <span data-i18n="nav_profile">Profile</span>
+            </a>
+            <a href="/html/faq.html">
+              <img src="/icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
+              <span data-i18n="nav_faq">FAQ</span>
+            </a>
+            <a href="/html/product.html">
+              <img src="/icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
+              <span data-i18n="nav_products">products</span>
+            </a>
+            <a href="/html/support.html">
+              <img src="/icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
+              <span data-i18n="nav_contact">Contact</span>
+            </a>
+        </div>
+      </nav>
+
+      <div class="cta">
+          <button class="btn" data-i18n="top_cta" onclick="window.location.href='/html/album-guide.html'">Tap to create</button>
+      </div>
+
+        
+
+
+
+
+      <script>
+        (function(){
+          const toggle = document.querySelector('.lang-toggle');
+          const menu = document.querySelector('.lang-menu');
+          const items = Array.from(document.querySelectorAll('.lang-item'));
+          if(!toggle || !menu) return;
+          function close(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+          function open(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+
+          // initialize toggle text from selected item
+          const current = items.find(i=> i.classList.contains('selected')) || items[0];
+          if(current){
+            const code = current.dataset.lang || current.textContent.trim();
+            // show only code in the top toggle
+            toggle.textContent = code;
+          }
+
+          toggle.addEventListener('click', (e)=>{
+            const isOpen = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+          });
+
+          items.forEach(i=> i.addEventListener('click', (e)=>{
+            const lang = i.dataset.lang || i.textContent.trim();
+            // update toggle to show code only
+            toggle.textContent = lang;
+            // mark selected
+            items.forEach(x=> x.classList.remove('selected'));
+            i.classList.add('selected');
+            close();
+            // Apply language change
+            if(window.setSiteLanguage) window.setSiteLanguage(lang);
+          }));
+
+          document.addEventListener('click', (e)=>{
+            if(!menu.contains(e.target) && !toggle.contains(e.target)) close();
+          });
+          document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+        })();
+      </script>
+
+      <script>
+        // Robust logo navigation: try several candidate paths and pick the one that exists (helps with different dev server roots)
+        (function(){
+          const logo = document.querySelector('.logo');
+          if(!logo) return;
+
+          async function tryPaths(paths){
+            for(const p of paths){
+              try{
+                const res = await fetch(p, {method: 'GET', cache: 'no-store'});
+                if(res && res.ok) return p;
+              }catch(e){
+                // ignore network errors
+              }
+            }
+            return null;
+          }
+
+          logo.addEventListener('click', async function(e){
+            // allow normal ctrl/cmd click or middle-click to open in new tab
+            if(e.metaKey || e.ctrlKey || e.button === 1) return;
+            e.preventDefault();
+
+            const href = logo.getAttribute('href');
+            const candidates = [];
+            if(href) candidates.push(href);
+            // common fallbacks
+            candidates.push('../index.html');
+            candidates.push('/index.html');
+            candidates.push('/photarea/index.html');
+
+            const found = await tryPaths(candidates);
+            if(found){
+              window.location.href = found;
+            } else {
+              // fallback: go to parent-relative path and let the server show its 404 if still missing
+              console.warn('Home page not found on known paths, navigating to parent index by default');
+              window.location.href = '../index.html';
+            }
+          });
+        })();
+      </script>
+    </header>
+
+    <!-- FAQ section: panels styled like the top panel, rounded transparent background -->
+    <main class="faq-section" aria-label="FAQ">
+      <section class="faq-panel" aria-labelledby="faq1">
+        <div class="faq-header" id="faq1" role="button" aria-controls="faq1-desc" aria-expanded="false">
+          <span data-i18n="faq_q1_title">Как оформить заказ?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq1-desc" aria-hidden="true">
+          <p data-i18n="faq_q1_p1">Вы выбираете желаемый формат фотокниги и отправляете нам фотографии. Далее менеджер связывается с вами лично, уточняет детали, настроение, пожелания и помогает сформировать концепцию. После согласования дизайнер создаёт индивидуальный макет, отражающий вашу историю и стиль. Мы согласуем каждую деталь, чтобы итоговая фотокнига выглядела именно так, как вы представляете.</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq2">
+        <div class="faq-header" id="faq2" role="button" aria-controls="faq2-desc" aria-expanded="false">
+          <span data-i18n="faq_q2_title">Сколько времени занимает создание фотокниги?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq2-desc" aria-hidden="true">
+          <p data-i18n="faq_q2_p1">Вы можете создать свою индивидуальную фотокнигу, обсудив все детали с менеджером всего за 10 минут. Уже на следующий день мы отправим вам первый вариант макета для согласования.</p>
+          <p data-i18n="faq_q2_p2">Дальнейшие сроки зависят от сложности дизайна и ваших пожеланий — иногда процесс немного удлиняется, если требуется дополнительная проработка деталей.</p>
+          <p data-i18n="faq_q2_p3">После утверждения макета мы переходим к печати. Время доставки зависит от объёма фотокниги и сложности дизайна (зачастую процесс занимает максимум 14 дней).</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq3">
+        <div class="faq-header" id="faq3" role="button" aria-controls="faq3-desc" aria-expanded="false">
+          <span data-i18n="faq_q3_title">Для каких событий подходят фотокниги PHOTAREA?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq3-desc" aria-hidden="true">
+          <p data-i18n="faq_q3_p1">Фотокниги PHOTAREA подходят для самых разных моментов вашей жизни: путешествий, тёплых подарков для близких, сохранения семейных традиций, важных событий и периодов, которые хочется помнить.</p>
+          <p data-i18n="faq_q3_p2">Это могут быть воспоминания о путешествиях, любовные истори и история детства, годы взросления, семейные праздники и маленькие радости, которые создают вашу личную историю.</p>
+          <p data-i18n="faq_q3_p3">Мы превращаем ваши моменты в вечную память, которая всегда будет рядом — красиво оформленную, доступную в любой момент и созданную с душой. Это всё, что хочется сохранить, передать дальше и хранить как часть семьи.</p>
+        </div>
+      </section>
+
+            <section class="faq-panel" aria-labelledby="faq4">
+        <div class="faq-header" id="faq4" role="button" aria-controls="faq4-desc" aria-expanded="false">
+          <span data-i18n="faq_q4_title">Как связаться с нами?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq4-desc" aria-hidden="true">
+          <p data-i18n="faq_q4_p1">Просто напишите нам в удобный мессенджер или заполните форму на сайте — менеджер ответит вам лично, поможет с выбором формата, обсудит идеи и расскажет обо всех этапах.</p>
+        </div>
+      </section>
+
+            <section class="faq-panel" aria-labelledby="faq5">
+        <div class="faq-header" id="faq5" role="button" aria-controls="faq5-desc" aria-expanded="false">
+          <span data-i18n="faq_q5_title">Как происходит согласование макета?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq5-desc" aria-hidden="true">
+          <p data-i18n="faq_q5_p1">Мы подготавливаем предварительный вариант и отправляем вам. Вы вносите корректировки, если нужно, а мы дорабатываем макет до полного идеала. Только после вашего утверждения работа переходит в печать.</p>
+        </div>
+      </section>
+
+                  <section class="faq-panel" aria-labelledby="faq3">
+        <div class="faq-header" id="faq3" role="button" aria-controls="faq3-desc" aria-expanded="false">
+          <span>Где доступна доставка?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq3-desc" aria-hidden="true">
+          <p>На данный момент доставка осуществляется по Вене. Мы вручную и аккуратно передаём готовые фотокниги, чтобы они дошли до вас в идеальном состоянии.
+            В ближайшее время планируется расширение доставки по всей Австрии.</p>
+          
+        </div>
+      </section>
+    </main>
+      <div class="social-links">
+
+      <a href="https://t.me/Photareabot" target="_blank" class="fab fa-telegram"></a>
+      <a href="https://www.instagram.com/photarea.at/" target="_blank" class="fab fa-instagram"></a>
+      <a href="https://wa.me/+79267020012" target="_blank" class="fab fa-whatsapp"></a>
+
+
+    </div>
+    <script>
+      (function(){
+        // Accordion: only one panel open at a time; prevent row stretching issues
+        const headers = Array.from(document.querySelectorAll('.faq-header'));
+
+        function closeBody(body){
+          const panel = body.closest('.faq-panel');
+          const header = panel.querySelector('.faq-header');
+          const indicator = header.querySelector('.faq-toggle-indicator');
+          body.classList.remove('open');
+          body.style.maxHeight = '0px';
+          body.setAttribute('aria-hidden','true');
+          header.setAttribute('aria-expanded','false');
+          if(indicator) indicator.textContent = '+';
+        }
+
+        headers.forEach(h=>{
+          h.addEventListener('click', ()=>{
+            const panel = h.closest('.faq-panel');
+            const body = panel.querySelector('.faq-body');
+            const indicator = h.querySelector('.faq-toggle-indicator');
+            const isCurrentlyOpen = body.classList.contains('open');
+
+            if(!isCurrentlyOpen){
+              // close all others
+              document.querySelectorAll('.faq-body.open').forEach(b=>{
+                if(b !== body) closeBody(b);
+              });
+              // open this one
+              body.classList.add('open');
+              body.style.maxHeight = body.scrollHeight + 'px';
+              body.setAttribute('aria-hidden','false');
+              h.setAttribute('aria-expanded','true');
+              if(indicator) indicator.textContent = '−';
+
+              // on small screens, scroll the opened panel into view inside the FAQ container
+              const container = document.querySelector('.faq-section');
+              if(window.innerWidth <= 720 && container){
+                // wait for height transition to apply, then scroll smoothly so the expanded content is visible
+                setTimeout(()=>{
+                  try{ container.scrollTo({ top: Math.max(0, panel.offsetTop - 8), behavior: 'smooth' }); }catch(e){}
+                }, 260);
+              }
+            } else {
+              closeBody(body);
+            }
+          });
+          // keyboard interaction
+          h.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h.click(); } });
+        });
+      })();
+    </script>
+  </body>
+</html>
