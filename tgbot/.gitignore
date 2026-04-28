@@ -1,0 +1,30 @@
+# Зависимости
+node_modules/
+package-lock.json
+yarn.lock
+
+# Переменные окружения
+.env
+
+# База данных
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-journal
+
+# Логи
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

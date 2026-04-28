@@ -1,0 +1,30 @@
+/**
+ * Стили для адаптивного фона под тему устройства
+ * Используется вместе со скриптом dynamic-bg-theme.js
+ * 
+ * Добавьте в <head> или вместе со скриптом:
+ * <link rel="stylesheet" href="/css/dynamic-bg-theme.css">
+ * <script src="/js/dynamic-bg-theme.js"></script>
+ */
+
+body {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  transition: background-image 0.3s ease-in-out;
+}
+
+/* По умолчанию светлая тема */
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #f5f5f5;
+  }
+}
+
+/* Тёмная тема */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+  }
+}
