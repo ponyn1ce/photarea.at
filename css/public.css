@@ -1,0 +1,11 @@
+      :root{
+        --nav-bg: rgba(255,255,255,0.45);
+        --nav-border: rgba(255,255,255,0.7);
+        --accent-text: #0f2b3c;
+        --link-muted: #6b8797;
+        --button-bg: #111111;
+        /* palette sampled from provided hero image */
+        --bg1: #a4c8e9;
+        --bg2: #eaf2f7;
+        --bg3: #ffdcb8;
+      }
