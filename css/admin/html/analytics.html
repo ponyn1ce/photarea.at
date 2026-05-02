@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=orders" />
+    <link rel="stylesheet" href="../css/analytics.css">
+    <link rel="stylesheet" href="../css/profile-menu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Analytics</title>
+</head>
+<body>
+<div class="container">
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="var(--color-dark)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--color-dark)" />
+                    <path d="M2 17L12 22L22 17" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2 class="text-muted">Photarea</h2>
+            </div>
+
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+
+        <div class="sidebar">
+
+            <a href="../index.html">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3 data-i18n="dashboard" >Dashboard</h3>
+            </a>
+
+            <a href="./customers.html">
+                <span class="material-icons-sharp">person_outline</span>
+                <h3 data-i18n="customers">Customers</h3>
+            </a>
+
+            <a href="./orders.html">
+                <span class="material-icons-sharp">receipt_long</span>
+                <h3 data-i18n="orders">Orders</h3>
+            </a>
+
+            <a href="./analytics.html" class="active">
+                <span class="material-icons-sharp">insights</span>
+                <h3 data-i18n="analytics">Analytics</h3>
+            </a>
+
+            <a href="./messages.html">
+                <span class="material-icons-sharp">mail_outline</span>
+                <h3 data-i18n="messages">Messages</h3>
+                <span class="message-count"></span>
+            </a>
+
+            <a href="./products.html">
+                <span class="material-icons-sharp">inventory</span>
+                <h3 data-i18n="products">Products</h3>
+            </a>
+
+            <a href="./reports.html">
+                <span class="material-icons-sharp">report_gmailerrorred</span>
+                <h3 data-i18n="reports">Reports</h3>
+            </a>
+
+            <a href="./setting.html">
+                <span class="material-icons-sharp">settings</span>
+                <h3 data-i18n="settings">Setting</h3>
+            </a>
+
+            <a href="./add_produkt.html">
+                <span class="material-icons-sharp">add</span>
+                <h3 data-i18n="add_product">Add Product</h3>
+            </a>
+
+            <a href="./profile.html">
+                <span class="material-icons-sharp">logout</span>
+                <h3 data-i18n="logout">Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!--Main Section-->
+
+    <main>
+        <h1 data-i18n="analytics">Analytics</h1>
+
+        <div class="analytics">
+            <div class="analytics-left">
+                <div class="orders">
+                    <div class="orderscard">
+                        <div class="orderscard-top">
+                            <div class="icon">
+                                <span class="material-icons-sharp">shopping_cart</span>
+                            </div>
+                            <a href="./orders.html"><h2>see orders</h2> <span class="material-icons-sharp">arrow_forward</span></a>
+                        </div>
+                        <div class="middle">
+                            <h1 id="lastOrders">0</h1>
+                            <h3 data-i18n="last_7_days_orders">Last 7 Days Orders</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-right">
+                <div class="canceled">
+                    <div class="canceledcard">
+                        <div class="canceledcard-top">
+                            <div class="icon">
+                                <span class="material-icons-sharp">cancel</span>
+                            </div>
+                            <h1 class="start" id="lastOrders">0</h1>
+                            <a href="./orders.html"><h2>Canceled</h2> <span class="material-icons-sharp">arrow_forward</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivered">
+                    <div class="deliveredcard">
+                        <div class="deliveredcard-top">
+                            <div class="icon">
+                                <span class="material-icons-sharp">delivery_dining</span>
+                            </div>
+                            <h1 class="start" id="lastOrders">0</h1>
+                            <a href="./orders.html"><h2>Delivered</h2> <span class="material-icons-sharp">arrow_forward</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+        <div class="card chart-card">
+            <div class="card-header">
+                <h3>Orders Over Time</h3>
+                    <div class="date-filters">
+                        <input type="date" id="dateFromFilter" placeholder="From">
+                        <span class="date-separator">—</span>
+                        <input type="date" id="dateToFilter" placeholder="To">
+                        <button id="resetDateFilter" class="btn-reset">Reset</button>
+                    </div>
+            </div>
+
+            <canvas id="ordersChart"></canvas>
+        </div>
+
+        <div class="analytics-row">
+
+            <!-- 1. Funnel -->
+            <div class="cardvorona">
+                <h3>Conversion Funnel</h3>
+                <div id="funnel"></div>
+            </div>
+
+            <!-- 3. Order Aging (moved here) -->
+            <div class="cardvorona">
+                <h3>Order Aging</h3>
+                <div id="aging"></div>
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+
+
+
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="language-switcher">
+                <select name="" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active" >light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Chapman</b></p>
+                    <small class="text-muted" data-i18n="admin">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src="../img/photo_2026-03-04_16-17-17.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+
+		<div class="orders-country">
+			<h2 data-i18n="orders_country">Orders by Country</h2>
+
+			<div class="update">
+				<div class="orders-chart orders-chart-expandable">
+					<div id="ordersByCountry" class="orders-list-preview"></div>
+					
+					<!-- Expanded list (скрыта по умолчанию) -->
+					<div id="countriesModal" class="countries-expanded">
+						<div id="countriesListContent" class="countries-list"></div>
+					</div>
+					
+					<!-- Button container -->
+					<div class="expand-collapse-buttons">
+						<button class="expand-btn" data-modal-trigger="countries" aria-label="Show all countries">
+							<span data-i18n="show_all">Show All</span>
+							<span class="material-icons-sharp">expand_more</span>
+						</button>
+						<button class="collapse-btn" data-modal-close="countries" aria-label="Collapse" style="display: none;">
+							<span data-i18n="show_less">Show Less</span>
+							<span class="material-icons-sharp">expand_less</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        
+		<div class="ai-like-insights">
+			<h2 data-i18n="dropoff">Drop-off Analysis</h2>
+
+			<div id="aiHints">
+				<div class="ai-like">
+					<div id="dropoff"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+    
+    
+
+
+</div>
+<script src="../js/script.js"></script>
+<script src="../js/i18n.js"></script>
+<script type="module" src="../js/ordersController.js"></script>
+<script type="module" src="../js/chart.js"></script>
+<script src="../js/some.js"></script>
+<script src="../js/profileMenu.js"></script>
+</body>
+</html>

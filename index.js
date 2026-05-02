@@ -1,0 +1,173 @@
+        // Burger menu functionality - only for mobile
+        (function(){
+          const burger = document.getElementById('burgerMenu');
+          const burgerClose = document.getElementById('burgerClose');
+          const logo = document.querySelector('.logo');
+          
+          // Check user role and show admin button if needed
+          async function checkAdminAccess() {
+            const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+            if (!token) return;
+            
+            try {
+              const res = await fetch('/api/auth/me', { 
+                headers: { 'Authorization': 'Bearer ' + token },
+                credentials: 'include'
+              });
+              if (res.ok) {
+                const data = await res.json();
+                const u = data.user;
+                const uLevel = Number(u.role_level || 0);
+                
+                // Show admin button for admins and managers
+                if (u.role === 'admin' || u.role === 'manager' || uLevel >= 1) {
+                  const adminNav = document.getElementById('burgerAdminNav');
+                  if (adminNav) adminNav.style.display = 'flex';
+                }
+              }
+            } catch (e) {
+              console.log('Could not check admin access');
+            }
+          }
+          
+          checkAdminAccess();
+          
+          if(burger && logo && burgerClose) {
+            // Open burger menu on logo click (mobile only)
+            logo.addEventListener('click', function(e) {
+              if(window.innerWidth <= 720) {
+                e.preventDefault();
+                burger.classList.add('active');
+                document.body.style.overflow = 'hidden';
+              }
+            });
+            
+            // Close burger menu
+            burgerClose.addEventListener('click', function() {
+              burger.classList.remove('active');
+              document.body.style.overflow = '';
+            });
+            
+            // Close on outside click
+            burger.addEventListener('click', function(e) {
+              if(e.target === burger) {
+                burger.classList.remove('active');
+                document.body.style.overflow = '';
+              }
+            });
+            
+            // Handle burger language selection
+            const burgerLangItems = document.querySelectorAll('.burger-lang-item');
+            burgerLangItems.forEach(item => {
+              item.addEventListener('click', function() {
+                burgerLangItems.forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                const lang = this.dataset.lang;
+                
+                // Update main language toggle
+                const toggle = document.querySelector('.lang-toggle');
+                if(toggle) toggle.textContent = lang;
+                
+                // Update main language menu
+                const langItems = document.querySelectorAll('.lang-item');
+                langItems.forEach(i => {
+                  i.classList.remove('selected');
+                  if(i.dataset.lang === lang) {
+                    i.classList.add('selected');
+                  }
+                });
+                
+                // Apply language change
+                if(window.setSiteLanguage) window.setSiteLanguage(lang);
+              });
+            });
+          }
+        })();
+
+        function handleStartClick(){
+          const token = localStorage.getItem('auth_token');
+          if(token){
+            window.location.href = 'html/album-guide.html';
+          } else {
+            alert('Пожалуйста, войдите в аккаунт, чтобы продолжить.');
+            window.location.href = 'html/login.html';
+          }
+        }
+        (function(){
+          const toggle = document.querySelector('.lang-toggle');
+          const menu = document.querySelector('.lang-menu');
+          const items = Array.from(document.querySelectorAll('.lang-item'));
+          if(!toggle || !menu) return;
+          function close(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+          function open(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+
+          // initialize toggle text from selected item
+          const current = items.find(i=> i.classList.contains('selected')) || items[0];
+          if(current){
+            const code = current.dataset.lang || current.textContent.trim();
+            // show only code in the top toggle
+            toggle.textContent = code;
+          }
+
+          toggle.addEventListener('click', (e)=>{
+            const isOpen = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+          });
+
+          items.forEach(i=> i.addEventListener('click', (e)=>{
+            const lang = i.dataset.lang || i.textContent.trim();
+            // update toggle to show code only
+            toggle.textContent = lang;
+            // mark selected
+            items.forEach(x=> x.classList.remove('selected'));
+            i.classList.add('selected');
+            close();
+            // Apply language change
+            if(window.setSiteLanguage) window.setSiteLanguage(lang);
+          }));
+
+          document.addEventListener('click', (e)=>{
+            if(!menu.contains(e.target) && !toggle.contains(e.target)) close();
+          });
+          document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+        })();
+         
+        (function(){
+        async function updateStatus(){
+          const el = document.getElementById('authStatus');
+          if(!el) return;
+          const token = localStorage.getItem('auth_token');
+          if(!token){ el.textContent = 'входа не было'; return; }
+          try{
+            const res = await fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok){ el.textContent = 'вход подтвержден'; }
+            else{ localStorage.removeItem('auth_token'); el.textContent = 'входа не было'; }
+          }catch(e){ el.textContent = 'входа не было'; }
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateStatus);
+        else updateStatus();
+      })();
+
+      (function(){
+        const btn = document.getElementById('tapToCreate');
+        if(btn) {
+          btn.addEventListener('click', async () => {
+            // Always redirect to album guide first
+            window.location.href = 'html/album-guide.html';
+          });
+        }
+
+        async function updateStatus(){
+          const el = document.getElementById('authStatus');
+          if(!el) return;
+          const token = localStorage.getItem('auth_token');
+          if(!token){ el.textContent = 'входа не было'; return; }
+          try{
+            const res = await fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok){ el.textContent = 'вход подтвержден'; }
+            else{ localStorage.removeItem('auth_token'); el.textContent = 'входа не было'; }
+          }catch(e){ el.textContent = 'входа не было'; }
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateStatus);
+        else updateStatus();
+      })();

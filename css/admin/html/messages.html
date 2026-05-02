@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=orders" />
+    <link rel="stylesheet" href="../css/messages.css">
+    <link rel="stylesheet" href="../css/profile-menu.css">
+    <title>Messages</title>
+</head>
+<body>
+<div class="container">
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="var(--color-dark)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--color-dark)" />
+                    <path d="M2 17L12 22L22 17" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2 class="text-muted">Photarea</h2>
+            </div>
+
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+
+        <div class="sidebar">
+
+            <a href="/index.html">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3 data-i18n="dashboard">Dashboard</h3>
+            </a>
+
+            <a href="/html/customers.html">
+                <span class="material-icons-sharp">person_outline</span>
+                <h3 data-i18n="customers">Customers</h3>
+            </a>
+
+            <a href="/html/orders.html">
+                <span class="material-icons-sharp">receipt_long</span>
+                <h3 data-i18n="orders">Orders</h3>
+            </a>
+
+            <a href="/html/analytics.html">
+                <span class="material-icons-sharp">insights</span>
+                <h3 data-i18n="analytics">Analytics</h3>
+            </a>
+
+            <a href="/html/messages.html" class="active">
+                <span class="material-icons-sharp">mail_outline</span>
+                <h3 data-i18n="messages">Messages</h3>
+				<span class="message-count" id="messages">10</span>
+            </a>
+
+            <a href="/html/products.html">
+                <span class="material-icons-sharp">inventory</span>
+                <h3 data-i18n="products">Products</h3>
+                
+            </a>
+
+            <a href="/html/reports.html">
+                <span class="material-icons-sharp">report_gmailerrorred</span>
+                <h3 data-i18n="reports">Reports</h3>
+            </a>
+
+            <a href="/html/setting.html">
+                <span class="material-icons-sharp">settings</span>
+                <h3 data-i18n="settings">Setting</h3>
+            </a>
+
+            <a href="/html/add_produkt.html">
+                <span class="material-icons-sharp">add</span>
+                <h3 data-i18n="add_product">Add Product</h3>
+            </a>
+
+            <a href="/html/profile.html">
+                <span class="material-icons-sharp">logout</span>
+                <h3 data-i18n="logout">Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!--Main Section-->
+    <main>
+        <h1 data-i18n="messages">Messages</h1>
+
+        <div class="chat">
+
+
+            <div class="chat-wrapper">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message incoming">
+                        <div class="message-content">
+                            <p>Hello! How can I help you today?</p>
+                            <span class="time1">18:11 PM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <button class="attach-btn" id="attachBtn" title="Attach file">
+                        <span class="material-icons-sharp">attach_file</span>
+                    </button>
+                    <input type="file" id="fileInput" style="display: none;">
+                    <input type="text" id="messageInput" placeholder="Type a message..." data-i18n-placeholder="type_message">
+                    <button class="send-btn" id="sendBtn" title="Send">
+                        <span class="material-icons-sharp">send</span>
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </main>
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="language-switcher">
+                <select name="" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active" >light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Chapman</b></p>
+                    <small class="text-muted" data-i18n="admin">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src="../img/photo_2026-03-04_16-17-17.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar chat-sidebar">
+            <h2 data-i18n="your_chats" class="sidebar-title">Ваши чаты</h2>
+            <div class="chat-sidebar-card">
+                <div class="thread-list" id="threadList">
+                    <h2 class="loading-text" data-i18n="loading">Загрузка...</h2>
+                </div>
+                <div class="sidebar-footer">
+                    <button class="new-chat-btn-circle" id="openNewChatBtn" title="Новый чат">＋</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+<script src="../js/messages.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/profileMenu.js"></script>
+</div>
+</body>
+</html>

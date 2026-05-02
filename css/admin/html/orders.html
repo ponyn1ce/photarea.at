@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=orders" />
+    <link rel="stylesheet" href="../css/orders.css">
+
+    <title>Orders</title>
+</head>
+<body>    
+<div class="container">
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="var(--color-dark)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--color-dark)" />
+                    <path d="M2 17L12 22L22 17" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2 class="text-muted">Photarea</h2>
+            </div>
+
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+
+        <div class="sidebar">
+            <a href="../index.html">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3 data-i18n="dashboard" >Dashboard</h3>
+            </a>
+
+            <a href="./customers.html">
+                <span class="material-icons-sharp">person_outline</span>
+                <h3 data-i18n="customers">Customers</h3>
+            </a>
+
+            <a href="./orders.html" class="active">
+                <span class="material-icons-sharp">receipt_long</span>
+                <h3 data-i18n="orders">Orders</h3>
+            </a>
+
+            <a href="./analytics.html">
+                <span class="material-icons-sharp">insights</span>
+                <h3 data-i18n="analytics">Analytics</h3>
+            </a>
+
+            <a href="./messages.html">
+                <span class="material-icons-sharp">mail_outline</span>
+                <h3 data-i18n="messages">Messages</h3>
+                <span class="message-count"></span>
+            </a>
+
+            <a href="./products.html">
+                <span class="material-icons-sharp">inventory</span>
+                <h3 data-i18n="products">Products</h3>
+            </a>
+
+            <a href="./reports.html">
+                <span class="material-icons-sharp">report_gmailerrorred</span>
+                <h3 data-i18n="reports">Reports</h3>
+            </a>
+
+            <a href="./setting.html">
+                <span class="material-icons-sharp">settings</span>
+                <h3 data-i18n="settings">Setting</h3>
+            </a>
+
+            <a href="./add_produkt.html">
+                <span class="material-icons-sharp">add</span>
+                <h3 data-i18n="add_product">Add Product</h3>
+            </a>
+
+            <a href="./profile.html">
+                <span class="material-icons-sharp">logout</span>
+                <h3 data-i18n="logout">Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!--Main Section-->
+
+    <main>
+        <h1 data-i18n="tracking_orders">Tracking orders</h1>
+
+
+        <div class="tracking-orders">
+
+		    <div class="summary-grid">
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="total">Total orders</h3> 
+						<h1 id="statTotal">0</h1>
+					</div>
+                    <span class="material-symbols-outlined">orders</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="new">New orders</h3>
+						<h1 id="statNew">0</h1>
+					</div>
+                    <span class="material-icons-sharp">local_mall</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="processing">Processing</h3>
+						<h1 id="statProcessing">0</h1>
+					</div>
+                    <span class="material-icons-sharp">shopping_cart</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="delivered">Delivered</h3>
+						<h1 id="statDelivered">0</h1>
+					</div>
+                    <span class="material-icons-sharp">person</span>
+				</div>
+				
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="canceled">Canceled</h3>
+						<h1 id="statCanceled">0</h1>
+					</div>
+                    <span class="material-icons-sharp" >light_mode</span>
+				</div>
+		</div>
+
+		<section class="filters">
+			<div class="field">
+				<label class="field-label" for="q" data-i18n="search">Search</label>
+				<input class="field-input" id="q" type="search" placeholder="ID, name, email, phone" autocomplete="off" />
+			</div>
+			<div class="field">
+				<label class="field-label" for="status" data-i18n="status">Status</label>
+				<select class="field-input" id="status">
+					<option value="" data-i18n="all">All</option>
+					<option value="unconfirmed" data-i18n="unconfirmed">Unconfirmed</option>
+					<option value="new" data-i18n="new">New</option>
+					<option value="processing" data-i18n="processing">Processing</option>
+					<option value="shipped" data-i18n="shipped">Shipped</option>
+					<option value="delivered" data-i18n="delivered">Delivered</option>
+					<option value="canceled" data-i18n="canceled">Canceled</option>
+					<option value="refunded" data-i18n="refunded">Refunded</option>
+				</select>
+			</div>
+			<div class="field">
+				<label class="field-label" for="payment" data-i18n="payment">Payment</label>
+				<select class="field-input" id="payment">
+					<option value="" data-i18n="all">All</option>
+					<option value="paid" data-i18n="paid">Paid</option>
+					<option value="unpaid" data-i18n="unpaid">Unpaid</option>
+					<option value="refund" data-i18n="refund">Refund</option>
+				</select>
+			</div>
+			<div class="field">
+				<label class="field-label" for="dateFrom" data-i18n="from_date">From Date</label>
+				<input class="field-input" id="dateFrom" type="date" />
+			</div>
+			<div class="field">
+				<label class="field-label" for="dateTo" data-i18n="to_date">To Date</label>
+				<input class="field-input" id="dateTo" type="date" />
+			</div>
+			<div class="field field-actions">
+				<label class="field-label" aria-hidden="true">&nbsp;</label>
+				<button class="btn-ghost" type="button" id="btnReset" data-i18n="reset">Reset</button>
+				<button class="btn-ghost1" type="button" id="btnApply" data-i18n="update">Update</button>
+			</div>
+		</section>
+
+		<div class="table-wrap" aria-label="Order List">
+			<table class="products-table orders-table">
+				<thead>
+					<tr>
+						<th data-i18n="number" style="width: 8%">№</th>
+						<th data-i18n="client" style="width: 16%">Client</th>
+						<th data-i18n="contacts" style="width: 21%">Contacts</th>
+						<th data-i18n="total" style="width: 9.3%">Total</th>
+						<th data-i18n="status" style="width: 14%">Status</th>
+						<th data-i18n="payment" style="width: 6%">Payment</th>
+						<th data-i18n="date" style="width: 14%">Date</th>
+						<th data-i18n="actions">Actions</th>
+					</tr>
+				</thead>
+				<tbody id="ordersTbody"></tbody>
+			</table>
+			
+		</div>
+
+
+		<!-- Test Items! You have to delete this section before going live! -->
+		<div class="test-items">
+			<table>
+				<tbody id="ordersTable"></tbody>
+			</table>
+			<p class="hint hint-empty" id="emptyHint" style="display: none" data-i18n="nothing_found">Nothing found for the current filters.</p>
+		</div>
+		<div class="test-items-pagination">
+			<button class="page-btn" type="button" data-action="prev" data-i18n="prev">Prev</button>
+			<div class="page-list" aria-label="Pages"></div>
+			<button class="page-btn" type="button" data-action="next" data-i18n="next">Next</button>
+		</div>
+
+		<!-- Test Items! You have to delete this section before going live! -->
+	</main>
+
+	<div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+		<div class="modal-content modal-wide">
+			<div class="modal-header">
+				<h2 class="modal-title" id="orderModalTitle" data-i18n="order">Order</h2>
+				<button class="close-modal" type="button" id="closeOrderModal" aria-label="Close">×</button>
+			</div>
+			<div class="order-modal-grid">
+				<section class="order-card">
+					<h3 class="order-card-title" data-i18n="main">Main information</h3>
+					<div class="order-fields">
+						<div class="order-field-col">
+							<div class="kv" id="orderMeta"></div>
+						</div>
+						<div class="order-field-divider" aria-hidden="true"></div>
+						<div class="order-field-coll">
+							<div class="field">
+								<label class="field-label" for="modalStatus" data-i18n="status">Status</label>
+								<select class="field-input" id="modalStatus">
+									<option value="new" data-i18n="new">New</option>
+									<option value="processing" data-i18n="processing">Processing</option>
+									<option value="shipped" data-i18n="shipped">Shipped</option>
+									<option value="delivered" data-i18n="delivered">Delivered</option>
+									<option value="canceled" data-i18n="canceled">Canceled</option>
+									<option value="refunded" data-i18n="refunded">Refunded</option>
+								</select>
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalPayment" data-i18n="payment">Payment</label>
+								<select class="field-input1" id="modalPayment">
+									<option value="paid" data-i18n="paid">Paid</option>
+									<option value="unpaid" data-i18n="unpaid">Unpaid</option>
+									<option value="refund" data-i18n="refund">Refund</option>
+								</select>
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalPages" data-i18n="pages">Pages</label>
+								<input class="field-input2" id="modalPages" type="number" min="10" step="4" value="10" />
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalTotal" data-i18n="price">Price</label>
+								<input class="field-input1" id="modalTotal" type="text" readonly value="—" />
+							</div>
+						</div>
+					</div>
+					<div class="row" style="justify-content: center; margin-top: 2rem;">
+						<button class="btn-primary" type="button" id="btnSaveOrder" data-i18n="save">Save</button>
+						<button class="btn-secondary" type="button" id="btnCopy" data-i18n="copy_id">Copy ID</button>
+						<button class="btn-danger" type="button" id="btnDeleteOrder" data-i18n="delete">Delete</button>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="language-switcher">
+                <select name="" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active" >light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Chapman</b></p>
+                    <small class="text-muted" data-i18n="admin">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src="../img/photo_2026-03-04_16-17-17.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+
+		<div class="orders-country">
+			<h2 data-i18n="orders_country">Orders by Country</h2>
+
+			<div class="update">
+				<div class="orders-chart">
+					<div id="ordersByCountry"></div>
+				</div>
+			</div>
+			<a href="./analytics.html" data-i18n="show_all">Show All</a>
+		</div>
+
+
+		<div class="ai-like-insights">
+			<h2 data-i18n="smart_insights">Smart Insights</h2>
+
+			<div id="aiHints">
+				<div class="ai-like">
+					<ul id="aiInsights"></ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="profile-modal-window">
+
+		</div>
+
+
+
+
+
+
+	</div>	
+	
+
+
+</div>
+<script src="../js/script.js"></script>
+<script src="../js/i18n.js"></script>
+<script type="module" src="../js/ordersController.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Google ICONS-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/public.css">
+
+    <title>Admin Panel</title>
+</head>
+<body>
+<div class="container">
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="var(--color-dark)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--color-dark)" />
+                    <path d="M2 17L12 22L22 17" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2 class="text-muted">Photarea</h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+
+        <div class="sidebar">
+
+            <a href="#" class="active">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3 data-i18n="dashboard" >Dashboard</h3>
+            </a>
+
+            <a href="./html/customers.html">
+                <span class="material-icons-sharp">person_outline</span>
+                <h3 data-i18n="customers">Customers</h3>
+            </a>
+
+            <a href="./html/orders.html">
+                <span class="material-icons-sharp">receipt_long</span>
+                <h3 data-i18n="orders">Orders</h3>
+            </a>
+
+            <a href="./html/analytics.html">
+                <span class="material-icons-sharp">insights</span>
+                <h3 data-i18n="analytics">Analytics</h3>
+            </a>
+
+            <a href="./html/messages.html">
+                <span class="material-icons-sharp">mail_outline</span>
+                <h3 data-i18n="messages">Messages</h3>
+                <span class="message-count"></span>
+            </a>
+
+            <a href="./html/products.html">
+                <span class="material-icons-sharp">inventory</span>
+                <h3 data-i18n="products">Products</h3>
+            </a>
+
+            <a href="./html/reports.html">
+                <span class="material-icons-sharp">report_gmailerrorred</span>
+                <h3 data-i18n="reports">Reports</h3>
+            </a>
+
+            <a href="./html/setting.html">
+                <span class="material-icons-sharp">settings</span>
+                <h3 data-i18n="settings">Setting</h3>
+            </a>
+
+            <a href="./html/add_produkt.html">
+                <span class="material-icons-sharp">add</span>
+                <h3 data-i18n="add_product">Add Product</h3>
+            </a>
+
+            <a href="./html/profile.html">
+                <span class="material-icons-sharp">logout</span>
+                <h3 data-i18n="logout">Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN SECTION-->
+    <main>
+        <h1 data-i18n="dashboard">Dashboard</h1>
+        <div class="date">
+            <input type="date">
+        </div>
+
+        <div class="insights">
+
+
+            <div class="sales">
+                <span class="material-icons-sharp">analytics</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3 data-i18n="total_sales">Total Sales</h3>
+                        <h1>$25,024</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                           <p>81%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted" data-i18n="last_24_hours">Last 24 Hours</small>
+            </div>
+            <!-- END OF SALES -->
+
+            <div class="expenses">
+                <span class="material-icons-sharp">bar_chart</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3 data-i18n="total_expenses">Total Expenses</h3>
+                        <h1>$14,160</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                           <p>62%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted" data-i18n="last_24_hours">Last 24 Hours</small>
+            </div>
+            <!-- END OF EXPENSES -->
+            <div class="income">
+                <span class="material-icons-sharp">stacked_line_chart</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3 data-i18n="total_income">Total Income</h3>
+                        <h1>$10,864</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                           <p>44%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted" data-i18n="last_24_hours">Last 24 Hours</small>
+            </div>
+            <!-- END OF INCOME -->
+        </div>
+
+        <!-- END OF INSIGHTS -->
+
+        <div class="recent-orders">
+            <h2 data-i18n="recent_orders">Recent Orders</h2>
+		    <div class="test-items">
+                <table>
+				    <tbody id="ordersTable"></tbody>
+			    </table>
+		    </div>
+            <a href="./html/orders.html" data-i18n="show_all">Show All</a>
+        </div>
+    </main>
+    <!--END OF MAIN SECTION -->
+
+    <!-- Modal window -->
+     	<div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+		<div class="modal-content modal-wide">
+			<div class="modal-header">
+				<h2 class="modal-title" id="orderModalTitle" data-i18n="order">Order</h2>
+				<button class="close-modal" type="button" id="closeOrderModal" aria-label="Close">×</button>
+			</div>
+			<div class="order-modal-grid">
+				<section class="order-card">
+					<h3 class="order-card-title" data-i18n="main">Main information</h3>
+					<div class="order-fields">
+						<div class="order-field-col">
+							<div class="kv" id="orderMeta"></div>
+						</div>
+						<div class="order-field-divider" aria-hidden="true"></div>
+						<div class="order-field-coll">
+							<div class="field">
+								<label class="field-label" for="modalStatus" data-i18n="status">Status</label>
+								<select class="field-input" id="modalStatus">
+									<option value="new" data-i18n="new">New</option>
+									<option value="processing" data-i18n="processing">Processing</option>
+									<option value="shipped" data-i18n="shipped">Shipped</option>
+									<option value="delivered" data-i18n="delivered">Delivered</option>
+									<option value="canceled" data-i18n="canceled">Canceled</option>
+									<option value="refunded" data-i18n="refunded">Refunded</option>
+								</select>
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalPayment" data-i18n="payment">Payment</label>
+								<select class="field-input1" id="modalPayment">
+									<option value="paid" data-i18n="paid">Paid</option>
+									<option value="unpaid" data-i18n="unpaid">Unpaid</option>
+									<option value="refund" data-i18n="refund">Refund</option>
+								</select>
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalPages" data-i18n="pages">Pages</label>
+								<input class="field-input2" id="modalPages" type="number" min="10" step="4" value="10" />
+							</div>
+							<div class="field">
+								<label class="field-label" for="modalTotal" data-i18n="price">Price</label>
+								<input class="field-input1" id="modalTotal" type="text" readonly value="—" />
+							</div>
+						</div>
+					</div>
+					<div class="row" style="justify-content: center; margin-top: 2rem;">
+						<button class="btn-primary" type="button" id="btnSaveOrder" data-i18n="save">Save</button>
+						<button class="btn-secondary" type="button" id="btnCopy" data-i18n="copy_id">Copy ID</button>
+						<button class="btn-danger" type="button" id="btnDeleteOrder" data-i18n="delete">Delete</button>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+    <!--Modal window end-->
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="language-switcher">
+                <select name="" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active" >light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Chapman</b></p>
+                    <small class="text-muted" data-i18n="admin">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src="./img/photo_2026-03-04_16-17-17.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+
+        <!--END OF TOP-->
+
+        <div class="recent-updates">
+            <h2 data-i18n="recent_updates">Recent Updates</h2>
+            <div class="updates">
+
+
+                <div class="update">
+                    <div class="profile-photo">
+                        <img src="./img/megan-fox-leather-transformers-reverse-of-the-fallen-22-x-34-vintage-poster-813_535x.jpg.webp" alt="">
+                    </div>
+                    <div class="message">
+                        <p><b>Megan Fox</b> <span data-i18n="received_order">received an order for a rectangular small album</span></p>
+                        <small class="text-muted" data-i18n="minutes_ago">2 Minutes Ago</small>
+                    </div>
+                </div>
+
+
+                <div class="update">
+                    <div class="profile-photo">
+                        <img src="./img/photo_2026-03-04_16-19-10.jpg" alt="">
+                    </div>
+                    <div class="message">
+                        <p><b>Andrei Chapman</b> <span data-i18n="received_order1">received his order of Galoshes last night</span></p>
+                        <small class="text-muted" data-i18n="minutes_ago1">20 Minutes Ago</small>
+                    </div>
+                </div>
+
+
+                <div class="update">
+                    <div class="profile-photo">
+                        <img src="./img/john-wick-1200-1200.jpg.avif" alt="">
+                    </div>
+                    <div class="message">
+                        <p><b>John Wick</b> <span data-i18n="review_comment">He wrote in the reviews that "the galoshes are super duper cool" and wants to order more</span></p>
+                        <small class="text-muted" data-i18n="hours_ago">2 Hours Ago</small>
+                    </div>
+                </div>
+
+
+                <div class="update">
+                    <div class="profile-photo">
+                        <img src="./img/960px-Brad_Pitt-69858.jpeg" alt="">
+                    </div>
+                    <div class="message">
+                        <p><b>Brad Pitt</b> <span data-i18n="received_order2">received an order for a rectangular small album</span></p>
+                        <small class="text-muted" data-i18n="hours_ago_6">6 Hours Ago</small>
+                    </div>
+                </div>
+
+
+                <div class="update">
+                    <div class="profile-photo">
+                        <img src="./img/images.jpeg" alt="">
+                    </div>
+                    <div class="message">
+                        <p><b>Chuck Norris</b> <span data-i18n="received_order3">made a new order for a rectangular album</span></p>
+                        <small class="text-muted" data-i18n="hours_ago_15">15 Hours Ago</small>
+                    </div>
+                </div>
+            
+            
+            
+            
+            </div>
+                <!--END OF RECENT UPDATES -->
+                <div class="sales-analytics">
+                    <h2 data-i18n="sales_analytics">Sales Analytics</h2>
+                    <div class="item offline">
+                        <div class="icon">
+                            <span class="material-icons-sharp">local_mall</span>
+                        </div>
+                            <div class="right">
+                                <div class="info">
+                                    <h3 data-i18n="offline_orders">OFFLINE ORDERS</h3>
+                                    <small class="text-muted">Last 24 Hours</small>
+                                </div>
+                                <h5 class="danger">-17%</h5>
+                                <h3>1100</h3>
+                            </div>
+                    </div>
+                    <div class="item online">
+                        <div class="icon">
+                            <span class="material-icons-sharp">shopping_cart</span>
+                        </div>
+                            <div class="right">
+                                <div class="info">
+                                    <h3 data-i18n="online_orders">ONLINE ORDERS</h3>
+                                    <small class="text-muted" data-i18n="last_24_hours">Last 24 Hours</small>
+                                </div>
+                                <h5 class="success">+39%</h5>
+                                <h3>3849</h3>
+                            </div>
+                    </div>
+                    <div class="item customers">
+                        <div class="icon">
+                            <span class="material-icons-sharp">person</span>
+                        </div>
+                        <div class="right">
+                            <div class="info">
+                                <h3 data-i18n="new_customers">NEW CUSTOMERS</h3>
+                                <small class="text-muted" data-i18n="last_24_hours">Last 24 Hours</small>
+                            </div>
+                                <h5 class="success">+25%</h5>
+                                <h3>849</h3>
+                            </div>
+                        </div>
+                        <div class="item add-product">
+                            <div>
+                                <span class="material-icons-sharp">add</span>
+                                <h3 data-i18n="add_product">Add Product</h3>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./js/script.js"></script>
+<script src="./js/i18n.js"></script>
+<script type="module" src="./js/ordersController.js"></script>
+</body>
+</html>

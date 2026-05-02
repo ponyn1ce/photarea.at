@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=orders" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person_heart" />
+    <link rel="stylesheet" href="../css/customers.css">
+    <link rel="stylesheet" href="../css/profile-menu.css">
+    <title>Customers</title>
+</head>
+<body>
+<div class="container">
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="var(--color-dark)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--color-dark)" />
+                    <path d="M2 17L12 22L22 17" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="var(--color-dark)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2 class="text-muted">Photarea</h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a href="../index.html">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3 data-i18n="dashboard" >Dashboard</h3>
+            </a>
+
+            <a href="./customers.html" class="active">
+                <span class="material-icons-sharp">person_outline</span>
+                <h3 data-i18n="customers">Customers</h3>
+            </a>
+
+            <a href="./orders.html">
+                <span class="material-icons-sharp">receipt_long</span>
+                <h3 data-i18n="orders">Orders</h3>
+            </a>
+
+            <a href="./analytics.html">
+                <span class="material-icons-sharp">insights</span>
+                <h3 data-i18n="analytics">Analytics</h3>
+            </a>
+
+            <a href="./messages.html">
+                <span class="material-icons-sharp">mail_outline</span>
+                <h3 data-i18n="messages">Messages</h3>
+                <span class="message-count"></span>
+            </a>
+
+            <a href="./products.html">
+                <span class="material-icons-sharp">inventory</span>
+                <h3 data-i18n="products">Products</h3>
+            </a>
+
+            <a href="./reports.html">
+                <span class="material-icons-sharp">report_gmailerrorred</span>
+                <h3 data-i18n="reports">Reports</h3>
+            </a>
+
+            <a href="./setting.html">
+                <span class="material-icons-sharp">settings</span>
+                <h3 data-i18n="settings">Setting</h3>
+            </a>
+
+            <a href="./add_produkt.html">
+                <span class="material-icons-sharp">add</span>
+                <h3 data-i18n="add_product">Add Product</h3>
+            </a>
+
+            <a href="./profile.html">
+                <span class="material-icons-sharp">logout</span>
+                <h3 data-i18n="logout">Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!--Main Section-->
+
+    <main>
+        <h1 data-i18n="customers">Customers</h1>
+
+        <div class="tracking-cus">
+		    <div class="summary-grid">
+				<div class="start-card icon-right">
+					<div class="start-text">
+                        <h3 class="stat-label" data-i18n="total_customers">Total Customers</h3> 
+						<h1 id="statTotal">0</h1>
+					</div>
+                    <span class="material-icons-sharp">person</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="new_customers">New Customers</h3>
+						<h1 id="statNew">0</h1>
+					</div>
+                    <span class="material-icons-sharp">person_add</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="active_customers">Active</h3>
+						<h1 id="statProcessing">0</h1>
+					</div>
+                    <span class="material-symbols-outlined">person_heart</span>
+				</div>
+
+				<div class="start-card icon-right">
+					<div class="start-text">
+						<h3 class="stat-label" data-i18n="lost_customers">Lost</h3>
+						<h1 id="statDelivered">0</h1>
+					</div>
+                    <span class="material-icons-sharp">person_off</span>
+				</div>
+            </div>
+
+
+		    <section class="filters">
+			    <div class="field">
+				    <label class="field-label" for="q" data-i18n="search">Search</label>
+				    <input class="field-input" id="q" type="search" placeholder="ID, name, email, phone" autocomplete="off" />
+			    </div>
+                <div class="field">
+                    <label class="field-label" for="amount" data-i18n="amount">Amount</label>
+                    <input class="field-input" id="amount" type="search" placeholder="the client spent" autocomplete="off" />
+                </div>
+			    <div class="field">
+				    <label class="field-label" for="potential" data-i18n="potential">Potential</label>
+				    <select class="field-input" id="potential">
+					    <option value="all" data-i18n="all" style="font-size: .1rem">All</option>
+					    <option value="new" data-i18n="new1">New🔥</option>
+					    <option value="high" data-i18n="high">High🌟</option>
+					    <option value="medium" data-i18n="medium">Medium💕</option>
+					    <option value="low" data-i18n="low">Low😢</option>
+				    </select>
+			    </div>
+			    <div class="field">
+				    <label class="field-label" for="status" data-i18n="status">Status</label>
+				    <select class="field-input" id="status">
+					    <option value="" data-i18n="all">All</option>
+					    <option value="active" data-i18n="active_customer">Active Customers</option>
+					    <option value="lost" data-i18n="lost_customer">Lost Customers</option>
+                        <option value="vip" data-i18n="vip">VIP Customers</option>
+                        <option value="sleeping" data-i18n="sleeping">Sleeping Customers </option>
+				    </select>
+			    </div>
+			    <div class="field">
+				    <label class="field-label" for="dateFrom" data-i18n="from_date">From Date</label>
+				    <input class="field-input" id="dateFrom" type="date" />
+			    </div>
+			    <div class="field">
+				    <label class="field-label" for="dateTo" data-i18n="to_date">To Date</label>
+				    <input class="field-input" id="dateTo" type="date" />
+			    </div>
+			    <div class="field field-actions">
+				    <label class="field-label" aria-hidden="true">&nbsp;</label>
+				    <button class="btn-ghost" type="button" id="btnReset" data-i18n="reset">Reset</button>
+
+			    </div>
+		    </section>
+
+            <div class="table-wrap">
+			    <table class="customers-table">
+				    <thead>
+					    <tr>
+						    <th data-i18n="number">№</th>
+						    <th data-i18n="client">Client</th>
+						    <th data-i18n="contacts">Contacts</th>
+                            <th data-i18n="status">Status</th>
+                            <th data-i18n="potential">Potential</th>
+						    <th data-i18n="spend">Spend</th>
+						    <th data-i18n="reg_date">Registration Date</th>
+                            <th data-i18n="last_order">Last Order</th>
+						    <th data-i18n="actions">Actions</th>
+					    </tr>
+				    </thead>
+				    <tbody id="customers-table"></tbody>
+			    </table>
+            </div>
+            <div class="test-items-pagination" style="display: none;">
+                <button class="page-btn" type="button" data-action="prev" data-i18n="prev">Prev</button>
+                <div class="page-list" aria-label="Pages"></div>
+                <button class="page-btn" type="button" data-action="next" data-i18n="next">Next</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно -->
+
+	<div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+		<div class="modal-content modal-wide">
+			<div class="modal-header" style="display: flex; align-items: center; justify-content: center; gap: 1rem; position: relative;">
+                <div class="profile-photo">
+                    <img id="modalAvatar" src="../img/john-wick-1200-1200.jpg.avif" alt="Profile">
+                </div>
+				<h2 class="modal-title" id="orderModalTitle" data-i18n="order" style="margin: 0;">Order</h2>
+				<button class="close-modal" type="button" id="closeOrderModal" aria-label="Close" style="position: absolute; top: -1.5rem; right: -1rem; transform: none;">×</button>
+			</div>
+			<div class="order-modal-grid">
+				<section class="order-card">
+					<h3 class="order-card-title" data-i18n="main">Main information</h3>
+					<div class="order-fields">
+						<div class="order-field-col">
+							<div class="kv" id="orderMeta"></div>
+						</div>
+						<div class="order-field-divider" aria-hidden="true"></div>
+						<div class="order-field-coll" style="display: flex; flex-direction: column; gap: 0.6rem; justify-content: center; min-width: 130px; margin-left: 0;">
+							<button class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.4rem 0.8rem; font-size: 0.9rem; width: 100%; border-radius: var(--border-radius-1); cursor: pointer;" type="button">
+                                <span>➕</span> Новый заказ
+                            </button>
+                            <a href="messages.html" class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.4rem 0.8rem; font-size: 0.9rem; width: 100%; border-radius: var(--border-radius-1); text-decoration: none; color: var(--color-dark); border: 1px solid var(--color-info-dark);">
+                                <span>💬</span> Написать
+                            </a>
+						</div>
+					</div>
+					<div class="row" style="justify-content: center; margin-top: 2rem; display: flex; gap: 1rem;">
+						<button class="btn-primary" type="button" id="btnSaveOrder" data-i18n="save">Save</button>
+						<button class="btn-secondary" type="button" id="btnCopy" data-i18n="copy_id">Copy ID</button>
+						<button class="btn-danger" type="button" id="btnDeleteOrder" data-i18n="delete">Delete</button>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+    <!-- Модальное окно -->
+
+
+
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="language-switcher">
+                <select name="" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active" >light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Chapman</b></p>
+                    <small class="text-muted" data-i18n="admin">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src="../img/photo_2026-03-04_16-17-17.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    
+
+
+<!-- Блок 1: Требуют внимания -->
+                <div class="orders-country">
+                        <h2 id="attentionTitle">🔥 <span data-i18n="attention_req">Требуют внимания</span> (0)</h2>
+                        <div class="update">
+                                <div class="orders-chart orders-chart-expandable">
+                                        <div id="attentionList" class="orders-list-preview"></div>
+                                        
+                                        <div id="attentionListContentModal" class="countries-expanded">
+                                                <div id="attentionListContent" class="countries-list"></div>
+                                        </div>
+                                        
+                                        <div class="expand-collapse-buttons">
+                                                <button class="expand-btn" aria-label="Show all">
+                                                        <span data-i18n="show_all">Show All</span>
+                                                        <span class="material-icons-sharp">expand_more</span>
+                                                </button>
+                                                <button class="collapse-btn" aria-label="Collapse" style="display: none;">
+                                                        <span data-i18n="show_less">Show Less</span>
+                                                        <span class="material-icons-sharp">expand_less</span>
+                                                </button>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+                <!-- Блок 2: Быстрые деньги -->
+                <div class="orders-country" style="margin-top: 1.5rem;">
+                        <h2>💰 <span data-i18n="quick_deals">Быстрые сделки</span></h2>
+                        <div class="update">
+                                <div class="orders-chart orders-chart-expandable">
+                                        <div id="quickMoneyList" class="orders-list-preview"></div>
+                                        
+                                        <div id="quickMoneyListContentModal" class="countries-expanded">
+                                                <div id="quickMoneyListContent" class="countries-list"></div>
+                                        </div>
+                                        
+                                        <div class="expand-collapse-buttons">
+                                                <button class="expand-btn" aria-label="Show all">
+                                                        <span data-i18n="show_all">Show All</span>
+                                                        <span class="material-icons-sharp">expand_more</span>
+                                                </button>
+                                                <button class="collapse-btn" aria-label="Collapse" style="display: none;">
+                                                        <span data-i18n="show_less">Show Less</span>
+                                                        <span class="material-icons-sharp">expand_less</span>
+                                                </button>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+                <!-- Блок 3: Автоматические триггеры -->
+                <div class="orders-country" style="margin-top: 1.5rem;">
+                        <h2>⏰ <span data-i18n="triggers">Триггеры</span></h2>
+                        <div class="update">
+                                <div class="orders-chart orders-chart-expandable">
+                                        <div id="triggersList" class="orders-list-preview"></div>
+                                        
+                                        <div id="triggersListContentModal" class="countries-expanded">
+                                                <div id="triggersListContent" class="countries-list"></div>
+                                        </div>
+                                        
+                                        <div class="expand-collapse-buttons">
+                                                <button class="expand-btn" aria-label="Show all">
+                                                        <span data-i18n="show_all">Show All</span>
+                                                        <span class="material-icons-sharp">expand_more</span>
+                                                </button>
+                                                <button class="collapse-btn" aria-label="Collapse" style="display: none;">
+                                                        <span data-i18n="show_less">Show Less</span>
+                                                        <span class="material-icons-sharp">expand_less</span>
+                                                </button>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                
+                <!-- Дополнительная секция "Прогноз дохода" -->
+                <div class="update" style="margin-top: 1rem; padding-top: 1rem;">
+                        <p style="text-align: center; width: 100%; font-size: 0.9rem; color: var(--color-dark-variant);">
+                                <span data-i18n="potential_today">💸 Потенциал сегодня:</span> <b id="quickMoneyTotal" style="color: var(--color-primary); font-size: 1.1rem; margin-left: 0.5rem;">€0.00</b>
+                        </p>
+		</div>
+
+
+
+
+
+    </div>
+</div>
+<script type="module" src="../js/customersController.js"></script>
+<script type="module" src="../js/customers.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/profileMenu.js"></script>
+</body>
+</html>

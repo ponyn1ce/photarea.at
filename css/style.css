@@ -1,22 +1,12 @@
-
 html,body{
  height:100%;
 }
 
-body{
-    margin:0;
-    font-family: 'Tan Nimbus', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helverica World', Arial;
-    background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 40%,var(--bg3) 100%);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:0 20px; /* remove vertical padding to avoid extra scroll */
-    overflow-x:hidden;
+html{
+ font-size: 14px;
 }
 
-      .panel{
+.panel{
         width: fit-content;
         background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.34));
         border: .3px solid var(--nav-border);
@@ -213,20 +203,18 @@ body{
         background: #333;
       }
 
-            .texthome{
+      .texthome{
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
         margin: 0;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-        font-size: 250px;
+        font-size: 19rem;
+        font-display: fallback;
         font-weight: 800;
         color: #fff;
-        opacity: 0.6;
+        opacity: 0.3;
         z-index: 1;
-        filter: blur(1px);
-        white-space: nowrap;
         user-select: none;
       }
 
