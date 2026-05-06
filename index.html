@@ -15,74 +15,73 @@
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/public.css"/>
 
-<script src="js/lang.js"></script>
-<script src="js/auth.js"></script>
+<script src="../js/lang.js"></script>
+<script src="../js/auth.js"></script>
 <title>Photarea</title>
 </head>
 <body>
 <div class="container">
-    <header class="panel" role="banner" aria-label="Photarea navigation">
-      <a class="logo" href="index.html" aria-label="Photarea home">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
-          <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M2 12L12 17L22 12" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <div class="brand">Photarea</div>
-      </a>
+  <header class="panel" role="banner" aria-label="Photarea navigation">
+    <a class="logo" href="index.html" aria-label="Photarea home">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#123244" />
+        <path d="M2 17L12 22L22 17" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M2 12L12 17L22 12" stroke="#123244" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div class="brand">Photarea</div>
+    </a>
       
-        <!-- inline language trigger (looks like normal text) -->
-        <div class="lang" aria-hidden="false">
-          <button class="lang-toggle" aria-haspopup="true" aria-expanded="false" title="Select language">RU</button>
-          <div class="lang-menu" role="menu" aria-label="Language menu">
-            <button class="lang-item selected" role="menuitem" data-lang="EN" data-label="English"><span class="code">EN</span><span class="label">English</span></button>
-            <button class="lang-item" role="menuitem" data-lang="DE" data-label="Deutsch"><span class="code">DE</span><span class="label">Deutsch</span></button>
-            <button class="lang-item" role="menuitem" data-lang="RU" data-label="Русский"><span class="code">RU</span><span class="label">Русский</span></button>
-            <button class="lang-item" role="menuitem" data-lang="UA" data-label="Українська"><span class="code">UA</span><span class="label">Українська</span></button>
-          </div>
-        </div>
-
-      <nav>
-        <div class="nav-links">
-            <a href="html/profile.html" data-protected>
-              <img src="icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
-              <span data-i18n="nav_profile">Profile</span>
-            </a>
-            <a href="html/faq.html">
-              <img src="icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
-              <span data-i18n="nav_faq">FAQ</span>
-            </a>
-            <a href="html/product.html">
-              <img src="icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
-              <span data-i18n="nav_products">products</span>
-            </a>
-            <a href="html/support.html">
-              <img src="icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
-              <span data-i18n="nav_contact">Contact</span>
-            </a>
-        </div>
-      </nav>
-
-        <div class="cta">
-          <button class="btn" data-i18n="top_cta" onclick="window.location.href='html/album-guide.html'">Tap to create</button>
-      </div>
-    </header>
-  <main>
-    <!--
-      <div class="burger-lang">
-        <div class="burger-lang-title">Language</div>
-        <div class="burger-lang-items">
-          <button class="burger-lang-item selected" data-lang="EN">EN - English</button>
-          <button class="burger-lang-item" data-lang="DE">DE - Deutsch</button>
-          <button class="burger-lang-item" data-lang="RU">RU - Русский</button>
-          <button class="burger-lang-item" data-lang="UA">UA - Українська</button>
-        </div>
+    <!-- inline language trigger (looks like normal text) -->
+    <div class="lang" aria-hidden="false">
+      <button class="lang-toggle" aria-haspopup="true" aria-expanded="false" title="Select language">RU</button>
+      <div class="lang-menu" role="menu" aria-label="Language menu">
+        <button class="lang-item selected" role="menuitem" data-lang="EN" data-label="English"><span class="code">EN</span><span class="label">English</span></button>
+        <button class="lang-item" role="menuitem" data-lang="DE" data-label="Deutsch"><span class="code">DE</span><span class="label">Deutsch</span></button>
+        <button class="lang-item" role="menuitem" data-lang="RU" data-label="Русский"><span class="code">RU</span><span class="label">Русский</span></button>
+        <button class="lang-item" role="menuitem" data-lang="UA" data-label="Українська"><span class="code">UA</span><span class="label">Українська</span></button>
       </div>
     </div>
--->
+
+    <nav>
+      <div class="nav-links">
+        <a href="html/profile.html" data-protected>
+          <img src="icon/free-icon-font-user-3917711.png" class="nav-icon" alt="">
+          <span data-i18n="nav_profile">Profile</span>
+        </a>
+        <a href="html/faq.html">
+          <img src="icon/free-icon-font-lightbulb-question-10469137.png" class="nav-icon" alt="">
+          <span data-i18n="nav_faq">FAQ</span>
+        </a>
+        <a href="html/product.html">
+          <img src="icon/free-icon-font-sparkles-17511706.png" class="nav-icon" alt="">
+          <span data-i18n="nav_products">products</span>
+        </a>
+        <a href="html/support.html">
+          <img src="icon/free-icon-font-comments-5074207.png" class="nav-icon" alt="">
+          <span data-i18n="nav_contact">Contact</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="cta">
+      <button class="btn" data-i18n="top_cta" onclick="window.location.href='html/album-guide.html'">Tap to create</button>
+    </div>
+
+        <!--
+    <div class="burger-lang">
+      <div class="burger-lang-title">Language</div>
+      <div class="burger-lang-items">
+        <button class="burger-lang-item selected" data-lang="EN">EN - English</button>
+        <button class="burger-lang-item" data-lang="DE">DE - Deutsch</button>
+        <button class="burger-lang-item" data-lang="RU">RU - Русский</button>
+        <button class="burger-lang-item" data-lang="UA">UA - Українська</button>
+      </div>
+    </div>
+    -->
+
     <div class="hero-main">
       <p class="texthome">PHOTAREA</p>
-      <img class="mascot" src="ssmilkvu_cute_fluffy_3D_mascot_character_bright_orange_fur_ro_323929fc — копия.gif" alt="puschistik">
+      <img class="mascot" src="pushistik-2.0.png" alt="puschistik">
     </div>
 
     <div class="hero-copy" aria-hidden="false">
@@ -92,9 +91,76 @@
         <button class="btn" data-i18n="get_project" id="tapToCreate">Get Project</button>
       </div>
     </div>
+  </header>
 
+  <main>
+    <div class="faq-panel-main">
+      <section class="faq-panel" aria-labelledby="faq1">
+        <div class="faq-header" id="faq1" role="button" aria-controls="faq1-desc" aria-expanded="false">
+          <span data-i18n="faq_q1_title">Как оформить заказ?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq1-desc" aria-hidden="true">
+          <p data-i18n="faq_q1_p1">Вы выбираете желаемый формат фотокниги и отправляете нам фотографии. Далее менеджер связывается с вами лично, уточняет детали, настроение, пожелания и помогает сформировать концепцию. После согласования дизайнер создаёт индивидуальный макет, отражающий вашу историю и стиль. Мы согласуем каждую деталь, чтобы итоговая фотокнига выглядела именно так, как вы представляете.</p>
+        </div>
+      </section>
 
-</main>
+      <section class="faq-panel" aria-labelledby="faq2">
+        <div class="faq-header" id="faq2" role="button" aria-controls="faq2-desc" aria-expanded="false">
+          <span data-i18n="faq_q2_title">Сколько времени занимает создание фотокниги?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq2-desc" aria-hidden="true">
+          <p data-i18n="faq_q2_p1">Вы можете создать свою индивидуальную фотокнигу, обсудив все детали с менеджером всего за 10 минут. Уже на следующий день мы отправим вам первый вариант макета для согласования.</p>
+          <p data-i18n="faq_q2_p2">Дальнейшие сроки зависят от сложности дизайна и ваших пожеланий — иногда процесс немного удлиняется, если требуется дополнительная проработка деталей.</p>
+          <p data-i18n="faq_q2_p3">После утверждения макета мы переходим к печати. Время доставки зависит от объёма фотокниги и сложности дизайна (зачастую процесс занимает максимум 14 дней).</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq3">
+        <div class="faq-header" id="faq3" role="button" aria-controls="faq3-desc" aria-expanded="false">
+          <span data-i18n="faq_q3_title">Для каких событий подходят фотокниги PHOTAREA?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq3-desc" aria-hidden="true">
+          <p data-i18n="faq_q3_p1">Фотокниги PHOTAREA подходят для самых разных моментов вашей жизни: путешествий, тёплых подарков для близких, сохранения семейных традиций, важных событий и периодов, которые хочется помнить.</p>
+          <p data-i18n="faq_q3_p2">Это могут быть воспоминания о путешествиях, любовные истори и история детства, годы взросления, семейные праздники и маленькие радости, которые создают вашу личную историю.</p>
+          <p data-i18n="faq_q3_p3">Мы превращаем ваши моменты в вечную память, которая всегда будет рядом — красиво оформленную, доступную в любой момент и созданную с душой. Это всё, что хочется сохранить, передать дальше и хранить как часть семьи.</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq4">
+        <div class="faq-header" id="faq4" role="button" aria-controls="faq4-desc" aria-expanded="false">
+          <span data-i18n="faq_q4_title">Как связаться с нами?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq4-desc" aria-hidden="true">
+          <p data-i18n="faq_q4_p1">Просто напишите нам в удобный мессенджер или заполните форму на сайте — менеджер ответит вам лично, поможет с выбором формата, обсудит идеи и расскажет обо всех этапах.</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq5">
+        <div class="faq-header" id="faq5" role="button" aria-controls="faq5-desc" aria-expanded="false">
+          <span data-i18n="faq_q5_title">Как происходит согласование макета?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq5-desc" aria-hidden="true">
+          <p data-i18n="faq_q5_p1">Мы подготавливаем предварительный вариант и отправляем вам. Вы вносите корректировки, если нужно, а мы дорабатываем макет до полного идеала. Только после вашего утверждения работа переходит в печать.</p>
+        </div>
+      </section>
+
+      <section class="faq-panel" aria-labelledby="faq6">
+        <div class="faq-header" id="faq6" role="button" aria-controls="faq6-desc" aria-expanded="false">
+          <span>Где доступна доставка?</span>
+          <span class="faq-toggle-indicator">+</span>
+        </div>
+        <div class="faq-body" id="faq6-desc" aria-hidden="true">
+          <p>На данный момент доставка осуществляется по Вене. Мы вручную и аккуратно передаём готовые фотокниги, чтобы они дошли до вас в идеальном состоянии.
+            В ближайшее время планируется расширение доставки по всей Австрии.</p>
+        </div>
+      </section>
+    </div>
+  </main>
 </div>
 </body>
 </html>
